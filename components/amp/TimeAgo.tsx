@@ -4,7 +4,7 @@ const TimeAgo = (props: PropsWithChildren<{
   date: Date,
   hello?: string,
 }>) => {
-  const { date } = props;
+  const { date } =                      props;
 
   return (
     <div>
