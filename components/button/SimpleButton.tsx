@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-export function SimpleButton(props) {
+const SimpleButton = (props: PropsWithChildren<{
+  hello?: string
+}>) => {
 
   return (
     <button>Click me</button>
   )
 }
+
+export default SimpleButton;

@@ -1,1 +1,5 @@
-export * from './SimpleButton';
+import SimpleButton from './SimpleButton';
+
+export {
+  SimpleButton,
+};
