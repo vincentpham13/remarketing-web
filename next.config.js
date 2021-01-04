@@ -8,7 +8,7 @@ module.exports = {
     // validator: './custom_validator.js',
     skipValidation: true,
   },
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'styles')],
-  },
+  // sassOptions: {
+  //   includePaths: [path.join(__dirname, 'styles')],
+  // },
 }

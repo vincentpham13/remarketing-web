@@ -1,5 +1,2 @@
-import TimeAgo from './TimeAgo';
+export * from './TimeAgo';
 
-export {
-  TimeAgo,
-};

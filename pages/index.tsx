@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import 'tachyons';
 
-import { SimpleButton, PrimaryButton } from '@/components/button';
+import { SimpleButton } from '@/components/button';
 import styles from '../styles/Home.module.scss';
 
 export default function Home() {
@@ -17,7 +17,6 @@ export default function Home() {
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
         <SimpleButton className="mt5"/>
-        <PrimaryButton />
       </main>
 
       <footer className={styles.footer}>

@@ -1,8 +1,7 @@
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren } from 'react';
+import PropTypes, { InferProps } from 'prop-types';
 
-const TimeAgo = (props: PropsWithChildren<{
-  date: Date,
-}>) => {
+export function TimeAgo(props: InferProps<typeof TimeAgo.propTypes>) {
   const { date } = props;
 
   return (
@@ -14,9 +13,17 @@ const TimeAgo = (props: PropsWithChildren<{
         layout="responsive"
       >
         .
-    </amp-timeago>
+      </amp-timeago>
     </div>
-  )
+  );
 }
 
-export default TimeAgo;
+TimeAgo.propTypes = {
+  date: PropTypes.object.isRequired,
+  hello: PropTypes.string,
+};
+
+TimeAgo.defaultProps = {
+  hello: 'Greeting',
+};
+
