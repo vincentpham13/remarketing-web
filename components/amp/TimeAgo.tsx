@@ -2,9 +2,8 @@ import React, { PropsWithChildren } from 'react'
 
 const TimeAgo = (props: PropsWithChildren<{
   date: Date,
-  hello?: string,
 }>) => {
-  const { date } =                      props;
+  const { date } = props;
 
   return (
     <div>
@@ -21,4 +20,3 @@ const TimeAgo = (props: PropsWithChildren<{
 }
 
 export default TimeAgo;
-

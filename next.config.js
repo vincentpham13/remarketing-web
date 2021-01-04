@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   typescript: {
     ignoreBuildErrors: true,
@@ -5,5 +7,8 @@ module.exports = {
   amp: {
     // validator: './custom_validator.js',
     skipValidation: true,
-  }
+  },
+  sassOptions: {
+    includePaths: [path.join(__dirname, 'styles')],
+  },
 }

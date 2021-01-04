@@ -1,8 +1,6 @@
-import React, { PropsWithChildren } from 'react';
+import React, { FC } from 'react';
 
-const SimpleButton = (props: PropsWithChildren<{
-  hello?: string
-}>) => {
+const SimpleButton: FC = (props) => {
 
   return (
     <button>Click me</button>

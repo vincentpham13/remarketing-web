@@ -1,7 +1,8 @@
 import Head from 'next/head';
+import 'tachyons';
 
-import { SimpleButton } from '@/components/button';
-import styles from '../styles/Home.module.css';
+import { SimpleButton, PrimaryButton } from '@/components/button';
+import styles from '../styles/Home.module.scss';
 
 export default function Home() {
   return (
@@ -15,7 +16,8 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
-        <SimpleButton />
+        <SimpleButton className="mt5"/>
+        <PrimaryButton />
       </main>
 
       <footer className={styles.footer}>
