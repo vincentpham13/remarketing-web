@@ -10,8 +10,7 @@ export function TimeAgo(props: InferProps<typeof TimeAgo.propTypes>) {
         width="0"
         height="85"
         datetime={date.toJSON()}
-        layout="responsive"
-      >
+        layout="responsive">
         .
       </amp-timeago>
     </div>
@@ -26,4 +25,3 @@ TimeAgo.propTypes = {
 TimeAgo.defaultProps = {
   hello: 'Greeting',
 };
-

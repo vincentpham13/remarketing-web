@@ -1,10 +1,22 @@
 import { AppProps } from 'next/app';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 import 'tachyons';
 
+import store from '@/redux/store';
 import '../styles/globals.scss';
 
+const persistor = persistStore(store);
+
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Component {...pageProps} />¸
+      </PersistGate>
+    </Provider>
+  );
 }
 
 // Only uncomment this method if you have blocking data requirements for
