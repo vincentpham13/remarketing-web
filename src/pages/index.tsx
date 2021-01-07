@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
@@ -9,23 +10,14 @@ import {
   increment,
   decrement,
 } from '@/redux/features/counter/slice';
-import { setUserName } from '@/redux/features/user/slice';
+import AuthenticatedAppLayout from '@/layouts/AuthenticatedAppLayout';
 import styles from '../styles/Home.module.scss';
 
-export default function Home() {
-  const [incrementAmount, setIncrementAmount] = useState(2);
+const Home = () => {
   const dispatch = useDispatch();
+  const [incrementAmount, setIncrementAmount] = useState(2);
   const { value: count } = useSelector(counterSelector);
-  // useEffect(() => {
-  //   if (count >= 10) {
-  //     dispatch(
-  //       setUserName({
-  //         name: 'Vincent Pham',
-  //         age: 26,
-  //       }),
-  //     );
-  //   }
-  // }, [count]);
+
   return (
     <div className={styles.container}>
       <Head>
@@ -63,20 +55,19 @@ export default function Home() {
             />
             <button
               className={styles.button}
-              onClick={() =>
-                dispatch(incrementByAmount(Number(incrementAmount) || 0))
+              onClick={() => dispatch(incrementByAmount(Number(incrementAmount) || 0))
               }>
               Add Amount
             </button>
             <button
               className={styles.asyncButton}
-              onClick={() =>
-                dispatch(incrementAsync(Number(incrementAmount) || 0))
+              onClick={() => dispatch(incrementAsync(Number(incrementAmount) || 0))
               }>
               Add Async
             </button>
           </div>
         </div>
+        <Link href="/custom">Go to custom</Link>
       </main>
 
       <footer className={styles.footer}>
@@ -90,4 +81,10 @@ export default function Home() {
       </footer>
     </div>
   );
-}
+};
+
+Home.getLayout = (page) => (
+  <AuthenticatedAppLayout>{page}</AuthenticatedAppLayout>
+);
+
+export default Home;

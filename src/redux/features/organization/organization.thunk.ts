@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { normalize, schema } from 'normalizr';
 
 import API from '@/helpers/axios';
-import { IStaff } from './model';
+import { IStaff } from './organization.model';
 
 const staffEntity = new schema.Entity('staffs');
 const staffListSchema = new schema.Array(staffEntity);
@@ -11,7 +11,7 @@ export const getStaffsAsyncThunk = createAsyncThunk(
   'organization/getStaff',
   async (_, thunkApi) => {
     try {
-      const response = await API.get('/api/users');
+      const response = await API.get('/users');
 
       return normalize<
         any,
@@ -22,7 +22,7 @@ export const getStaffsAsyncThunk = createAsyncThunk(
 
       // throw new Error('this is error');
     } catch (error: any) {
-      throw error.message;
+      return thunkApi.rejectWithValue(error.message);
     }
   },
 );

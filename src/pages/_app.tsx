@@ -1,3 +1,4 @@
+import React from 'react';
 import { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -5,15 +6,18 @@ import { persistStore } from 'redux-persist';
 import 'tachyons';
 
 import store from '@/redux/store';
+
+import '../styles/antd.less';
 import '../styles/globals.scss';
 
 const persistor = persistStore(store);
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const getLayout = Component.getLayout || ((page) => page);
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Component {...pageProps} />¸
+        {getLayout(<Component {...pageProps} />)}
       </PersistGate>
     </Provider>
   );

@@ -1,12 +1,7 @@
-import {
-  createSlice,
-  PayloadAction,
-  createEntityAdapter,
-} from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 import { IGenericEntityState } from '@/redux/interfaces';
-import { getStaffsAsyncThunk } from './thunk';
-import { IStaff } from './model';
+import { getStaffsAsyncThunk } from './organization.thunk';
 
 const staffsAdapter = createEntityAdapter();
 const initialState = {
@@ -21,13 +16,9 @@ const initialState = {
 const organizationSlice = createSlice({
   name: 'organization',
   initialState,
-  reducers: {
-    setStaffs: (state, action: PayloadAction<IStaff[]>) => {
-      // state.staffs = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getStaffsAsyncThunk.pending, (state, action) => {
+    builder.addCase(getStaffsAsyncThunk.pending, (state) => {
       state.staffs.status = 'loading';
     });
     builder.addCase(getStaffsAsyncThunk.fulfilled, (state, action) => {
@@ -36,6 +27,8 @@ const organizationSlice = createSlice({
     });
     builder.addCase(getStaffsAsyncThunk.rejected, (state, action) => {
       state.staffs.status = 'failed';
+      state.staffs.ids = [];
+      state.staffs.entities = {};
       if (action.error.message) {
         state.staffs.error = action.error.message;
       }
@@ -44,11 +37,10 @@ const organizationSlice = createSlice({
 });
 
 /* Export actions */
-export const { setStaffs } = organizationSlice.actions;
+// export const { setStaffs } = organizationSlice.actions;
 
 /* Export selectors */
-export const organizationSelector = (state: any): typeof initialState =>
-  state.organization;
+export const organizationSelector = (state: any): typeof initialState => state.organization;
 
 /* Export default reducer */
 export default organizationSlice.reducer;

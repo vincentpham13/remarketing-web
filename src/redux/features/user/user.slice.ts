@@ -3,10 +3,8 @@ import {
   PayloadAction,
   createEntityAdapter,
 } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
 
-import * as counter from '../counter/slice';
-import { IUserInfo, IUserState } from './model';
+import { IUserInfo } from './user.model';
 
 export const userAdapter = createEntityAdapter();
 
@@ -23,9 +21,6 @@ const userSlice = createSlice({
       state.name = payload.name;
       state.age = payload.age;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(counter.incrementByAmount, (state, action) => {});
   },
 });
 
