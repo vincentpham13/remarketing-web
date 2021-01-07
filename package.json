@@ -8,8 +8,7 @@
     }
   },
   "lint-staged": {
-    "*.{tsx,ts}": "eslint --fix",
-    "*.{tsx, ts}": "prettier --write"
+    "*.{tsx,ts,js}": "eslint --fix"
   },
   "settings": {
     "import/resolver": {
