@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 import API from '@/helpers/axios';
 import { IAuthRequest } from './auth.model';
@@ -41,6 +42,13 @@ export const refreshTokenAsyncThunk = createAsyncThunk(
   'auth/refresh-token',
   async (_, thunkApi) => {
     try {
+      const CancelToken = axios.CancelToken;
+      const source = CancelToken.source();
+
+      thunkApi.signal.addEventListener('abort', () => {
+        source.cancel();
+      });
+
       const response = await API.post(
         '/users/refresh-token',
         {},
@@ -50,6 +58,7 @@ export const refreshTokenAsyncThunk = createAsyncThunk(
             delete headers.common.Authorization;
           },
           withCredentials: true,
+          cancelToken: source.token,
         },
       );
 

@@ -19,7 +19,7 @@ export const persistConfig: PersistConfig<any> = {
   version: 1,
   storage: storage,
   debug: true,
-  whitelist: ['counter', 'organization'],
+  whitelist: ['counter'],
   // transforms: [TransformCredentials]
 };
 
