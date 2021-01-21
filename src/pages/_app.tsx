@@ -3,12 +3,14 @@ import { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import 'tachyons';
+// import 'tachyons';
 
 import store from '@/redux/store';
 
-import '../styles/antd.less';
-import '../styles/globals.scss';
+import "assets/plugins/nucleo/css/nucleo.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "assets/scss/nextjs-argon-dashboard.scss";
+
 
 const persistor = persistStore(store);
 
