@@ -2,7 +2,7 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { camelizeKeys } from 'humps';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:4000',
+  baseURL: 'http://localhost:5000',
   timeout: 6000,
   headers: {
     'Content-Type': 'application/json',
