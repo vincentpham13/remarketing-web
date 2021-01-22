@@ -1,10 +1,11 @@
 import { IGenericEntityState } from '@/redux/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 import { AxiosRequestConfig } from 'axios';
+import { REHYDRATE } from 'redux-persist';
 
 import API from '@/helpers/axios';
 import { IAuthState } from './auth.model';
-import { authUserAsyncThunk, refreshTokenAsyncThunk } from './auth.thunk';
+import { authUserAsyncThunk, logoutAsyncThunk, refreshTokenAsyncThunk } from './auth.thunk';
 
 const initialState: IAuthState & IGenericEntityState = {
   token: null,
@@ -22,6 +23,19 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     // authentication
+    builder.addCase(REHYDRATE, (state, action) => {
+      // @ts-ignore
+      const localToken = action?.payload?.auth?.token;
+      state.status = 'idle';
+      if (localToken) {
+        console.log("🚀 ~ file: auth.slice.ts ~ line 30 ~ builder.addCase ~ localToken", localToken)
+        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
+          req.headers.Authorization = `Bearer ${localToken}`;
+          console.log('done');
+          return req;
+        });
+      }
+    });
     builder.addCase(authUserAsyncThunk.pending, (state) => {
       state.status = 'loading';
     });
@@ -31,7 +45,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.status = 'succeeded';
 
-        API.interceptors.request.use((req: AxiosRequestConfig) => {
+        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
           req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
           return req;
         });
@@ -52,7 +66,7 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.status = 'succeeded';
 
-        API.interceptors.request.use((req: AxiosRequestConfig) => {
+        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
           req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
           return req;
         });
@@ -62,6 +76,22 @@ const authSlice = createSlice({
     });
     builder.addCase(refreshTokenAsyncThunk.rejected, (state) => {
       state.status = 'failed';
+      state.isAuthenticated = false;
+      state.token = null;
+      localStorage.removeItem('persist:root');
+      API.reset();
+    });
+    builder.addCase(logoutAsyncThunk.rejected, (state) => {
+      state.isAuthenticated = false;
+      state.token = null;
+      localStorage.removeItem('persist:root');
+      API.reset();
+    });
+    builder.addCase(logoutAsyncThunk.fulfilled, (state) => {
+      state.isAuthenticated = false;
+      state.token = null;
+      localStorage.removeItem('persist:root');
+      API.reset();
     });
   },
 });
