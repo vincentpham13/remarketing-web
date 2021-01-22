@@ -1,4 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { authUserAsyncThunk } from '@/redux/features/auth/auth.thunk';
 
 // reactstrap components
 import {
@@ -17,18 +20,59 @@ import {
 } from 'reactstrap';
 // layout for this page
 import Auth from '@/layouts/Auth';
+import { authSelector } from '@/redux/features/auth';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const auth = useSelector(authSelector);
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onUsernameChange = (e) => {
-    setUsername(e.target.value);
+    setEmail(e.target.value);
   };
   const onPasswordChange = (e) => {
     setPassword(e.target.value);
-  }
+  };
+
+  const openFBAuthentication = async () => {
+    // @ts-ignore
+    const { authResponse } = await new Promise(window.FB.login);
+    // window.FB.getLoginStatus(({ authResponse }) => {
+    //   if (authResponse) {
+    //     console.log(
+    //       '🚀 ~ file: fb-sdk.ts ~ line 24 ~ window.FB.getLoginStatus ~ authResponse',
+    //       authResponse,
+    //     );
+    //   }
+    // });
+  };
+
+  const responseFacebook = (response: any) => {
+    console.log(response);
+  };
+
+  const onAccountSubmit = () => {
+    if (!email || !password) {
+      return;
+    }
+    dispatch(
+      authUserAsyncThunk({
+        email,
+        password,
+      }),
+    );
+  };
+
+  useEffect(() => {}, []);
+
+  useEffect(() => {
+    if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
+      router.push('/admin/dashboard');
+    }
+  }, [auth]);
 
   return (
     <>
@@ -43,7 +87,7 @@ const Login = () => {
                 className="btn-neutral btn-icon"
                 color="default"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}>
+                onClick={openFBAuthentication}>
                 <span className="btn-inner--icon">
                   <img
                     alt="..."
@@ -90,7 +134,11 @@ const Login = () => {
                 </InputGroup>
               </FormGroup>
               <div className="text-center">
-                <Button className="my-4" color="primary" type="button">
+                <Button
+                  onClick={onAccountSubmit}
+                  className="my-4"
+                  color="primary"
+                  type="button">
                   Đăng nhập
                 </Button>
               </div>

@@ -23,7 +23,7 @@ import {
 // layout for this page
 import Admin from "@/layouts/Admin";
 // core components
-import Header from "@/components/Headers/AdminHeader";
+import Header from "@/components/Headers/Header";
 
 class Tables extends React.Component {
   render() {

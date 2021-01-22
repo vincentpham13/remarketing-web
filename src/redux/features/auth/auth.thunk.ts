@@ -15,22 +15,22 @@ export const authUserAsyncThunk = createAsyncThunk(
     | ReturnType<typeof thunkApi.rejectWithValue>
   > => {
     try {
-      const response = await API.post('/users/authenticate', authReq, {
-        withCredentials: true,
+      const response = await API.axios.post('/auth/login', authReq, {
+        // withCredentials: true,
       });
 
       thunkApi.dispatch(
         setUserName({
-          name: `${response.data.firstName} ${response.data.lastName} `,
+          name: `Nhat`,
           age: 26,
         }),
       );
 
       return {
-        jwtToken: response.data.jwtToken,
-        role: response.data.role,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
+        jwtToken: response.data.accessToken,
+        role: 'role',
+        firstName: 'firstName',
+        lastName: 'lastName',
       };
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
@@ -49,22 +49,22 @@ export const refreshTokenAsyncThunk = createAsyncThunk(
         source.cancel();
       });
 
-      const response = await API.post(
-        '/users/refresh-token',
+      const response = await API.axios.post(
+        '/auth/refresh-token',
         {},
         {
           transformRequest: (_data, headers) => {
             // refresh-token api does not need Authorization in header
-            delete headers.common.Authorization;
+            // delete headers.common.Authorization;
           },
-          withCredentials: true,
+          // withCredentials: true,
           cancelToken: source.token,
         },
       );
 
       thunkApi.dispatch(
         setUserName({
-          name: `${response.data.firstName} ${response.data.lastName} `,
+          name: `namemm`,
           age: 26,
         }),
       );
@@ -75,13 +75,34 @@ export const refreshTokenAsyncThunk = createAsyncThunk(
         firstName: string;
         lastName: string;
       } = {
-        jwtToken: response.data.jwtToken,
-        role: response.data.role,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
+        jwtToken: response.data.accessToken,
+        role: 'role',
+        firstName: 'firstName',
+        lastName: 'lastName',
       };
 
       return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const logoutAsyncThunk = createAsyncThunk(
+  'auth/logout',
+  async (_, thunkApi) => {
+    try {
+      const response = await API.axios.post(
+        '/auth/logout',
+        {},
+      );
+
+      thunkApi.dispatch(
+        setUserName({
+          name: `logouted`,
+          age: 0,
+        }),
+      );
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
