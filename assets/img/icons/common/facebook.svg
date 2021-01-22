@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="38px" height="38px" viewBox="0 0 38 38" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>facebook</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Components" transform="translate(-41.000000, -368.000000)" fill-rule="nonzero">
+            <g id="Group" transform="translate(20.000000, 122.000000)">
+                <g id="Facebook" transform="translate(0.000000, 233.000000)">
+                    <g id="facebook" transform="translate(21.000000, 13.000000)">
+                        <path d="M33.25,0 L4.75,0 C2.130375,0 0,2.130375 0,4.75 L0,33.25 C0,35.869625 2.130375,38 4.75,38 L33.25,38 C35.869625,38 38,35.869625 38,33.25 L38,4.75 C38,2.130375 35.869625,0 33.25,0 Z" id="Path" fill="#1976D2"></path>
+                        <path d="M32,18.9230769 L26,18.9230769 L26,14.1538462 C26,12.8375385 27.0752,12.9615385 28.4,12.9615385 L30.8,12.9615385 L30.8,7 L26,7 L26,7 C22.0232,7 18.8,10.2025385 18.8,14.1538462 L18.8,18.9230769 L14,18.9230769 L14,24.8846154 L18.8,24.8846154 L18.8,38 L26,38 L26,24.8846154 L29.6,24.8846154 L32,18.9230769 Z" id="Path" fill="#FAFAFA"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -3,57 +3,39 @@ import { useRouter } from "next/router";
 // reactstrap components
 import { Container } from "reactstrap";
 // core components
-import AdminNavbar from "@/components/Navbars/AdminNavbar";
-import AdminFooter from "@/components/Footers/AdminFooter";
+import UserNavbar from "@/components/Navbars/UserNavbar";
+import UserFooter from "@/components/Footers/UserFooter";
 import SideBar from "@/components/Sidebar/Sidebar";
 
 const routes = [
   {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
-    layout: "/admin",
+    path: "/",
+    name: "Tổng quan",
+    icon: "ni ni-tv-2 text-blue",
+    layout: "/user",
   },
   {
-    path: "/icons",
-    name: "Icons",
+    path: "/fanpage",
+    name: "Quản lý fanpage",
     icon: "ni ni-planet text-blue",
-    layout: "/admin",
+    layout: "/user",
   },
   {
-    path: "/maps",
-    name: "Maps",
+    path: "/campaign",
+    name: "Quản lý chiến dịch",
     icon: "ni ni-pin-3 text-orange",
-    layout: "/admin",
+    layout: "/user",
   },
   {
-    path: "/profile",
-    name: "User Profile",
+    path: "/user-plan",
+    name: "Quản lý gói dịch vụ",
     icon: "ni ni-single-02 text-yellow",
-    layout: "/admin",
-  },
-  {
-    path: "/tables",
-    name: "Tables",
-    icon: "ni ni-bullet-list-67 text-red",
-    layout: "/admin",
-  },
-  {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-key-25 text-info",
-    layout: "/auth",
-  },
-  {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-circle-08 text-pink",
-    layout: "/auth",
+    layout: "/user",
   },
 ];
 
 
-function Admin(props) {
+function User(props) {
   // used for checking current route
   const router = useRouter();
   let mainContentRef = React.createRef();
@@ -82,14 +64,14 @@ function Admin(props) {
         }}
       />
       <div className="main-content" ref={mainContentRef}>
-        <AdminNavbar {...props} brandText={getBrandText()} />
+        <UserNavbar {...props} brandText={getBrandText()} />
         {props.children}
         <Container fluid>
-          <AdminFooter />
+          <UserFooter />
         </Container>
       </div>
     </>
   );
 }
 
-export default Admin;
+export default User;

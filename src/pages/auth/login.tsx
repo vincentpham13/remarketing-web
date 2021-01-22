@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 // reactstrap components
 import {
@@ -19,13 +19,24 @@ import {
 import Auth from '@/layouts/Auth';
 
 const Login = () => {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+  const onPasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
+
   return (
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent pb-5">
             <div className="text-muted text-center mt-2 mb-3">
-              <small>Sign in with</small>
+              <small>Đăng nhập bằng</small>
             </div>
             <div className="btn-wrapper text-center">
               <Button
@@ -36,29 +47,16 @@ const Login = () => {
                 <span className="btn-inner--icon">
                   <img
                     alt="..."
-                    src={require('assets/img/icons/common/github.svg')}
+                    src={require('assets/img/icons/common/facebook.svg')}
                   />
                 </span>
-                <span className="btn-inner--text">Github</span>
-              </Button>
-              <Button
-                className="btn-neutral btn-icon"
-                color="default"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}>
-                <span className="btn-inner--icon">
-                  <img
-                    alt="..."
-                    src={require('assets/img/icons/common/google.svg')}
-                  />
-                </span>
-                <span className="btn-inner--text">Google</span>
+                <span className="btn-inner--text">Facebook</span>
               </Button>
             </div>
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <div className="text-center text-muted mb-4">
-              <small>Or sign in with credentials</small>
+              <small>Hoặc đăng nhập bằng tài khoản</small>
             </div>
             <Form role="form">
               <FormGroup className="mb-3">
@@ -69,6 +67,7 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
+                    onChange={onUsernameChange}
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
@@ -83,33 +82,22 @@ const Login = () => {
                     </InputGroupText>
                   </InputGroupAddon>
                   <Input
-                    placeholder="Password"
+                    onChange={onPasswordChange}
+                    placeholder="Mật khẩu"
                     type="password"
                     autoComplete="new-password"
                   />
                 </InputGroup>
               </FormGroup>
-              <div className="custom-control custom-control-alternative custom-checkbox">
-                <input
-                  className="custom-control-input"
-                  id=" customCheckLogin"
-                  type="checkbox"
-                />
-                <label
-                  className="custom-control-label"
-                  htmlFor=" customCheckLogin">
-                  <span className="text-muted">Remember me</span>
-                </label>
-              </div>
               <div className="text-center">
                 <Button className="my-4" color="primary" type="button">
-                  Sign in
+                  Đăng nhập
                 </Button>
               </div>
             </Form>
           </CardBody>
         </Card>
-        <Row className="mt-3">
+        {/* <Row className="mt-3">
           <Col xs="6">
             <a
               className="text-light"
@@ -126,7 +114,7 @@ const Login = () => {
               <small>Create new account</small>
             </a>
           </Col>
-        </Row>
+        </Row> */}
       </Col>
     </>
   );
