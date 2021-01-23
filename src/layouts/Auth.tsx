@@ -36,7 +36,7 @@ function Auth(props) {
       auth.isAuthenticated &&
       auth.token
     ) {
-      router.push('/admin/dashboard');
+      router.push('/admin');
     }
   }, [auth]);
   

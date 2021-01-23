@@ -51,7 +51,7 @@ const Index = () => {
       auth.isAuthenticated &&
       auth.token
     ) {
-      router.push('/admin/dashboard');
+      router.push('/admin');
     } else {
       router.push('/auth/login');
     }

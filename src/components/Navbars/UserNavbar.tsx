@@ -31,7 +31,7 @@ const UserNavbar: FC = (props) => {
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
         <Container fluid>
-          <Link href="/admin/dashboard">
+          <Link href="/admin">
             <a className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
               {props?.brandText}
             </a>
@@ -55,7 +55,7 @@ const UserNavbar: FC = (props) => {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require('assets/img/theme/team-4-800x800.jpg')}
+                      src={require('assets/img/theme/vincent.jpg')}
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
