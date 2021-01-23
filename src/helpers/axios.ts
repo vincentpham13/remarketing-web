@@ -6,9 +6,7 @@ class API {
   private _axios: AxiosInstance;
 
   constructor() {
-    console.log('creating axios');
     const instance: AxiosInstance = Axios.create({
-      // baseURL: 'http://api.getme.cc/api/v1',
       baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
       timeout: 6000,
       headers: {
@@ -29,7 +27,6 @@ class API {
       return res;
     });
 
-    console.log(instance.defaults.headers);
     this._axios = instance;
   }
 
