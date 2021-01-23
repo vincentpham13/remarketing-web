@@ -27,7 +27,7 @@ function Auth(props) {
       auth.isAuthenticated &&
       auth.token
     ) {
-      router.push('/user');
+      router.push('/');
     }
     // admin
     if (

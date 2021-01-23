@@ -11,7 +11,7 @@ class Header extends React.Component {
           <Container fluid>
             <div className="header-body">
               {/* Card stats */}
-              <h1 className="display-2 text-white">Hello User</h1>
+              <h1 className="display-2 text-white">Good morning! Pham</h1>
             </div>
           </Container>
         </div>
