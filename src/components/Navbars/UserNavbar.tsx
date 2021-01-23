@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Link from 'next/link';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 // reactstrap components
 import {
   DropdownMenu,

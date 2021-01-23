@@ -61,7 +61,7 @@ const Admin: FC = (props) => {
 
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
-      if (router.route.indexOf(routes[i].layout + routes[i].path) !== -1) {
+      if (routes[i].layout + routes[i].path === router.route) {
         return routes[i].name;
       }
     }

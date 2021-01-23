@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 
 import API from '@/helpers/axios';
 import { IAuthAccountRequest, IAuthFBAccountRequest } from './auth.model';

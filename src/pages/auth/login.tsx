@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { authFbUserAsyncThunk, authUserAsyncThunk } from '@/redux/features/auth/auth.thunk';
+import {
+  authFbUserAsyncThunk,
+  authUserAsyncThunk,
+} from '@/redux/features/auth/auth.thunk';
 
 // reactstrap components
 import {
@@ -53,20 +56,20 @@ const Login = () => {
       );
     });
 
-    dispatch(authFbUserAsyncThunk({
-      fbUserId: authResponse.userID,
-      accessToken: authResponse.accessToken,
-    }));
+    if (authResponse) {
+      dispatch(
+        authFbUserAsyncThunk({
+          fbUserId: authResponse.userID,
+          accessToken: authResponse.accessToken,
+        }),
+      );
+    }
 
     /* Fake FB test */
     // dispatch(authFbUserAsyncThunk({
     //   fbUserId: '3586689354782928',
     //   accessToken: "EAAR8ZBlPbQrEBAKFvCZAx1XXTQ4MJvXpEQV2Bi04FuAgcWZA81NAkhq1sAybSGf8OeRxaTpvHuZC1NJAGAG70XRBGKPMfG2zFjnUctQmSafGGOZCQbcC5XnarVlHXvH1NtSzZBzkSkGY2JeuY3eZAmYQWl4S365brGqVU2hcap4DnLqH6gK6QMmesl6Ss65mq2uzFFkQg6lSwZDZD",
     // }));
-  };
-
-  const responseFacebook = (response: any) => {
-    console.log(response);
   };
 
   const onAccountSubmit = () => {

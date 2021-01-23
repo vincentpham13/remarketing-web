@@ -29,7 +29,6 @@ const authSlice = createSlice({
       if (localToken) {
         API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
           req.headers.Authorization = `Bearer ${localToken}`;
-          console.log('done');
           return req;
         });
       }
