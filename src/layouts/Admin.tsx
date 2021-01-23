@@ -16,46 +16,34 @@ import SideBar from '@/components/Sidebar/Sidebar';
 
 const routes = [
   {
-    path: '/dashboard',
-    name: 'Dashboard',
+    path: '',
+    name: 'Tổng quan',
     icon: 'ni ni-tv-2 text-primary',
     layout: '/admin',
   },
   {
-    path: '/icons',
-    name: 'Icons',
+    path: '/quan-ly-nguoi-dung',
+    name: 'Người dùng',
     icon: 'ni ni-planet text-blue',
     layout: '/admin',
   },
   {
-    path: '/maps',
-    name: 'Maps',
+    path: '/quan-ly-tin-nhan',
+    name: 'Tin nhắn người dùng',
     icon: 'ni ni-pin-3 text-orange',
     layout: '/admin',
   },
   {
-    path: '/profile',
-    name: 'User Profile',
+    path: '/quan-ly-goi-duy-tri-dich-vu',
+    name: 'Gói duy trì dịch vụ',
     icon: 'ni ni-single-02 text-yellow',
     layout: '/admin',
   },
   {
-    path: '/tables',
-    name: 'Tables',
+    path: '/quan-ly-don-hang',
+    name: 'Đơn hàng',
     icon: 'ni ni-bullet-list-67 text-red',
     layout: '/admin',
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    icon: 'ni ni-key-25 text-info',
-    layout: '/auth',
-  },
-  {
-    path: '/register',
-    name: 'Register',
-    icon: 'ni ni-circle-08 text-pink',
-    layout: '/auth',
   },
 ];
 
@@ -69,7 +57,6 @@ const Admin: FC = (props) => {
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
-    // mainContentRef.current.scrollTop = 0;
   }, []);
 
   const getBrandText = () => {
