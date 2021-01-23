@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { authUserAsyncThunk } from '@/redux/features/auth/auth.thunk';
+import { authFbUserAsyncThunk, authUserAsyncThunk } from '@/redux/features/auth/auth.thunk';
 
 // reactstrap components
 import {
@@ -39,15 +39,30 @@ const Login = () => {
 
   const openFBAuthentication = async () => {
     // @ts-ignore
-    const { authResponse } = await new Promise(window.FB.login);
-    // window.FB.getLoginStatus(({ authResponse }) => {
-    //   if (authResponse) {
-    //     console.log(
-    //       '🚀 ~ file: fb-sdk.ts ~ line 24 ~ window.FB.getLoginStatus ~ authResponse',
-    //       authResponse,
-    //     );
-    //   }
-    // });
+    const { authResponse } = await new Promise((resolve, reject) => {
+      window.FB.login(
+        (response: any) => {
+          resolve(response);
+        },
+        {
+          auth_type: 'rerequest',
+          scope: 'public_profile,pages_show_list',
+          enable_profile_selector: true,
+          return_scopes: true,
+        },
+      );
+    });
+
+    dispatch(authFbUserAsyncThunk({
+      fbUserId: authResponse.userID,
+      accessToken: authResponse.accessToken,
+    }));
+
+    /* Fake FB test */
+    // dispatch(authFbUserAsyncThunk({
+    //   fbUserId: '3586689354782928',
+    //   accessToken: "EAAR8ZBlPbQrEBAKFvCZAx1XXTQ4MJvXpEQV2Bi04FuAgcWZA81NAkhq1sAybSGf8OeRxaTpvHuZC1NJAGAG70XRBGKPMfG2zFjnUctQmSafGGOZCQbcC5XnarVlHXvH1NtSzZBzkSkGY2JeuY3eZAmYQWl4S365brGqVU2hcap4DnLqH6gK6QMmesl6Ss65mq2uzFFkQg6lSwZDZD",
+    // }));
   };
 
   const responseFacebook = (response: any) => {
@@ -66,14 +81,6 @@ const Login = () => {
     );
   };
 
-  useEffect(() => {}, []);
-
-  useEffect(() => {
-    if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
-      router.push('/admin/dashboard');
-    }
-  }, [auth]);
-
   return (
     <>
       <Col lg="5" md="7">
@@ -86,7 +93,6 @@ const Login = () => {
               <Button
                 className="btn-neutral btn-icon"
                 color="default"
-                href="#pablo"
                 onClick={openFBAuthentication}>
                 <span className="btn-inner--icon">
                   <img

@@ -8,8 +8,8 @@ class API {
   constructor() {
     console.log('creating axios');
     const instance: AxiosInstance = Axios.create({
-      baseURL: 'http://api.getme.cc/api/v1',
-      // baseURL: 'http://localhost:5000/api/v1',
+      // baseURL: 'http://api.getme.cc/api/v1',
+      baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
       timeout: 6000,
       headers: {
         'Content-Type': 'application/json',

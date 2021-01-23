@@ -5,7 +5,7 @@ import { REHYDRATE } from 'redux-persist';
 
 import API from '@/helpers/axios';
 import { IAuthState } from './auth.model';
-import { authUserAsyncThunk, logoutAsyncThunk, refreshTokenAsyncThunk } from './auth.thunk';
+import { authFbUserAsyncThunk, authUserAsyncThunk, logoutAsyncThunk, refreshTokenAsyncThunk } from './auth.thunk';
 
 const initialState: IAuthState & IGenericEntityState = {
   token: null,
@@ -22,13 +22,11 @@ const authSlice = createSlice({
     resetAuth: () => initialState,
   },
   extraReducers: (builder) => {
-    // authentication
     builder.addCase(REHYDRATE, (state, action) => {
       // @ts-ignore
       const localToken = action?.payload?.auth?.token;
       state.status = 'idle';
       if (localToken) {
-        console.log("🚀 ~ file: auth.slice.ts ~ line 30 ~ builder.addCase ~ localToken", localToken)
         API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
           req.headers.Authorization = `Bearer ${localToken}`;
           console.log('done');
@@ -36,6 +34,7 @@ const authSlice = createSlice({
         });
       }
     });
+    // authentication
     builder.addCase(authUserAsyncThunk.pending, (state) => {
       state.status = 'loading';
     });
@@ -44,7 +43,7 @@ const authSlice = createSlice({
         state.token = action.payload.jwtToken;
         state.isAuthenticated = true;
         state.status = 'succeeded';
-
+        state.user = action.payload.user;
         API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
           req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
           return req;
@@ -56,7 +55,30 @@ const authSlice = createSlice({
     builder.addCase(authUserAsyncThunk.rejected, (state) => {
       state.status = 'failed';
     });
-    // refresh token
+    // FB authenticate
+    builder.addCase(authFbUserAsyncThunk.pending, (state) => {
+      state.status = 'loading';
+    });
+    builder.addCase(authFbUserAsyncThunk.fulfilled, (state, action) => {
+      if (action.payload.jwtToken) {
+        state.token = action.payload.jwtToken;
+        state.isAuthenticated = true;
+        state.status = 'succeeded';
+
+        state.user = action.payload.user;
+
+        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
+          req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
+          return req;
+        });
+      } else {
+        state.status = 'failed';
+      }
+    });
+    builder.addCase(authFbUserAsyncThunk.rejected, (state) => {
+      state.status = 'failed';
+    });
+    // Refresh token
     builder.addCase(refreshTokenAsyncThunk.pending, (state) => {
       state.status = 'loading';
     });
@@ -65,6 +87,8 @@ const authSlice = createSlice({
         state.token = action.payload.jwtToken;
         state.isAuthenticated = true;
         state.status = 'succeeded';
+
+        state.user = action.payload.user;
 
         API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
           req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
@@ -81,6 +105,7 @@ const authSlice = createSlice({
       localStorage.removeItem('persist:root');
       API.reset();
     });
+    // Logout
     builder.addCase(logoutAsyncThunk.rejected, (state) => {
       state.isAuthenticated = false;
       state.token = null;

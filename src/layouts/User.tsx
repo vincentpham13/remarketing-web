@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 // reactstrap components
 import { Container } from "reactstrap";
@@ -6,6 +6,8 @@ import { Container } from "reactstrap";
 import UserNavbar from "@/components/Navbars/UserNavbar";
 import UserFooter from "@/components/Footers/UserFooter";
 import SideBar from "@/components/Sidebar/Sidebar";
+import { authSelector, refreshTokenAsyncThunk } from "@/redux/features/auth";
+import { useDispatch, useSelector } from "react-redux";
 
 const routes = [
   {
@@ -38,11 +40,13 @@ const routes = [
 function User(props) {
   // used for checking current route
   const router = useRouter();
-  let mainContentRef = React.createRef();
+  const dispatch = useDispatch();
+  const auth = useSelector(authSelector);
+  
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
     document.scrollingElement.scrollTop = 0;
-    mainContentRef.current.scrollTop = 0;
+    // mainContentRef.current.scrollTop = 0;
   }, []);
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
@@ -52,6 +56,23 @@ function User(props) {
     }
     return "Brand";
   };
+
+  useEffect(() => {
+    if (!auth.isAuthenticated && !auth.token) {
+      dispatch(refreshTokenAsyncThunk());
+    }
+  }, []);
+
+  useEffect(() => {
+    if ((auth.status === 'failed' || !auth.isAuthenticated) && !auth.token) {
+      router.push('/auth/login');
+    }
+  }, [auth]);
+
+  if (auth.status !== 'succeeded') {
+    return <div>Loading</div>;
+  }
+  
   return (
     <>
       <SideBar
@@ -63,7 +84,7 @@ function User(props) {
           imgAlt: "...",
         }}
       />
-      <div className="main-content" ref={mainContentRef}>
+      <div className="main-content">
         <UserNavbar {...props} brandText={getBrandText()} />
         {props.children}
         <Container fluid>

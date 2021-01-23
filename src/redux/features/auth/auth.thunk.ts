@@ -2,16 +2,16 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import API from '@/helpers/axios';
-import { IAuthRequest } from './auth.model';
+import { IAuthAccountRequest, IAuthFBAccountRequest } from './auth.model';
 import { setUserName } from '../user/user.slice';
 
 export const authUserAsyncThunk = createAsyncThunk(
   'auth/authenticate',
   async (
-    authReq: IAuthRequest,
+    authReq: IAuthAccountRequest,
     thunkApi,
   ): Promise<
-    | { jwtToken: string; role: string; firstName: string; lastName: string }
+    | { jwtToken: string; user: any }
     | ReturnType<typeof thunkApi.rejectWithValue>
   > => {
     try {
@@ -19,19 +19,35 @@ export const authUserAsyncThunk = createAsyncThunk(
         // withCredentials: true,
       });
 
-      thunkApi.dispatch(
-        setUserName({
-          name: `Nhat`,
-          age: 26,
-        }),
-      );
+      return {
+        jwtToken: response.data.accessToken,
+        user: response.data.user,
+      };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const authFbUserAsyncThunk = createAsyncThunk(
+  'auth/login-fb',
+  async (
+    authReq: IAuthFBAccountRequest,
+    thunkApi,
+  ): Promise<
+    | { jwtToken: string; user: any }
+    | ReturnType<typeof thunkApi.rejectWithValue>
+  > => {
+    try {
+      const response = await API.axios.post('/auth/login/facebook', authReq, {
+        // withCredentials: true,
+      });
 
       return {
         jwtToken: response.data.accessToken,
-        role: 'role',
-        firstName: 'firstName',
-        lastName: 'lastName',
+        user: response.data.user,
       };
+
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -40,48 +56,20 @@ export const authUserAsyncThunk = createAsyncThunk(
 
 export const refreshTokenAsyncThunk = createAsyncThunk(
   'auth/refresh-token',
-  async (_, thunkApi) => {
+  async (_, thunkApi): Promise<
+    | { jwtToken: string; user: any }
+    | ReturnType<typeof thunkApi.rejectWithValue>
+  > => {
     try {
-      const CancelToken = axios.CancelToken;
-      const source = CancelToken.source();
-
-      thunkApi.signal.addEventListener('abort', () => {
-        source.cancel();
-      });
-
       const response = await API.axios.post(
         '/auth/refresh-token',
         {},
-        {
-          transformRequest: (_data, headers) => {
-            // refresh-token api does not need Authorization in header
-            // delete headers.common.Authorization;
-          },
-          // withCredentials: true,
-          cancelToken: source.token,
-        },
       );
 
-      thunkApi.dispatch(
-        setUserName({
-          name: `namemm`,
-          age: 26,
-        }),
-      );
-
-      const data: {
-        jwtToken: string;
-        role: string;
-        firstName: string;
-        lastName: string;
-      } = {
+      return {
         jwtToken: response.data.accessToken,
-        role: 'role',
-        firstName: 'firstName',
-        lastName: 'lastName',
+        user: response.data.user,
       };
-
-      return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -103,6 +91,8 @@ export const logoutAsyncThunk = createAsyncThunk(
           age: 0,
         }),
       );
+      // @ts-ignore
+      window?.FB?.logout();
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

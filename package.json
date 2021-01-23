@@ -16,9 +16,10 @@
     }
   },
   "scripts": {
-    "dev": "HTTPS=true npx ts-node server.ts",
-    "build": "next build",
-    "start": "next start -p 4000",
+    "dev": "APP_ENV=development next -p 4000",
+    "dev:ssl": "APP_ENV=production HTTPS=true npx ts-node server.ts",
+    "build": "APP_ENV=production next build",
+    "start": "APP_ENV=production next start -p 4000",
     "prettify": "prettier ./**/*.{js,ts,tsx} --write",
     "lint": "pretty-quick --staged && lint-staged"
   },
