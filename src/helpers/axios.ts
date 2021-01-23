@@ -1,25 +1,54 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { camelizeKeys } from 'humps';
 
-const instance: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:4000',
-  timeout: 6000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+class API {
+  private static _instance: API;
+  private _axios: AxiosInstance;
 
-instance.interceptors.request.use((req: AxiosRequestConfig) => req);
+  constructor() {
+    console.log('creating axios');
+    const instance: AxiosInstance = Axios.create({
+      // baseURL: 'http://api.getme.cc/api/v1',
+      baseURL: `${process.env.NEXT_PUBLIC_API_URL}`,
+      timeout: 6000,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-instance.interceptors.response.use((res: AxiosResponse) => {
-  if (
-    res.data &&
-    res.headers['content-type'].split(';').includes('application/json')
-  ) {
-    res.data = camelizeKeys(res.data);
+    instance.interceptors.request.use((req: AxiosRequestConfig) => req);
+
+    instance.interceptors.response.use((res: AxiosResponse) => {
+      if (
+        res.data &&
+        res.headers['content-type'].split(';').includes('application/json')
+      ) {
+        res.data = camelizeKeys(res.data);
+      }
+
+      return res;
+    });
+
+    console.log(instance.defaults.headers);
+    this._axios = instance;
   }
 
-  return res;
-});
+  static create(): API {
+    if (!API._instance) {
+      API._instance = new API();
+    }
 
-export default instance;
+    return API._instance;
+  }
+
+  reset(): void {
+    API._instance = new API();
+  }
+
+  get axios(): AxiosInstance {
+    return this._axios;
+  }
+}
+
+
+export default API.create();

@@ -16,13 +16,13 @@ import {
 // layout for this page
 import Admin from "@/layouts/Admin";
 // core components
-import UserHeader from "@/components/Headers/UserHeader";
+import Header from "@/components/Headers/Header";
 
 class Profile extends React.Component {
   render() {
     return (
       <>
-        <UserHeader />
+        <Header />
         {/* Page content */}
         <Container className="mt--7" fluid>
           <Row>

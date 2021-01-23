@@ -6,6 +6,7 @@ import { persistStore } from 'redux-persist';
 // import 'tachyons';
 
 import store from '@/redux/store';
+import { initFacebookSdk } from '@/helpers/fb-sdk';
 
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";

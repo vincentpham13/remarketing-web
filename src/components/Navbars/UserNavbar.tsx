@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
 import Link from 'next/link';
-
+import {useDispatch} from 'react-redux';
 // reactstrap components
 import {
   DropdownMenu,
@@ -21,7 +20,7 @@ import {
 } from 'reactstrap';
 import { logoutAsyncThunk } from '@/redux/features/auth';
 
-const AdminNavbar: FC = (props) => {
+const UserNavbar: FC = (props) => {
   const dispatch = useDispatch();
 
   const logout = () => {
@@ -34,21 +33,21 @@ const AdminNavbar: FC = (props) => {
         <Container fluid>
           <Link href="/admin/dashboard">
             <a className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">
-              {props.brandText}
+              {props?.brandText}
             </a>
           </Link>
-          <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-            <FormGroup className="mb-0">
-              <InputGroup className="input-group-alternative">
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <i className="fas fa-search" />
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input placeholder="Search" type="text" />
-              </InputGroup>
-            </FormGroup>
-          </Form>
+          {/* <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+              <FormGroup className="mb-0">
+                <InputGroup className="input-group-alternative">
+                  <InputGroupAddon addonType="prepend">
+                    <InputGroupText>
+                      <i className="fas fa-search" />
+                    </InputGroupText>
+                  </InputGroupAddon>
+                  <Input placeholder="Search" type="text" />
+                </InputGroup>
+              </FormGroup>
+            </Form> */}
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
@@ -108,4 +107,4 @@ const AdminNavbar: FC = (props) => {
   );
 };
 
-export default AdminNavbar;
+export default UserNavbar;

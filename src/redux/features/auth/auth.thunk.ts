@@ -2,36 +2,52 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 import API from '@/helpers/axios';
-import { IAuthRequest } from './auth.model';
+import { IAuthAccountRequest, IAuthFBAccountRequest } from './auth.model';
 import { setUserName } from '../user/user.slice';
 
 export const authUserAsyncThunk = createAsyncThunk(
   'auth/authenticate',
   async (
-    authReq: IAuthRequest,
+    authReq: IAuthAccountRequest,
     thunkApi,
   ): Promise<
-    | { jwtToken: string; role: string; firstName: string; lastName: string }
+    | { jwtToken: string; user: any }
     | ReturnType<typeof thunkApi.rejectWithValue>
   > => {
     try {
-      const response = await API.post('/users/authenticate', authReq, {
-        withCredentials: true,
+      const response = await API.axios.post('/auth/login', authReq, {
+        // withCredentials: true,
       });
 
-      thunkApi.dispatch(
-        setUserName({
-          name: `${response.data.firstName} ${response.data.lastName} `,
-          age: 26,
-        }),
-      );
+      return {
+        jwtToken: response.data.accessToken,
+        user: response.data.user,
+      };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const authFbUserAsyncThunk = createAsyncThunk(
+  'auth/login-fb',
+  async (
+    authReq: IAuthFBAccountRequest,
+    thunkApi,
+  ): Promise<
+    | { jwtToken: string; user: any }
+    | ReturnType<typeof thunkApi.rejectWithValue>
+  > => {
+    try {
+      const response = await API.axios.post('/auth/login/facebook', authReq, {
+        // withCredentials: true,
+      });
 
       return {
-        jwtToken: response.data.jwtToken,
-        role: response.data.role,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
+        jwtToken: response.data.accessToken,
+        user: response.data.user,
       };
+
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -40,48 +56,43 @@ export const authUserAsyncThunk = createAsyncThunk(
 
 export const refreshTokenAsyncThunk = createAsyncThunk(
   'auth/refresh-token',
+  async (_, thunkApi): Promise<
+    | { jwtToken: string; user: any }
+    | ReturnType<typeof thunkApi.rejectWithValue>
+  > => {
+    try {
+      const response = await API.axios.post(
+        '/auth/refresh-token',
+        {},
+      );
+
+      return {
+        jwtToken: response.data.accessToken,
+        user: response.data.user,
+      };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const logoutAsyncThunk = createAsyncThunk(
+  'auth/logout',
   async (_, thunkApi) => {
     try {
-      const CancelToken = axios.CancelToken;
-      const source = CancelToken.source();
-
-      thunkApi.signal.addEventListener('abort', () => {
-        source.cancel();
-      });
-
-      const response = await API.post(
-        '/users/refresh-token',
+      const response = await API.axios.post(
+        '/auth/logout',
         {},
-        {
-          transformRequest: (_data, headers) => {
-            // refresh-token api does not need Authorization in header
-            delete headers.common.Authorization;
-          },
-          withCredentials: true,
-          cancelToken: source.token,
-        },
       );
 
       thunkApi.dispatch(
         setUserName({
-          name: `${response.data.firstName} ${response.data.lastName} `,
-          age: 26,
+          name: `logouted`,
+          age: 0,
         }),
       );
-
-      const data: {
-        jwtToken: string;
-        role: string;
-        firstName: string;
-        lastName: string;
-      } = {
-        jwtToken: response.data.jwtToken,
-        role: response.data.role,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
-      };
-
-      return data;
+      // @ts-ignore
+      window?.FB?.logout();
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
