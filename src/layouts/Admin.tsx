@@ -76,7 +76,10 @@ const Admin: FC = (props) => {
 
   // check authentication
   useEffect(() => {
-    if (auth.status === 'failed' && !auth.token) {
+    if (
+      (auth.status === 'failed' && !auth.token) ||
+      (auth.status === 'reset' && !auth.token)
+    ) {
       router.push('/auth/login');
     }
   }, [auth]);
@@ -91,7 +94,11 @@ const Admin: FC = (props) => {
     }
   }, [auth]);
 
-  if (auth.status === 'failed' || auth.status === 'loading' || auth.user?.roleId !== 2) {
+  if (
+    auth.status === 'failed' ||
+    auth.status === 'loading' ||
+    auth.user?.roleId !== 2
+  ) {
     return <div>Đang tải trang</div>;
   }
 

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 // reactstrap components
 import { Container, Row, Col } from 'reactstrap';
-import { authSelector } from '@/redux/features/auth';
+import { authSelector, refreshTokenAsyncThunk } from '@/redux/features/auth';
 
 // core components
 
@@ -16,10 +16,16 @@ function Auth(props) {
     };
   }, []);
 
+  const dispatch = useDispatch();
   const router = useRouter();
   const auth = useSelector(authSelector);
 
   useEffect(() => {
+    dispatch(refreshTokenAsyncThunk());
+  }, []);
+
+  useEffect(() => {
+    // check authorization
     if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
       // admin
       if (auth.user?.roleId === 2) {

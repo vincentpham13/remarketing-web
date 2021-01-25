@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import {
   authFbUserAsyncThunk,
   authUserAsyncThunk,
-} from '@/redux/features/auth/auth.thunk';
+} from '@/redux/features/auth';
 
 // reactstrap components
 import {

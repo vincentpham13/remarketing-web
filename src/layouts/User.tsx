@@ -66,7 +66,8 @@ function User(props) {
   // check authentication
   useEffect(() => {
     if (
-      (auth.status === 'failed' && !auth.token)
+      (auth.status === 'failed' && !auth.token)||
+      (auth.status === 'reset' && !auth.token)
     ) {
       router.push('/auth/login');
     }

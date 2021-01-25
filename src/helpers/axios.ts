@@ -40,7 +40,11 @@ class API {
   }
 
   reset(): void {
-    API._instance = new API();
+    delete this._axios.defaults.headers.common['Authorization'];
+  }
+  
+  setAccessToken(accessToken: string): void {
+    this._axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
   }
 
   get axios(): AxiosInstance {
