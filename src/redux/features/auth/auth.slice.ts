@@ -108,6 +108,7 @@ const authSlice = createSlice({
     builder.addCase(logoutAsyncThunk.rejected, (state) => {
       state.isAuthenticated = false;
       state.token = null;
+      state.user = {id: '', name: '', roleId: 0};
       localStorage.removeItem('persist:root');
       API.reset();
     });

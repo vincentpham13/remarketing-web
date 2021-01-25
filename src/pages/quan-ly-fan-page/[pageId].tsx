@@ -104,7 +104,7 @@ const SingleFanpage: FC = (props) => {
                             onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
-                              src={require('assets/img/theme/vincent.jpg')}
+                              src={require('assets/img/theme/programmer.png')}
                             />
                           </a>
                           <Media>
