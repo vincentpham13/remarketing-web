@@ -26,17 +26,21 @@ import Header from '@/components/Headers/Header';
 import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
 import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
+import { authSelector } from '@/redux/features/auth';
 
 const RootFanpage: FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const fanpage = useSelector(fanpagesSelector);
+  const authSl = useSelector(authSelector);
 
   const [pages, setPages] = useState([]);
 
   useEffect(() => {
-    dispatch(getFanpagesAsyncThunk());
-  }, []);
+    if (authSl.status === 'succeeded') {
+      dispatch(getFanpagesAsyncThunk());
+    }
+  }, [authSl.status]);
 
   useEffect(() => {
     if (fanpage.status == 'succeeded') {
@@ -173,7 +177,9 @@ const RootFanpage: FC = () => {
                           <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem
                               href="#pablo"
-                              onClick={(e) => router.push(`/quan-ly-fan-page/${page.id}`)}>
+                              onClick={(e) =>
+                                router.push(`/quan-ly-fan-page/${page.id}`)
+                              }>
                               Xem người dùng chat
                             </DropdownItem>
                             {/* <DropdownItem

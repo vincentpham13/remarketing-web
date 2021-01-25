@@ -24,7 +24,10 @@ const campaignSlice = createSlice({
     });
     builder.addCase(getCampaignsAsyncThunk.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      campaignAdapter.upsertMany(state, action.payload.campaigns)
+      const { campaigns } = action.payload;
+      if (campaigns) {
+        campaignAdapter.upsertMany(state, campaigns)
+      }
     });
     builder.addCase(getCampaignsAsyncThunk.rejected, (state, action) => {
       state.status = 'failed';
