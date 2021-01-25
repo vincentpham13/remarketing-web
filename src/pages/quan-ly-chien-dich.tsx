@@ -29,10 +29,13 @@ import {
   getCampaignsAsyncThunk,
 } from '@/redux/features/campaign';
 import { denormalizeEntitiesArray } from '@/helpers/data';
+import { authSelector } from '@/redux/features/auth';
 
 const Compaign = () => {
   const dispatch = useDispatch();
   const campaignSl = useSelector(campaignsSelector);
+  const authSl = useSelector(authSelector);
+
   const [campaigns, setCampaigns] = useState([]);
 
   useEffect(() => {

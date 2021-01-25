@@ -1,4 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
@@ -27,7 +28,7 @@ import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 
 const RootFanpage: FC = () => {
-  const [activeNav, setActiveNav] = useState(1);
+  const router = useRouter();
   const dispatch = useDispatch();
   const fanpage = useSelector(fanpagesSelector);
 
@@ -79,9 +80,7 @@ const RootFanpage: FC = () => {
                             />
                           </a>
                           <Media>
-                            <span className="mb-0 text-sm">
-                              {page.name}
-                            </span>
+                            <span className="mb-0 text-sm">{page.name}</span>
                           </Media>
                         </Media>
                       </th>
@@ -174,10 +173,10 @@ const RootFanpage: FC = () => {
                           <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem
                               href="#pablo"
-                              onClick={(e) => e.preventDefault()}>
-                              Action
+                              onClick={(e) => router.push(`/quan-ly-fan-page/${page.id}`)}>
+                              Xem người dùng chat
                             </DropdownItem>
-                            <DropdownItem
+                            {/* <DropdownItem
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Another action
@@ -186,7 +185,7 @@ const RootFanpage: FC = () => {
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Something else here
-                            </DropdownItem>
+                            </DropdownItem> */}
                           </DropdownMenu>
                         </UncontrolledDropdown>
                       </td>
@@ -201,7 +200,6 @@ const RootFanpage: FC = () => {
                     listClassName="justify-content-end mb-0">
                     <PaginationItem className="disabled">
                       <PaginationLink
-                        href="#pablo"
                         onClick={(e) => e.preventDefault()}
                         tabIndex="-1">
                         <i className="fas fa-angle-left" />

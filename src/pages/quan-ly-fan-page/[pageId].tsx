@@ -25,16 +25,18 @@ import User from '@/layouts/User';
 import API from '@/helpers/axios';
 import Header from '@/components/Headers/Header';
 import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
-import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
+import {
+  getFanpageMembersAsyncThunk,
+  getFanpagesAsyncThunk,
+} from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 
 const SingleFanpage: FC = (props) => {
   const router = useRouter();
-  const { pageId } = router.query;
-
   const dispatch = useDispatch();
-  const fanpage = useSelector(fanpagesSelector);
 
+  const { pageId } = router.query;
+  const fanpageSl = useSelector(fanpagesSelector);
   const [members, setMembers] = useState([
     {
       id: '186701998171599',
@@ -44,20 +46,31 @@ const SingleFanpage: FC = (props) => {
 
   useEffect(() => {
     // if has not loaded yet, run now
-    if (fanpage.status === 'idle') {
+    if (fanpageSl.status === 'idle') {
       dispatch(getFanpagesAsyncThunk());
     }
 
-    if (fanpage.status === 'succeeded') {
+    if (fanpageSl.status === 'succeeded') {
       // check if pageID on url is valid to current selected fb page
-      if (fanpage.ids.includes(pageId as string | number)) {
-        console.log(
-          '🚀 ~ file: [pageId].tsx ~ line 42 ~ useEffect ~ pageId',
-          pageId,
-        );
+      if (fanpageSl.ids.includes(pageId as string | number)) {
+       
       }
     }
-  }, [fanpage.status]);
+  }, [fanpageSl.status]);
+
+  useEffect(() => {
+    if (pageId) {
+      dispatch(getFanpageMembersAsyncThunk(pageId as string));
+    }
+  }, [pageId]);
+
+  useEffect(() => {
+    if (pageId && fanpageSl.entities[pageId as string]?.members) {
+      setMembers(
+        fanpageSl.entities[pageId as string]?.members
+      )
+    }
+  }, [fanpageSl.status, fanpageSl.entities]);
 
   return (
     <>
@@ -68,7 +81,7 @@ const SingleFanpage: FC = (props) => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">Danh sách user đã liên hệ</h3>
+                <h3 className="mb-0">Danh sách người dùng đã chat</h3>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
@@ -76,13 +89,13 @@ const SingleFanpage: FC = (props) => {
                     <th scope="col">Tên</th>
                     <th scope="col">User ID</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Completion</th>
+                    <th scope="col">Đồng bộ lần cuối</th>
                     <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
-                  {members.map((page) => (
-                    <tr key={page.id}>
+                  {members.map((member) => (
+                    <tr key={member.id}>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -95,11 +108,11 @@ const SingleFanpage: FC = (props) => {
                             />
                           </a>
                           <Media>
-                            <span className="mb-0 text-sm">{page.name}</span>
+                            <span className="mb-0 text-sm">{member.name}</span>
                           </Media>
                         </Media>
                       </th>
-                      <td>{page.id}</td>
+                      <td>{member.uid}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-success" />
@@ -107,16 +120,7 @@ const SingleFanpage: FC = (props) => {
                         </Badge>
                       </td>
                       <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">60%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="60"
-                              barClassName="bg-success"
-                            />
-                          </div>
-                        </div>
+                        {new Date(member.createdAt).toLocaleString()}
                       </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
@@ -159,7 +163,6 @@ const SingleFanpage: FC = (props) => {
                     listClassName="justify-content-end mb-0">
                     <PaginationItem className="disabled">
                       <PaginationLink
-                        href="#pablo"
                         onClick={(e) => e.preventDefault()}
                         tabIndex="-1">
                         <i className="fas fa-angle-left" />
