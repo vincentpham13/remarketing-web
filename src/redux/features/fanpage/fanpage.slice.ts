@@ -16,7 +16,9 @@ const initialState =  fanpageAdapter.getInitialState<IGenericEntityState>({
 const fanpageSlice = createSlice({
   name: 'fanpages',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetFanpage: () => initialState,
+  },
   extraReducers: (builder) => {
     builder.addCase(getFanpagesAsyncThunk.pending, (state) => {
       state.status = 'loading';
@@ -42,7 +44,7 @@ const fanpageSlice = createSlice({
 });
 
 /* Export actions */
-// export const { setStaffs } = organizationSlice.actions;
+export const { resetFanpage } = fanpageSlice.actions;
 
 /* Export selectors */
 export const fanpagesSelector = (state: any): typeof initialState => state.fanpage;

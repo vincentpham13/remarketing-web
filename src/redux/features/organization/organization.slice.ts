@@ -16,7 +16,8 @@ const initialState = {
 const organizationSlice = createSlice({
   name: 'organization',
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder) => {
     builder.addCase(getStaffsAsyncThunk.pending, (state) => {
       state.staffs.status = 'loading';

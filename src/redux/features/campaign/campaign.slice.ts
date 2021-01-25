@@ -17,7 +17,9 @@ const initialState = campaignAdapter.getInitialState<IGenericEntityState>({
 const campaignSlice = createSlice({
   name: 'campaign',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetCampaign: () => initialState,
+  },
   extraReducers: (builder) => {
     builder.addCase(getCampaignsAsyncThunk.pending, (state) => {
       state.status = 'loading';
@@ -36,7 +38,7 @@ const campaignSlice = createSlice({
 });
 
 /* Export actions */
-// export const { setStaffs } = organizationSlice.actions;
+export const { resetCampaign } = campaignSlice.actions;
 
 /* Export selectors */
 export const campaignsSelector = (state: any): typeof initialState => state.campaign;

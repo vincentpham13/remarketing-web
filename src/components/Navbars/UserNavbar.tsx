@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
+import { useRouter } from 'next/router';
 // reactstrap components
 import {
   DropdownMenu,
@@ -23,12 +24,14 @@ import { authSelector, logoutAsyncThunk } from '@/redux/features/auth';
 
 const UserNavbar: FC = (props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const authSl = useSelector(authSelector);
   const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
     removeCookie('rt');
     dispatch(logoutAsyncThunk());
+    router.push('/auth/login');
   };
 
   return (
