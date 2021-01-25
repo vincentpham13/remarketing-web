@@ -1,14 +1,14 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 
 import { IGenericEntityState } from "@/redux/interfaces";
-import { getFanpagesAsyncThunk } from "./fanpage.thunk";
-import { IFanPage } from "./fanpage.model";
+import { getFanpageMembersAsyncThunk, getFanpagesAsyncThunk } from "./fanpage.thunk";
+import { IFanPage, IMember } from "./fanpage.model";
 
 const fanpageAdapter = createEntityAdapter<IFanPage>({
   selectId: page => page.id,
 });
 
-const initialState = fanpageAdapter.getInitialState<IGenericEntityState>({
+const initialState =  fanpageAdapter.getInitialState<IGenericEntityState>({
   status: 'idle',
   error: null,
 });
@@ -27,6 +27,16 @@ const fanpageSlice = createSlice({
     });
     builder.addCase(getFanpagesAsyncThunk.rejected, (state, action) => {
       state.status = 'failed';
+    });
+    builder.addCase(getFanpageMembersAsyncThunk.fulfilled, (state, action) => {
+      state.status = 'succeeded';
+      const members = action.payload.members;
+      // @ts-ignore
+      if(action.payload.pageId) {
+        state.entities[
+          action.payload.pageId
+        ].members = members
+      }
     });
   }
 });

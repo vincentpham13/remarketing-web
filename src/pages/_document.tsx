@@ -21,7 +21,7 @@ class MyDocument extends Document {
           dangerouslySetInnerHTML={{
             __html: `window.fbAsyncInit = function() {
               FB.init({
-                appId            : '1263314497389233',
+                appId            : '265010030625004',
                 autoLogAppEvents : true,
                 xfbml            : true,
                 version          : 'v9.0'
