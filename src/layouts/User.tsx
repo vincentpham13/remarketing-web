@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect} from "react";
 import { useRouter } from "next/router";
 // reactstrap components
 import { Container } from "reactstrap";
@@ -65,13 +65,14 @@ function User(props) {
   }, []);
 
   useEffect(() => {
-    if ((auth.status === 'failed' || !auth.isAuthenticated) && !auth.token) {
+    if ((auth.status === 'failed' && !auth.isAuthenticated) && !auth.token) {
+      console.log('o day');
       router.push('/auth/login');
     }
   }, [auth]);
 
   if (auth.status !== 'succeeded') {
-    return <div>Loading</div>;
+    return <div>Loading1</div>;
   }
   
   return (

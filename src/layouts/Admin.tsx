@@ -81,7 +81,7 @@ const Admin: FC = (props) => {
   }, [auth]);
 
   if (auth.status !== 'succeeded') {
-    return <div>Loading</div>;
+    return <div>Loading2</div>;
   }
 
   return (
