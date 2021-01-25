@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useCookies } from 'react-cookie';
 // reactstrap components
 import {
   DropdownMenu,
@@ -18,12 +19,15 @@ import {
   Container,
   Media,
 } from 'reactstrap';
-import { logoutAsyncThunk } from '@/redux/features/auth';
+import { authSelector, logoutAsyncThunk } from '@/redux/features/auth';
 
 const UserNavbar: FC = (props) => {
   const dispatch = useDispatch();
+  const authSl = useSelector(authSelector);
+  const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
+    removeCookie('rt');
     dispatch(logoutAsyncThunk());
   };
 
@@ -60,7 +64,7 @@ const UserNavbar: FC = (props) => {
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Vincent Pham
+                      {authSl.user?.name}
                     </span>
                   </Media>
                 </Media>
