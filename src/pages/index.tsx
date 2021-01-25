@@ -1,61 +1,18 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
-
-import { authSelector } from '@/redux/features/auth';
-import classnames from "classnames";
-// reactstrap components
+import React from 'react';
 import {
-  Button,
   Card,
-  CardHeader,
   CardBody,
-  NavItem,
-  NavLink,
-  Nav,
-  Progress,
-  Table,
   Container,
   Row,
   Col,
   CardTitle,
-} from "reactstrap";
+} from 'reactstrap';
 // layout for this page
-import User from "@/layouts/User";
-import {
-  chartOptions,
-  parseOptions,
-} from "@/variables/charts";
-import { Line, Bar } from "react-chartjs-2";
+import User from '@/layouts/User';
 
-import Header from "@/components/Headers/Header";
+import Header from '@/components/Headers/Header';
 
 const Index = () => {
-  const router = useRouter();
-  const auth = useSelector(authSelector);
-
-  useEffect(() => {
-    // user
-    if (
-      auth.user?.roleId === 1 &&
-      auth.status === 'succeeded' &&
-      auth.isAuthenticated &&
-      auth.token
-    ) {
-      // router.push('/user');
-    }
-    // admin
-    else if (
-      auth.user?.roleId === 2 &&
-      auth.status === 'succeeded' &&
-      auth.isAuthenticated &&
-      auth.token
-    ) {
-      router.push('/admin');
-    } else {
-      router.push('/auth/login');
-    }
-  }, [auth]);
 
   return (
     <>

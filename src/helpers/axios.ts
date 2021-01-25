@@ -12,6 +12,7 @@ class API {
       headers: {
         'Content-Type': 'application/json',
       },
+      withCredentials: true
     });
 
     instance.interceptors.request.use((req: AxiosRequestConfig) => req);

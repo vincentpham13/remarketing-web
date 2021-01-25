@@ -17,14 +17,19 @@ const initialState = campaignAdapter.getInitialState<IGenericEntityState>({
 const campaignSlice = createSlice({
   name: 'campaign',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    resetCampaign: () => initialState,
+  },
   extraReducers: (builder) => {
     builder.addCase(getCampaignsAsyncThunk.pending, (state) => {
       state.status = 'loading';
     });
     builder.addCase(getCampaignsAsyncThunk.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      campaignAdapter.upsertMany(state, action.payload.campaigns)
+      const { campaigns } = action.payload;
+      if (campaigns) {
+        campaignAdapter.upsertMany(state, campaigns)
+      }
     });
     builder.addCase(getCampaignsAsyncThunk.rejected, (state, action) => {
       state.status = 'failed';
@@ -33,7 +38,7 @@ const campaignSlice = createSlice({
 });
 
 /* Export actions */
-// export const { setStaffs } = organizationSlice.actions;
+export const { resetCampaign } = campaignSlice.actions;
 
 /* Export selectors */
 export const campaignsSelector = (state: any): typeof initialState => state.campaign;

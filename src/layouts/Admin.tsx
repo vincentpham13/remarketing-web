@@ -74,14 +74,25 @@ const Admin: FC = (props) => {
     }
   }, []);
 
+  // check authentication
   useEffect(() => {
-    if ((auth.status === 'failed' || !auth.isAuthenticated) && !auth.token) {
+    if (auth.status === 'failed' && !auth.token) {
       router.push('/auth/login');
     }
   }, [auth]);
 
-  if (auth.status !== 'succeeded') {
-    return <div>Loading</div>;
+  // check authorization
+  useEffect(() => {
+    if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
+      // admin
+      if (auth.user?.roleId === 1) {
+        router.push('/');
+      }
+    }
+  }, [auth]);
+
+  if (auth.status === 'failed' || auth.status === 'loading' || auth.user?.roleId !== 2) {
+    return <div>Đang tải trang</div>;
   }
 
   return (

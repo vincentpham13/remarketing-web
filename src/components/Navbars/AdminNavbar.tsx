@@ -1,6 +1,8 @@
 import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useCookies } from 'react-cookie';
 
 // reactstrap components
 import {
@@ -23,9 +25,13 @@ import { logoutAsyncThunk } from '@/redux/features/auth';
 
 const AdminNavbar: FC = (props) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
+    removeCookie('rt');
     dispatch(logoutAsyncThunk());
+    router.push('/auth/login');
   };
 
   return (

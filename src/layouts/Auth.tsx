@@ -20,26 +20,16 @@ function Auth(props) {
   const auth = useSelector(authSelector);
 
   useEffect(() => {
-    // admin
-    if (
-      auth.user?.roleId === 1 &&
-      auth.status === 'succeeded' &&
-      auth.isAuthenticated &&
-      auth.token
-    ) {
-      router.push('/');
-    }
-    // admin
-    if (
-      auth.user?.roleId === 2 &&
-      auth.status === 'succeeded' &&
-      auth.isAuthenticated &&
-      auth.token
-    ) {
-      router.push('/admin');
+    if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
+      // admin
+      if (auth.user?.roleId === 2) {
+        router.push('/admin');
+      } else if (auth.user?.roleId === 1) {
+        router.push('/');
+      }
     }
   }, [auth]);
-  
+
   return (
     <>
       <div className="main-content">

@@ -106,14 +106,10 @@ const authSlice = createSlice({
     });
     // Logout
     builder.addCase(logoutAsyncThunk.rejected, (state) => {
-      state.isAuthenticated = false;
-      state.token = null;
       localStorage.removeItem('persist:root');
       API.reset();
     });
     builder.addCase(logoutAsyncThunk.fulfilled, (state) => {
-      state.isAuthenticated = false;
-      state.token = null;
       localStorage.removeItem('persist:root');
       API.reset();
     });

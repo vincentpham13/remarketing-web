@@ -3,6 +3,9 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from '@/helpers/axios';
 import { IAuthAccountRequest, IAuthFBAccountRequest } from './auth.model';
 import { setUserName } from '../user/user.slice';
+import { resetAuth } from './auth.slice';
+import { resetCampaign } from '../campaign';
+import { resetFanpage } from '../fanpage/fanpage.slice';
 
 export const authUserAsyncThunk = createAsyncThunk(
   'auth/authenticate',
@@ -85,10 +88,13 @@ export const logoutAsyncThunk = createAsyncThunk(
       );
 
       thunkApi.dispatch(
-        setUserName({
-          name: `logouted`,
-          age: 0,
-        }),
+        resetAuth()
+      );
+      thunkApi.dispatch(
+        resetCampaign()
+      );
+      thunkApi.dispatch(
+        resetFanpage()
       );
       // @ts-ignore
       window?.FB?.logout();
