@@ -26,7 +26,7 @@ import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
 import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 
-const Fanpage: FC = () => {
+const RootFanpage: FC = () => {
   const [activeNav, setActiveNav] = useState(1);
   const dispatch = useDispatch();
   const fanpage = useSelector(fanpagesSelector);
@@ -59,9 +59,8 @@ const Fanpage: FC = () => {
                   <tr>
                     <th scope="col">Tên</th>
                     <th scope="col">Page ID</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Trạng thái</th>
                     <th scope="col">Members</th>
-                    <th scope="col">Completion</th>
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -161,18 +160,6 @@ const Fanpage: FC = () => {
                           </UncontrolledTooltip>
                         </div>
                       </td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">60%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="60"
-                              barClassName="bg-success"
-                            />
-                          </div>
-                        </div>
-                      </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
                           <DropdownToggle
@@ -261,6 +248,6 @@ const Fanpage: FC = () => {
   );
 };
 
-Fanpage.getLayout = (page) => <User>{page}</User>;
+RootFanpage.getLayout = (page) => <User>{page}</User>;
 
-export default Fanpage;
+export default RootFanpage;

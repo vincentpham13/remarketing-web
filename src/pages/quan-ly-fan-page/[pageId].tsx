@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import {
   Card,
   CardHeader,
@@ -19,33 +20,44 @@ import {
   UncontrolledDropdown,
   UncontrolledTooltip,
 } from 'reactstrap';
-// layout for this page
 import User from '@/layouts/User';
 
-// core components
+import API from '@/helpers/axios';
 import Header from '@/components/Headers/Header';
-import {
-  campaignsSelector,
-  getCampaignsAsyncThunk,
-} from '@/redux/features/campaign';
+import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
+import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 
-const Compaign = () => {
+const SingleFanpage: FC = (props) => {
+  const router = useRouter();
+  const { pageId } = router.query;
+
   const dispatch = useDispatch();
-  const campaignSl = useSelector(campaignsSelector);
-  const [campaigns, setCampaigns] = useState([]);
+  const fanpage = useSelector(fanpagesSelector);
+
+  const [members, setMembers] = useState([
+    {
+      id: '186701998171599',
+      name: 'Vincent Pham',
+    },
+  ]);
 
   useEffect(() => {
-    dispatch(getCampaignsAsyncThunk());
-  }, []);
-
-  useEffect(() => {
-    if (campaignSl.status == 'succeeded') {
-      setCampaigns(
-        denormalizeEntitiesArray(campaignSl.ids, campaignSl.entities),
-      );
+    // if has not loaded yet, run now
+    if (fanpage.status === 'idle') {
+      dispatch(getFanpagesAsyncThunk());
     }
-  }, [campaignSl.status]);
+
+    if (fanpage.status === 'succeeded') {
+      // check if pageID on url is valid to current selected fb page
+      if (fanpage.ids.includes(pageId as string | number)) {
+        console.log(
+          '🚀 ~ file: [pageId].tsx ~ line 42 ~ useEffect ~ pageId',
+          pageId,
+        );
+      }
+    }
+  }, [fanpage.status]);
 
   return (
     <>
@@ -56,22 +68,21 @@ const Compaign = () => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">Danh sách Chiến dịch đã tạo</h3>
+                <h3 className="mb-0">Danh sách user đã liên hệ</h3>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Tên</th>
-                    <th scope="col">Thời gian bắt đầu</th>
+                    <th scope="col">User ID</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Tổng tin nhắn</th>
-                    <th scope="col">Tỉ lệ hoàn thành</th>
+                    <th scope="col">Completion</th>
                     <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
-                  {campaigns.map((campaign) => (
-                    <tr key={campaign.id}>
+                  {members.map((page) => (
+                    <tr key={page.id}>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -80,46 +91,28 @@ const Compaign = () => {
                             onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
-                              src={require('assets/img/theme/react.jpg')}
+                              src={require('assets/img/theme/vincent.jpg')}
                             />
                           </a>
                           <Media>
-                            <span className="mb-0 text-sm">
-                              {campaign.name}
-                            </span>
+                            <span className="mb-0 text-sm">{page.name}</span>
                           </Media>
                         </Media>
                       </th>
-                      <td>{new Date(campaign.createdAt).toLocaleString()}</td>
+                      <td>{page.id}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
-                          <i
-                            className={`${
-                              campaign.status === 'completed'
-                                ? 'bg-warning'
-                                : 'bg-success'
-                            }`}
-                          />
-                          {campaign.status === 'completed'
-                            ? 'Kết thúc'
-                            : 'Đang chạy'}
+                          <i className="bg-success" />
+                          active
                         </Badge>
                       </td>
-                      <td>{campaign.totalMessages}</td>
                       <td>
                         <div className="d-flex align-items-center">
-                          <span className="mr-2">
-                            {Math.floor(
-                              (campaign.successMessages /
-                                (campaign.totalMessages || 1)) *
-                                100,
-                            )}
-                            %
-                          </span>
+                          <span className="mr-2">60%</span>
                           <div>
                             <Progress
-                              max={campaign.totalMessages}
-                              value={campaign.successMessages}
+                              max="100"
+                              value="60"
                               barClassName="bg-success"
                             />
                           </div>
@@ -213,6 +206,6 @@ const Compaign = () => {
   );
 };
 
-Compaign.getLayout = (page) => <User>{page}</User>;
+SingleFanpage.getLayout = (page) => <User>{page}</User>;
 
-export default Compaign;
+export default SingleFanpage;
