@@ -59,9 +59,8 @@ const RootFanpage: FC = () => {
                   <tr>
                     <th scope="col">Tên</th>
                     <th scope="col">Page ID</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Trạng thái</th>
                     <th scope="col">Members</th>
-                    <th scope="col">Completion</th>
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -159,18 +158,6 @@ const RootFanpage: FC = () => {
                             target="tooltip996637554">
                             Jessica Doe
                           </UncontrolledTooltip>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">60%</span>
-                          <div>
-                            <Progress
-                              max="100"
-                              value="60"
-                              barClassName="bg-success"
-                            />
-                          </div>
                         </div>
                       </td>
                       <td className="text-right">

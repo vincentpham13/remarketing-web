@@ -1,64 +1,217 @@
-import React from "react";
-// node.js library that concatenates classes (strings)
-import classnames from "classnames";
-// javascipt plugin for creating charts
-import Chart from "chart.js";
-// react plugin used to create charts
-import { Line, Bar } from "react-chartjs-2";
-// reactstrap components
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  Button,
   Card,
   CardHeader,
-  CardBody,
-  NavItem,
-  NavLink,
-  Nav,
   Progress,
   Table,
   Container,
   Row,
-  Col,
-} from "reactstrap";
+  Badge,
+  CardFooter,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Media,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  UncontrolledDropdown,
+  UncontrolledTooltip,
+} from 'reactstrap';
 // layout for this page
-import User from "@/layouts/User";
+import User from '@/layouts/User';
+
 // core components
+import Header from '@/components/Headers/Header';
 import {
-  chartOptions,
-  parseOptions,
-  chartExample1,
-  chartExample2,
-} from "@/variables/charts";
+  campaignsSelector,
+  getCampaignsAsyncThunk,
+} from '@/redux/features/campaign';
+import { denormalizeEntitiesArray } from '@/helpers/data';
 
-import Header from "@/components/Headers/Header";
+const Compaign = () => {
+  const dispatch = useDispatch();
+  const campaignSl = useSelector(campaignsSelector);
+  const [campaigns, setCampaigns] = useState([]);
 
-class Compaign extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeNav: 1,
-      chartExample1Data: "data1",
-    };
-    if (window.Chart) {
-      parseOptions(Chart, chartOptions());
+  useEffect(() => {
+    dispatch(getCampaignsAsyncThunk());
+  }, []);
+
+  useEffect(() => {
+    if (campaignSl.status == 'succeeded') {
+      setCampaigns(
+        denormalizeEntitiesArray(campaignSl.ids, campaignSl.entities),
+      );
     }
-  }
-  toggleNavs = (e, index) => {
-    e.preventDefault();
-    this.setState({
-      activeNav: index,
-      chartExample1Data:
-        this.state.chartExample1Data === "data1" ? "data2" : "data1",
-    });
-  };
-  render() {
-    return (
-      <>
-        <Header />
-      </>
-    );
-  }
-}
+  }, [campaignSl.status]);
+
+  return (
+    <>
+      <Header />
+      <Container className="mt--7" fluid>
+        {/* Table */}
+        <Row>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <h3 className="mb-0">Danh sách Chiến dịch đã tạo</h3>
+              </CardHeader>
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Tên</th>
+                    <th scope="col">Thời gian bắt đầu</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Tổng tin nhắn</th>
+                    <th scope="col">Tỉ lệ hoàn thành</th>
+                    <th scope="col" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {campaigns.map((campaign) => (
+                    <tr key={campaign.id}>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={(e) => e.preventDefault()}>
+                            <img
+                              alt="..."
+                              src={require('assets/img/theme/react.jpg')}
+                            />
+                          </a>
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              {campaign.name}
+                            </span>
+                          </Media>
+                        </Media>
+                      </th>
+                      <td>{new Date(campaign.createdAt).toLocaleString()}</td>
+                      <td>
+                        <Badge color="" className="badge-dot mr-4">
+                          <i
+                            className={`${
+                              campaign.status === 'completed'
+                                ? 'bg-warning'
+                                : 'bg-success'
+                            }`}
+                          />
+                          {campaign.status === 'completed'
+                            ? 'Kết thúc'
+                            : 'Đang chạy'}
+                        </Badge>
+                      </td>
+                      <td>{campaign.totalMessages}</td>
+                      <td>
+                        <div className="d-flex align-items-center">
+                          <span className="mr-2">
+                            {Math.floor(
+                              (campaign.successMessages /
+                                (campaign.totalMessages || 1)) *
+                                100,
+                            )}
+                            %
+                          </span>
+                          <div>
+                            <Progress
+                              max={campaign.totalMessages}
+                              value={campaign.successMessages}
+                              barClassName="bg-success"
+                            />
+                          </div>
+                        </div>
+                      </td>
+                      <td className="text-right">
+                        <UncontrolledDropdown>
+                          <DropdownToggle
+                            className="btn-icon-only text-light"
+                            href="#pablo"
+                            role="button"
+                            size="sm"
+                            color=""
+                            onClick={(e) => e.preventDefault()}>
+                            <i className="fas fa-ellipsis-v" />
+                          </DropdownToggle>
+                          <DropdownMenu className="dropdown-menu-arrow" right>
+                            <DropdownItem
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}>
+                              Action
+                            </DropdownItem>
+                            <DropdownItem
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}>
+                              Another action
+                            </DropdownItem>
+                            <DropdownItem
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}>
+                              Something else here
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+              <CardFooter className="py-4">
+                <nav aria-label="...">
+                  <Pagination
+                    className="pagination justify-content-end mb-0"
+                    listClassName="justify-content-end mb-0">
+                    <PaginationItem className="disabled">
+                      <PaginationLink
+                        href="#pablo"
+                        onClick={(e) => e.preventDefault()}
+                        tabIndex="-1">
+                        <i className="fas fa-angle-left" />
+                        <span className="sr-only">Previous</span>
+                      </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem className="active">
+                      <PaginationLink
+                        href="#pablo"
+                        onClick={(e) => e.preventDefault()}>
+                        1
+                      </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink
+                        href="#pablo"
+                        onClick={(e) => e.preventDefault()}>
+                        2 <span className="sr-only">(current)</span>
+                      </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink
+                        href="#pablo"
+                        onClick={(e) => e.preventDefault()}>
+                        3
+                      </PaginationLink>
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink
+                        href="#pablo"
+                        onClick={(e) => e.preventDefault()}>
+                        <i className="fas fa-angle-right" />
+                        <span className="sr-only">Next</span>
+                      </PaginationLink>
+                    </PaginationItem>
+                  </Pagination>
+                </nav>
+              </CardFooter>
+            </Card>
+          </div>
+        </Row>
+      </Container>
+    </>
+  );
+};
 
 Compaign.getLayout = (page) => <User>{page}</User>;
 
