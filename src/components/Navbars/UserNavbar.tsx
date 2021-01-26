@@ -76,7 +76,7 @@ const UserNavbar: FC = (props) => {
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Xin chào!</h6>
                 </DropdownItem>
-                <Link href="/admin/profile">
+                <Link href="/quan-ly-tai-khoan">
                   <DropdownItem>
                     <i className="ni ni-single-02" />
                     <span>Thông tin</span>
