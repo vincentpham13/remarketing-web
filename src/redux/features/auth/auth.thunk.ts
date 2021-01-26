@@ -6,6 +6,7 @@ import { setUserName } from '../user/user.slice';
 import { resetAuth } from './auth.slice';
 import { resetCampaign } from '../campaign';
 import { resetFanpage } from '../fanpage/fanpage.slice';
+import { getFbProfileAsyncThunk, getMeAsyncThunk } from '../user/user.thunk';
 
 export const authFbUserAsyncThunk = createAsyncThunk(
   'auth/login-fb',
@@ -20,6 +21,9 @@ export const authFbUserAsyncThunk = createAsyncThunk(
       const response = await API.axios.post('/auth/login/facebook', authReq, {
         // withCredentials: true,
       });
+
+      thunkApi.dispatch(getMeAsyncThunk(response.data.accessToken));
+      thunkApi.dispatch(getFbProfileAsyncThunk());
 
       return {
         jwtToken: response.data.accessToken,
@@ -68,6 +72,11 @@ export const refreshTokenAsyncThunk = createAsyncThunk(
         {},
       );
 
+      thunkApi.dispatch(getMeAsyncThunk(response.data.accessToken));
+      if(response.data.user.roleId === 1) {
+        thunkApi.dispatch(getFbProfileAsyncThunk());
+      }
+      
       return {
         jwtToken: response.data.accessToken,
         user: response.data.user,
