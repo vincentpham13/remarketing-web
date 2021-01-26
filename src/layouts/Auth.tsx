@@ -21,7 +21,7 @@ function Auth(props) {
   const auth = useSelector(authSelector);
 
   useEffect(() => {
-    dispatch(refreshTokenAsyncThunk());
+    // dispatch(refreshTokenAsyncThunk());
   }, []);
 
   useEffect(() => {

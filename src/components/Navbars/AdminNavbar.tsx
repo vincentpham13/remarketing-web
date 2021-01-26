@@ -27,7 +27,7 @@ const AdminNavbar: FC = (props) => {
   const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
-    removeCookie('rt');
+    removeCookie('rt', { secure: false , sameSite: 'none'});
     dispatch(logoutAsyncThunk());
   };
 
