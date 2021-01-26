@@ -12,15 +12,16 @@ import {
   Container,
   Media,
 } from 'reactstrap';
-import { authSelector, logoutAsyncThunk } from '@/redux/features/auth';
+import { logoutAsyncThunk } from '@/redux/features/auth';
+import { userSelector } from '@/redux/features/user/user.slice';
 
 const UserNavbar: FC = (props) => {
   const dispatch = useDispatch();
-  const authSl = useSelector(authSelector);
+  const userSl = useSelector(userSelector);
   const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
-    removeCookie('rt', { secure: false , sameSite: 'none'});
+    removeCookie('rt', { secure: false, sameSite: 'none' });
     dispatch(logoutAsyncThunk());
   };
 
@@ -52,12 +53,15 @@ const UserNavbar: FC = (props) => {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require('assets/img/theme/vincent.jpg')}
+                      src={
+                        userSl.picture ||
+                        require('assets/img/theme/vincent.jpg')
+                      }
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      {authSl.user?.name}
+                      {userSl.name}
                     </span>
                   </Media>
                 </Media>
