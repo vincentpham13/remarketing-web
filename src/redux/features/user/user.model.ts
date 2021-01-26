@@ -1,9 +1,10 @@
 export interface IUserState {
   id: string,
+  picture: string;
   name: string;
   email: string;
-  phone?: string;
-  job?: string;
+  phone: string;
+  job: string;
   remainingMessages?: number;
   totalMessages?: number;
 }
