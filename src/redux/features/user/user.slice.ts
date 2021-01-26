@@ -6,11 +6,11 @@ import {
 
 import { IGenericEntityState } from "@/redux/interfaces";
 import { IUserInfo, IUserState } from './user.model';
-import {getMeAsyncThunk, updateUserInfoAsyncThunk} from './user.thunk';
+import { getFbProfileAsyncThunk, getMeAsyncThunk, updateUserInfoAsyncThunk } from './user.thunk';
 
 export const userAdapter = createEntityAdapter();
 
-const initialState: IUserState & IGenericEntityState  = userAdapter.getInitialState({
+const initialState: IUserState & IGenericEntityState = userAdapter.getInitialState({
   id: '',
   name: '',
   email: '',
@@ -51,7 +51,7 @@ const userSlice = createSlice({
       state.email = email;
       state.phone = phone;
       state.job = job;
-      state.remainingMessages = remainingMessage?? state.remainingMessages;
+      state.remainingMessages = remainingMessage ?? state.remainingMessages;
       state.totalMessages = messageAmount ?? state.totalMessages;
 
     });
@@ -77,11 +77,14 @@ const userSlice = createSlice({
       state.email = email;
       state.phone = phone;
       state.job = job;
-      state.remainingMessages = remainingMessage?? state.remainingMessages;
+      state.remainingMessages = remainingMessage ?? state.remainingMessages;
       state.totalMessages = messageAmount ?? state.totalMessages;
     });
     builder.addCase(getMeAsyncThunk.rejected, (state) => {
       state.status = 'failed';
+    });
+    builder.addCase(getFbProfileAsyncThunk.fulfilled, (state, action) => {
+      state.picture = action.payload;
     });
   }
 });

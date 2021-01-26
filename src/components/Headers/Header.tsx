@@ -1,13 +1,13 @@
-import { authSelector } from '@/redux/features/auth';
+import { userSelector } from '@/redux/features/user';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 // reactstrap components
-import { Card, CardBody, CardTitle, Container, Row, Col } from 'reactstrap';
+import { Container } from 'reactstrap';
 
 const Header = () => {
   const [greeting, setGreeting] = useState('');
-  const authSl = useSelector(authSelector);
+  const userSl = useSelector(userSelector);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -22,7 +22,9 @@ const Header = () => {
         <Container fluid>
           <div className="header-body">
             {/* Card stats */}
-            <h1 className="display-2 text-white">{greeting}! {authSl.user?.name.split(' ').pop()}</h1>
+            <h1 className="display-2 text-white">
+              {greeting}! {userSl.name.split(' ').pop()}
+            </h1>
           </div>
         </Container>
       </div>
