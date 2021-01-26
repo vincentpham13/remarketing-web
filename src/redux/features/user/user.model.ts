@@ -5,8 +5,8 @@ export interface IUserState {
   email: string;
   phone: string;
   job: string;
-  remainingMessages?: number;
-  totalMessages?: number;
+  successMessages: number;
+  totalMessages: number;
 }
 
 export interface IUserInfo {
