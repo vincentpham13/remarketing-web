@@ -16,7 +16,8 @@ const initialState: IUserState & IGenericEntityState = userAdapter.getInitialSta
   email: '',
   phone: '',
   job: '',
-  remainingMessages: 0,
+  picture: '',
+  successMessages: 0,
   totalMessages: 0,
   status: 'idle',
   error: null
@@ -43,7 +44,7 @@ const userSlice = createSlice({
         phone,
         email,
         job,
-        remainingMessage,
+        successMessages,
         messageAmount
       } = action.payload;
       state.id = id;
@@ -51,9 +52,6 @@ const userSlice = createSlice({
       state.email = email;
       state.phone = phone;
       state.job = job;
-      state.remainingMessages = remainingMessage ?? state.remainingMessages;
-      state.totalMessages = messageAmount ?? state.totalMessages;
-
     });
     builder.addCase(updateUserInfoAsyncThunk.rejected, (state) => {
       state.status = 'failed';
@@ -69,7 +67,7 @@ const userSlice = createSlice({
         phone,
         email,
         job,
-        remainingMessage,
+        successMessages,
         messageAmount
       } = action.payload;
       state.id = id;
@@ -77,7 +75,7 @@ const userSlice = createSlice({
       state.email = email;
       state.phone = phone;
       state.job = job;
-      state.remainingMessages = remainingMessage ?? state.remainingMessages;
+      state.successMessages = successMessages ?? state.successMessages;
       state.totalMessages = messageAmount ?? state.totalMessages;
     });
     builder.addCase(getMeAsyncThunk.rejected, (state) => {

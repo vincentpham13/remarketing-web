@@ -113,15 +113,13 @@ const Profile = () => {
                       <div>
                         <span className="description">Số tin còn lại</span>
                         <span className="heading">
-                          {userSl.remainingMessages}
+                        {userSl.totalMessages - userSl.successMessages}
                         </span>
                       </div>
                       <div>
                         <span className="description">Số tin đã gửi </span>
                         <span className="heading">
-                          {userSl.totalMessages && userSl.remainingMessages
-                            ? userSl.totalMessages - userSl.remainingMessages
-                            : 0}
+                        {userSl.successMessages}
                         </span>
                       </div>
                     </div>
