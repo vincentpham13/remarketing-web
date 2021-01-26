@@ -7,30 +7,6 @@ import { resetAuth } from './auth.slice';
 import { resetCampaign } from '../campaign';
 import { resetFanpage } from '../fanpage/fanpage.slice';
 
-export const authUserAsyncThunk = createAsyncThunk(
-  'auth/authenticate',
-  async (
-    authReq: IAuthAccountRequest,
-    thunkApi,
-  ): Promise<
-    | { jwtToken: string; user: any }
-    | ReturnType<typeof thunkApi.rejectWithValue>
-  > => {
-    try {
-      const response = await API.axios.post('/auth/login', authReq, {
-        // withCredentials: true,
-      });
-
-      return {
-        jwtToken: response.data.accessToken,
-        user: response.data.user,
-      };
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.message);
-    }
-  },
-);
-
 export const authFbUserAsyncThunk = createAsyncThunk(
   'auth/login-fb',
   async (
@@ -50,6 +26,30 @@ export const authFbUserAsyncThunk = createAsyncThunk(
         user: response.data.user,
       };
 
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  },
+);
+
+export const authUserAsyncThunk = createAsyncThunk(
+  'auth/authenticate',
+  async (
+    authReq: IAuthAccountRequest,
+    thunkApi,
+  ): Promise<
+    | { jwtToken: string; user: any }
+    | ReturnType<typeof thunkApi.rejectWithValue>
+  > => {
+    try {
+      const response = await API.axios.post('/auth/login', authReq, {
+        // withCredentials: true,
+      });
+
+      return {
+        jwtToken: response.data.accessToken,
+        user: response.data.user,
+      };
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
@@ -85,10 +85,6 @@ export const logoutAsyncThunk = createAsyncThunk(
       const response = await API.axios.post(
         '/auth/logout',
         {},
-      );
-
-      thunkApi.dispatch(
-        resetAuth()
       );
       thunkApi.dispatch(
         resetCampaign()

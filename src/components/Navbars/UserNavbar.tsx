@@ -2,19 +2,11 @@ import React, { FC } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { useCookies } from 'react-cookie';
-import { useRouter } from 'next/router';
-// reactstrap components
 import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Form,
-  FormGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input,
-  InputGroup,
   Navbar,
   Nav,
   Container,
@@ -24,14 +16,12 @@ import { authSelector, logoutAsyncThunk } from '@/redux/features/auth';
 
 const UserNavbar: FC = (props) => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const authSl = useSelector(authSelector);
   const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
-    removeCookie('rt');
+    removeCookie('rt', { secure: false , sameSite: 'none'});
     dispatch(logoutAsyncThunk());
-    router.push('/auth/login');
   };
 
   return (

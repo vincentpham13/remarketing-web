@@ -43,10 +43,8 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         state.status = 'succeeded';
         state.user = action.payload.user;
-        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
-          req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
-          return req;
-        });
+
+        API.setAccessToken(action.payload.jwtToken);
       } else {
         state.status = 'failed';
       }
@@ -66,10 +64,8 @@ const authSlice = createSlice({
 
         state.user = action.payload.user;
 
-        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
-          req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
-          return req;
-        });
+        API.setAccessToken(action.payload.jwtToken);
+        
       } else {
         state.status = 'failed';
       }
@@ -89,10 +85,7 @@ const authSlice = createSlice({
 
         state.user = action.payload.user;
 
-        API.axios.interceptors.request.use((req: AxiosRequestConfig) => {
-          req.headers.Authorization = `Bearer ${action.payload.jwtToken}`;
-          return req;
-        });
+        API.setAccessToken(action.payload.jwtToken);
       } else {
         state.status = 'failed';
       }
@@ -106,11 +99,15 @@ const authSlice = createSlice({
     });
     // Logout
     builder.addCase(logoutAsyncThunk.rejected, (state) => {
-      localStorage.removeItem('persist:root');
+      state.status = 'reset';
+      state.isAuthenticated = false;
+      state.token = null;
       API.reset();
     });
     builder.addCase(logoutAsyncThunk.fulfilled, (state) => {
-      localStorage.removeItem('persist:root');
+      state.status = 'reset';
+      state.isAuthenticated = false;
+      state.token = null;
       API.reset();
     });
   },
