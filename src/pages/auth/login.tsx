@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+// @ts-ignore
+import * as Facebook from 'fb-sdk-wrapper';
 import {
   authFbUserAsyncThunk,
   authUserAsyncThunk,
@@ -42,18 +44,11 @@ const Login = () => {
 
   const openFBAuthentication = async () => {
     // @ts-ignore
-    const { authResponse } = await new Promise((resolve, reject) => {
-      window.FB.login(
-        (response: any) => {
-          resolve(response);
-        },
-        {
-          auth_type: 'rerequest',
-          scope: 'public_profile,pages_show_list',
-          enable_profile_selector: true,
-          return_scopes: true,
-        },
-      );
+    const { authResponse } = await Facebook.login({
+      auth_type: 'rerequest',
+      scope: 'public_profile,pages_show_list',
+      enable_profile_selector: true,
+      return_scopes: true,
     });
 
     if (authResponse) {

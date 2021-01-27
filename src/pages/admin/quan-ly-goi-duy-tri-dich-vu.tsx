@@ -197,7 +197,7 @@ const ManagePackage = () => {
                       <td>{formatNumber(packagePlan.messageAmount * 1000)}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
-                          <i className="bg-warning" />
+                          <i className="bg-success" />
                           {packagePlan.id === 1
                             ? `${packagePlan.dayDuration} ngày`
                             : `${packagePlan.monthDuration} tháng`}

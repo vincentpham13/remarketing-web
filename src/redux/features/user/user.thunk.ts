@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IUserInfo } from '@/redux/features/user/user.model';
+// @ts-ignore
+import * as Facebook from 'fb-sdk-wrapper';
 
 import API from '@/helpers/axios';
 
@@ -23,16 +25,21 @@ export const getFbProfileAsyncThunk = createAsyncThunk(
     _, thunkApi,
   ): Promise<any> => {
     try {
-      return await new Promise((resolve, reject) => {
-        FB.api(
-          '/me/picture',
-          'GET',
-          { "height": "200", "witdh": "200", "redirect": "false" },
-          function (response) {
-            resolve(response?.data?.url);
+      return await new Promise(async (resolve, reject) => {
+        const loginStatus = await Facebook.getLoginStatus();
+          if (loginStatus && loginStatus?.authResponse) {
+            const { authResponse: { accessToken } } = loginStatus;
+            const response = await Facebook.api(
+              `/me/picture?access_token=${accessToken}`,
+              'GET',
+              { "height": "400", "witdh": "400", "redirect": "false" },
+            );
+            if(response) {
+              resolve(response.data.url)
+            }
+            resolve('')
           }
-        );
-      })
+        });
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }
