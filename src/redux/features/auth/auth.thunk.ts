@@ -19,7 +19,6 @@ export const authFbUserAsyncThunk = createAsyncThunk(
   > => {
     try {
       const response = await API.axios.post('/auth/login/facebook', authReq, {
-        // withCredentials: true,
       });
 
       thunkApi.dispatch(getMeAsyncThunk(response.data.accessToken));
@@ -69,14 +68,14 @@ export const refreshTokenAsyncThunk = createAsyncThunk(
     try {
       const response = await API.axios.post(
         '/auth/refresh-token',
-        {},
+        null,
       );
 
       thunkApi.dispatch(getMeAsyncThunk(response.data.accessToken));
-      if(response.data.user.roleId === 1) {
+      if (response.data.user.roleId === 1) {
         thunkApi.dispatch(getFbProfileAsyncThunk());
       }
-      
+
       return {
         jwtToken: response.data.accessToken,
         user: response.data.user,

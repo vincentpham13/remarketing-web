@@ -99,7 +99,7 @@ const Compaign = () => {
                           <i
                             className={`${
                               campaign.status === 'completed'
-                                ? 'bg-warning'
+                                ? 'bg-info'
                                 : 'bg-success'
                             }`}
                           />

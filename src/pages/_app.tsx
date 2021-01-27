@@ -3,11 +3,8 @@ import { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { CookiesProvider } from 'react-cookie';
-// import 'tachyons';
 
 import store from '@/redux/store';
-import { initFacebookSdk } from '@/helpers/fb-sdk';
 
 import 'assets/plugins/nucleo/css/nucleo.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -18,13 +15,11 @@ const persistor = persistStore(store);
 function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page);
   return (
-    <CookiesProvider>
-      <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
-          {getLayout(<Component {...pageProps} />)}
-        </PersistGate>
-      </Provider>
-    </CookiesProvider>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        {getLayout(<Component {...pageProps} />)}
+      </PersistGate>
+    </Provider>
   );
 }
 

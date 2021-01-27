@@ -30,7 +30,7 @@ const Login = () => {
   const router = useRouter();
   const auth = useSelector(authSelector);
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState('admin@gmail.com');
   const [password, setPassword] = useState('');
 
   const onUsernameChange = (e) => {
@@ -121,6 +121,7 @@ const Login = () => {
                   </InputGroupAddon>
                   <Input
                     onChange={onUsernameChange}
+                    value={email}
                     placeholder="Email"
                     type="email"
                     autoComplete="new-email"
@@ -136,6 +137,7 @@ const Login = () => {
                   </InputGroupAddon>
                   <Input
                     onChange={onPasswordChange}
+                    value={password}
                     placeholder="Mật khẩu"
                     type="password"
                     autoComplete="new-password"
