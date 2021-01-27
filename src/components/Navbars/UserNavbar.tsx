@@ -1,7 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { useCookies } from 'react-cookie';
 import {
   DropdownMenu,
   DropdownItem,
@@ -18,10 +17,8 @@ import { userSelector } from '@/redux/features/user/user.slice';
 const UserNavbar: FC = (props) => {
   const dispatch = useDispatch();
   const userSl = useSelector(userSelector);
-  const [, , removeCookie] = useCookies(['rt']);
 
   const logout = () => {
-    removeCookie('rt', { secure: false, sameSite: 'none' });
     dispatch(logoutAsyncThunk());
   };
 
