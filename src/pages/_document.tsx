@@ -16,22 +16,9 @@ class MyDocument extends Document {
   render() {
     return (
       <Html>
-        <script
-          type="text/javascript"
-          dangerouslySetInnerHTML={{
-            __html: `window.fbAsyncInit = function() {
-              FB.init({
-                appId            : '265010030625004',
-                autoLogAppEvents : true,
-                xfbml            : true,
-                version          : 'v9.0'
-              });
-            };`,
-          }}
-        />
-        <script async defer crossOrigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
         <Head></Head>
         <body>
+          <div id="page-transition"></div>
           <Main />
           <NextScript />
         </body>

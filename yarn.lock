@@ -405,6 +405,13 @@
     "@types/cookie" "*"
     "@types/express" "*"
 
+"@types/react-dom@^17.0.0":
+  version "17.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.0.tgz#b3b691eb956c4b3401777ee67b900cb28415d95a"
+  integrity sha512-lUqY7OlkF/RbNtD5nIq7ot8NquXrdFrjSOR6+w9a9RFQevGi1oZO1dcJbXMeONAPKtZ2UrZOEJ5UOCVsxbLk/g==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-facebook-login@^4.1.3":
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/@types/react-facebook-login/-/react-facebook-login-4.1.3.tgz#10df628691a90d07d878e10867e6f04c6fd19428"
@@ -2920,6 +2927,11 @@ fastq@^1.6.0:
   integrity sha512-NL2Qc5L3iQEsyYzweq7qfgy5OtXCmGzGvhElGEd/SoFWEMOEczNh5s5ocaF01HDetxz+p8ecjNPA6cZxxIHmzA==
   dependencies:
     reusify "^1.0.4"
+
+fb-sdk-wrapper@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/fb-sdk-wrapper/-/fb-sdk-wrapper-1.1.0.tgz#3b47c413aceb67dec10a5c03fa7128cd44ba5005"
+  integrity sha512-66peeFF3epjeQR5l+aaB03aF8bEI+bQf+wMq3fjnUEyQ1d6qR+Z6rGHq9bSxuu2kzEtWG+0PfU5x2SiVEcYy0w==
 
 figgy-pudding@^3.5.1:
   version "3.5.2"
@@ -6028,7 +6040,7 @@ react-copy-to-clipboard@^5.0.3:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-dom@17.0.1:
+react-dom@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-17.0.1.tgz#1de2560474ec9f0e334285662ede52dbc5426fc6"
   integrity sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug==
