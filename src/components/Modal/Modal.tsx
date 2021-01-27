@@ -6,18 +6,21 @@ const CustomModal = (props) => {
     isOpen,
     titleHeader,
     children,
-    onSubmit
+    onSubmit,
+    fnToggle
   } = props;
 
   return (
     <div>
-          <Modal isOpen={isOpen}>
-            <ModalHeader>{titleHeader}</ModalHeader>
+          <Modal backdrop={true} toggle={fnToggle} isOpen={isOpen}>
+            <ModalHeader className="text-center">
+              <p className="h2">{titleHeader}</p>
+            </ModalHeader>
             <ModalBody>
               {children}
             </ModalBody>
             <ModalFooter>
-              <Button color="primary" onClick={onSubmit}>Submit</Button>
+              <Button color="primary" onClick={onSubmit}>Lưu</Button>
             </ModalFooter>
           </Modal>
     </div>
