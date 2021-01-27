@@ -36,7 +36,7 @@ import {
   getPackagesAsyncThunk,
   updatePackagesAsyncThunk,
 } from '@/redux/features/admin';
-import { denormalizeEntitiesArray, formatMoney } from '@/helpers/data';
+import { denormalizeEntitiesArray, formatMoney, formatNumber } from '@/helpers/data';
 
 const ManagePackage = () => {
   const dispatch = useDispatch();
@@ -194,7 +194,7 @@ const ManagePackage = () => {
                           </Media>
                         </Media>
                       </th>
-                      <td>1000</td>
+                      <td>{formatNumber(packagePlan.messageAmount * 1000)}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-warning" />

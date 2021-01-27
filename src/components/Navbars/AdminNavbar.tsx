@@ -45,7 +45,7 @@ const AdminNavbar: FC = (props) => {
                     <i className="fas fa-search" />
                   </InputGroupText>
                 </InputGroupAddon>
-                <Input placeholder="Search" type="text" />
+                <Input placeholder="Tìm kiếm" type="text" />
               </InputGroup>
             </FormGroup>
           </Form>

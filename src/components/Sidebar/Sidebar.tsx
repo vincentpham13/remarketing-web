@@ -1,5 +1,6 @@
 /*eslint-disable*/
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/router";
 // nodejs library to set properties for components
@@ -29,16 +30,20 @@ import {
   NavItem,
   NavLink,
   Nav,
-  Progress,
-  Table,
   Container,
   Row,
   Col,
 } from "reactstrap";
+import { logoutAsyncThunk } from "@/redux/features/auth";
+import { userSelector } from "@/redux/features/user";
 
 var ps;
 
 function Sidebar(props) {
+  const dispatch = useDispatch();
+  const userSl = useSelector(userSelector);
+
+  const { routes, logo } = props;
   // used for checking current route
   const router = useRouter();
   const [collapseOpen, setCollapseOpen] = React.useState(false);
@@ -73,12 +78,17 @@ function Sidebar(props) {
       );
     });
   };
-  const { routes, logo } = props;
+
+  const logout = () => {
+    dispatch(logoutAsyncThunk());
+  };
+
   let navbarBrand = (
     <NavbarBrand href="#pablo" className="pt-0">
       <img alt={logo.imgAlt} className="navbar-brand-img" src={logo.imgSrc} />
     </NavbarBrand>
   );
+
   return (
     <Navbar
       className="navbar-vertical fixed-left navbar-light bg-white"
@@ -128,7 +138,7 @@ function Sidebar(props) {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="..."
-                    src={require("assets/img/theme/team-1-800x800.jpg")}
+                    src={userSl.picture || require("assets/img/theme/team-1-800x800.jpg")}
                   />
                 </span>
               </Media>
@@ -137,34 +147,34 @@ function Sidebar(props) {
               <DropdownItem className="noti-title" header tag="div">
                 <h6 className="text-overflow m-0">Welcome!</h6>
               </DropdownItem>
-              <Link href="/admin/profile">
+              <Link href="/quan-ly-tai-khoan">
                 <DropdownItem>
                   <i className="ni ni-single-02" />
-                  <span>My profile</span>
+                  <span>Thông tin</span>
                 </DropdownItem>
               </Link>
-              <Link href="/admin/profile">
+              {/* <Link href="/admin/profile">
                 <DropdownItem>
                   <i className="ni ni-settings-gear-65" />
                   <span>Settings</span>
                 </DropdownItem>
-              </Link>
+              </Link> */}
               <Link href="/admin/profile">
                 <DropdownItem>
                   <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
+                  <span>Hoạt động</span>
                 </DropdownItem>
               </Link>
               <Link href="/admin/profile">
                 <DropdownItem>
                   <i className="ni ni-support-16" />
-                  <span>Support</span>
+                  <span>Hỗ trợ</span>
                 </DropdownItem>
               </Link>
               <DropdownItem divider />
-              <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+              <DropdownItem href="#pablo" onClick={logout}>
                 <i className="ni ni-user-run" />
-                <span>Logout</span>
+                <span>Đăng xuất</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -205,7 +215,7 @@ function Sidebar(props) {
               <Input
                 aria-label="Search"
                 className="form-control-rounded form-control-prepended"
-                placeholder="Search"
+                placeholder="Tìm kiếm"
                 type="search"
               />
               <InputGroupAddon addonType="prepend">
