@@ -6,6 +6,7 @@ import organizationReducer from '@/redux/features/organization/organization.slic
 import authReducer from '@/redux/features/auth/auth.slice';
 import fanpageSlice from '@/redux/features/fanpage/fanpage.slice';
 import campaignSlice from '@/redux/features/campaign/campaign.slice';
+import adminSlice from '@/redux/features/admin/admin.slice';
 
 export default combineReducers({
   counter: counterReducer,
@@ -14,4 +15,5 @@ export default combineReducers({
   auth: authReducer,
   fanpage: fanpageSlice,
   campaign: campaignSlice,
+  admin: adminSlice,
 });
