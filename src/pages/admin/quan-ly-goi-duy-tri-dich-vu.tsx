@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 // reactstrap components
 import {
@@ -29,8 +30,20 @@ import Admin from '@/layouts/Admin';
 // core components
 import Header from '@/components/Headers/Header';
 import CustomModal from '@/components/Modal/Modal';
+import {
+  adminSelector,
+  createPackagesAsyncThunk,
+  getPackagesAsyncThunk,
+  updatePackagesAsyncThunk,
+} from '@/redux/features/admin';
+import { denormalizeEntitiesArray, formatMoney } from '@/helpers/data';
 
 const ManagePackage = () => {
+  const dispatch = useDispatch();
+  const adminSl = useSelector(adminSelector);
+
+  const [packages, setPackages] = useState([]);
+  const [editingPackage, setEditingPackage] = useState(null);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [packageLabel, setPackageLabel] = useState('');
   const [packageMonthDuration, setPackageMonthDuration] = useState(1);
@@ -71,16 +84,63 @@ const ManagePackage = () => {
       messageAmount: packageMessageAmount,
       price: packagePrice,
     };
-
-    console.log(
-      '🚀 ~ file: quan-ly-goi-duy-tri-dich-vu.tsx ~ line 74 ~ onModalSubmit ~ packageData',
-      packageData,
-    );
+    if (editingPackage) {
+      packageData.id = editingPackage.id;
+      dispatch(updatePackagesAsyncThunk(packageData));
+    } else {
+      dispatch(createPackagesAsyncThunk(packageData));
+    }
+    toggleAddNewPackageModal();
   };
 
   const toggleAddNewPackageModal = () => {
     setIsOpenModal((isOpen) => !isOpen);
   };
+
+  const resetPackageModal = () => {
+    setPackageLabel('');
+    setPackageMonthDuration(1);
+    setPackageMessageAmount(1);
+    setPackagePrice(100000);
+  };
+
+  const toggleEditPackageModal = (packageId: number) => {
+    const editPackage = adminSl.packages.entities[packageId];
+    if (editPackage && editPackage.id !== 1) {
+      setEditingPackage(editPackage);
+
+      setPackageLabel(editPackage.label);
+      setPackageMonthDuration(editPackage.monthDuration);
+      setPackageMessageAmount(editPackage.messageAmount);
+      setPackagePrice(editPackage.price);
+
+      setIsOpenModal((isOpen) => !isOpen);
+    } else {
+      console.warn('package does not exist in state');
+    }
+  };
+
+  useEffect(() => {
+    if (!isOpenModal) {
+      setEditingPackage(null);
+      resetPackageModal();
+    }
+  }, [isOpenModal]);
+
+  useEffect(() => {
+    dispatch(getPackagesAsyncThunk());
+  }, []);
+
+  useEffect(() => {
+    if (adminSl.packages.status === 'succeeded') {
+      setPackages(
+        denormalizeEntitiesArray(
+          adminSl.packages.ids,
+          adminSl.packages.entities,
+        ),
+      );
+    }
+  }, [adminSl.packages.status]);
 
   return (
     <>
@@ -114,118 +174,65 @@ const ManagePackage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <a
-                          className="avatar rounded-circle mr-3"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}>
-                          <img
-                            alt="..."
-                            src={require('assets/img/theme/bootstrap.jpg')}
-                          />
-                        </a>
-                        <Media>
-                          <span className="mb-0 text-sm">Free</span>
+                  {packages.map((packagePlan) => (
+                    <tr key={packagePlan.id}>
+                      <th scope="row">
+                        <Media className="align-items-center">
+                          <a
+                            className="avatar rounded-circle mr-3"
+                            href="#pablo"
+                            onClick={(e) => e.preventDefault()}>
+                            <img
+                              alt="..."
+                              src={require('assets/img/theme/bootstrap.jpg')}
+                            />
+                          </a>
+                          <Media>
+                            <span className="mb-0 text-sm">
+                              {packagePlan.label}
+                            </span>
+                          </Media>
                         </Media>
-                      </Media>
-                    </th>
-                    <td>1000</td>
-                    <td>
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-warning" />
-                        15 ngày
-                      </Badge>
-                    </td>
-                    <td>0đ</td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}>
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
+                      </th>
+                      <td>1000</td>
+                      <td>
+                        <Badge color="" className="badge-dot mr-4">
+                          <i className="bg-warning" />
+                          {packagePlan.id === 1
+                            ? `${packagePlan.dayDuration} ngày`
+                            : `${packagePlan.monthDuration} tháng`}
+                        </Badge>
+                      </td>
+                      <td>{formatMoney(packagePlan.price)}đ</td>
+                      <td className="text-right">
+                        <UncontrolledDropdown>
+                          <DropdownToggle
+                            className="btn-icon-only text-light"
                             href="#pablo"
+                            role="button"
+                            size="sm"
+                            color=""
                             onClick={(e) => e.preventDefault()}>
-                            Action
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}>
-                            Another action
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}>
-                            Something else here
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">
-                      <Media className="align-items-center">
-                        <a
-                          className="avatar rounded-circle mr-3"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}>
-                          <img
-                            alt="..."
-                            src={require('assets/img/theme/bootstrap.jpg')}
-                          />
-                        </a>
-                        <Media>
-                          <span className="mb-0 text-sm">T3</span>
-                        </Media>
-                      </Media>
-                    </th>
-                    <td>3000</td>
-                    <td>
-                      <Badge color="" className="badge-dot mr-4">
-                        <i className="bg-warning" />
-                        90 ngày
-                      </Badge>
-                    </td>
-                    <td>300,000đ</td>
-                    <td className="text-right">
-                      <UncontrolledDropdown>
-                        <DropdownToggle
-                          className="btn-icon-only text-light"
-                          href="#pablo"
-                          role="button"
-                          size="sm"
-                          color=""
-                          onClick={(e) => e.preventDefault()}>
-                          <i className="fas fa-ellipsis-v" />
-                        </DropdownToggle>
-                        <DropdownMenu className="dropdown-menu-arrow" right>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}>
-                            Action
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}>
-                            Another action
-                          </DropdownItem>
-                          <DropdownItem
-                            href="#pablo"
-                            onClick={(e) => e.preventDefault()}>
-                            Something else here
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
-                    </td>
-                  </tr>
+                            <i className="fas fa-ellipsis-v" />
+                          </DropdownToggle>
+                          <DropdownMenu className="dropdown-menu-arrow" right>
+                            <DropdownItem
+                              href="#pablo"
+                              onClick={() =>
+                                toggleEditPackageModal(packagePlan.id)
+                              }>
+                              Chỉnh sửa
+                            </DropdownItem>
+                            <DropdownItem
+                              href="#pablo"
+                              onClick={(e) => e.preventDefault()}>
+                              Tạm ngưng gói
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card>
@@ -233,7 +240,7 @@ const ManagePackage = () => {
         </Row>
       </Container>
       <CustomModal
-        titleHeader="Tạo gói mới"
+        titleHeader={`${editingPackage ? 'Chỉnh sửa gói dịch vụ' : 'Tạo gói dịch vụ mới'}`}
         isOpen={isOpenModal}
         fnToggle={toggleAddNewPackageModal}
         onSubmit={onModalSubmit}>
