@@ -11,3 +11,12 @@ export interface IPackage {
   price: number;
   status?: string;
 }
+
+export interface IOrder {
+  id: number;
+  userId: string;
+  packageId: number;
+  createdAt: Date;
+  updatedAt: Date;
+  status: string;
+}

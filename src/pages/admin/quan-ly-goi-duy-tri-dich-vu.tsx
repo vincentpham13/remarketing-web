@@ -36,7 +36,11 @@ import {
   getPackagesAsyncThunk,
   updatePackagesAsyncThunk,
 } from '@/redux/features/admin';
-import { denormalizeEntitiesArray, formatMoney, formatNumber } from '@/helpers/data';
+import {
+  denormalizeEntitiesArray,
+  formatMoney,
+  formatNumber,
+} from '@/helpers/data';
 
 const ManagePackage = () => {
   const dispatch = useDispatch();
@@ -152,19 +156,30 @@ const ManagePackage = () => {
           <div className="col">
             <Card className="bg-default shadow">
               <CardHeader className="bg-transparent border-0 py-2">
-                <Row className="justify-content-between">
-                  {/* <Col lg="12" className="d-inline-flex"> */}
+                {/* <Row className="justify-content-between">
                   <h3 className="text-white mt-1">Gói duy trì dịch vụ</h3>
                   <Button onClick={toggleAddNewPackageModal} color="primary">
                     Thêm gói mới
                   </Button>
-                  {/* </Col> */}
+                </Row> */}
+                <Row className="align-items-center">
+                  <div className="col">
+                    <h3 className="text-white">Gói duy trì dịch vụ</h3>
+                  </div>
+                  <div className="col text-right">
+                    <Button
+                      color="primary"
+                      onClick={toggleAddNewPackageModal}
+                      size="md">
+                      Thêm gói mới
+                    </Button>
+                  </div>
                 </Row>
               </CardHeader>
               <Table
-                className="align-items-center table-light table-flush"
+                className="align-items-center table-dark table-flush"
                 responsive>
-                <thead className="thead-light">
+                <thead className="thead-dark">
                   <tr>
                     <th scope="col">Tên gói</th>
                     <th scope="col">Số lượng tin nhắn</th>
@@ -240,7 +255,9 @@ const ManagePackage = () => {
         </Row>
       </Container>
       <CustomModal
-        titleHeader={`${editingPackage ? 'Chỉnh sửa gói dịch vụ' : 'Tạo gói dịch vụ mới'}`}
+        titleHeader={`${
+          editingPackage ? 'Chỉnh sửa gói dịch vụ' : 'Tạo gói dịch vụ mới'
+        }`}
         isOpen={isOpenModal}
         fnToggle={toggleAddNewPackageModal}
         onSubmit={onModalSubmit}>
