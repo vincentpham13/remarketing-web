@@ -23,7 +23,7 @@ import {
 import User from '@/layouts/User';
 
 // core components
-import Header from '@/components/Headers/Header';
+import UserHeader from '@/components/Headers/UserHeader';
 import {
   campaignsSelector,
   getCampaignsAsyncThunk,
@@ -52,8 +52,8 @@ const Compaign = () => {
 
   return (
     <>
-      <Header />
-      <Container className="mt--7" fluid>
+      <UserHeader />
+      <Container className="mt--5" fluid>
         {/* Table */}
         <Row>
           <div className="col">

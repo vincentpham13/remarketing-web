@@ -6,7 +6,7 @@ import { Card, CardHeader, Table, Container, Row, DropdownItem, DropdownMenu, Dr
 // layout for this page
 import Admin from '@/layouts/Admin';
 // core components
-import Header from '@/components/Headers/Header';
+import UserHeader from '@/components/Headers/UserHeader';
 import { adminSelector, getUsersAsyncThunk } from '@/redux/features/admin';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 
@@ -30,9 +30,9 @@ const ManageUser = () => {
 
   return (
     <>
-      <Header />
+      <UserHeader />
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container className="mt--5" fluid>
         {/* Table */}
         {/* Dark table */}
         <Row>

@@ -1,0 +1,148 @@
+import { userSelector } from '@/redux/features/user';
+import { useRouter } from 'next/router';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
+// reactstrap components
+import { Card, CardBody, CardTitle, Col, Container, Row } from 'reactstrap';
+
+const UserHeader = () => {
+  const router = useRouter();
+
+  const [greeting, setGreeting] = useState('');
+  const userSl = useSelector(userSelector);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting('Good Morning');
+    else if (hour >= 12 && hour <= 17) setGreeting('Good Afternoon');
+    else if (hour >= 17 && hour <= 24) setGreeting('Good Evening');
+  }, [new Date()]);
+
+  const renderStats = () => {
+    return (
+      <Row>
+        <Col lg="6" xl="4">
+          <Card className="card-stats mb-4 mb-xl-0">
+            <CardBody>
+              <Row>
+                <div className="col">
+                  <CardTitle
+                    tag="h5"
+                    className="text-uppercase text-muted mb-0">
+                    Số fanpage
+                  </CardTitle>
+                  <span className="h2 font-weight-bold mb-0">10</span>
+                </div>
+              </Row>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap"></span>
+                <span className="text-warning mr-2 text-bold">
+                  <strong></strong>
+                </span>{' '}
+              </p>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap"></span>
+                <span className="text-warning mr-2 text-bold">
+                  <strong></strong>
+                </span>{' '}
+              </p>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">
+                  <a href="/user/fanpage">Tới quản lý fanpage</a>
+                </span>
+              </p>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col lg="6" xl="4">
+          <Card className="card-stats mb-4 mb-xl-0">
+            <CardBody>
+              <Row>
+                <div className="col">
+                  <CardTitle
+                    tag="h5"
+                    className="text-uppercase text-muted mb-0">
+                    Gói đang dùng
+                  </CardTitle>
+                  <span className="h2 font-weight-bold mb-0">T3000</span>
+                </div>
+              </Row>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">Số tin nhắn còn lại </span>
+                <span className="text-success mr-2 text-bold">
+                  <strong>2000</strong>
+                </span>{' '}
+              </p>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">Sử dụng đến hết ngày: </span>
+                <span className="text-info mr-2 text-bold">
+                  20/10/2021
+                </span>{' '}
+              </p>
+
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">
+                  <a href="/user/user-plan">Tới quản lý gói</a>
+                </span>
+              </p>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col lg="6" xl="4">
+          <Card className="card-stats mb-4 mb-xl-0">
+            <CardBody>
+              <Row>
+                <div className="col">
+                  <CardTitle
+                    tag="h5"
+                    className="text-uppercase text-muted mb-0">
+                    Chiến dịch đã chạy
+                  </CardTitle>
+                  <span className="h2 font-weight-bold mb-0">2</span>
+                </div>
+              </Row>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">
+                  Tổng số chiến dịch đã chạy:{' '}
+                </span>
+                <span className="text-warning mr-2 text-bold">
+                  <strong>2000</strong>
+                </span>{' '}
+              </p>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap"></span>
+                <span className="text-warning mr-2 text-bold"></span>{' '}
+              </p>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">
+                  <a href="/user/campaign">Tới quản lý chiến dịch</a>
+                </span>
+              </p>
+            </CardBody>
+          </Card>
+        </Col>
+      </Row>
+    );
+  };
+
+  return (
+    <>
+      <div className="header bg-gradient-dark pb-6 pt-2 pt-md-8">
+        <Container fluid>
+          <div className="header-body">
+            {router.pathname === '/' ? (
+              renderStats()
+            ) : (
+              <h1 className="display-2 text-white">
+                {greeting}! {userSl.name.split(' ').pop()}
+              </h1>
+            )}
+          </div>
+        </Container>
+      </div>
+    </>
+  );
+};
+
+export default UserHeader;

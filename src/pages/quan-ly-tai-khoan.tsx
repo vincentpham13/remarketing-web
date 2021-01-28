@@ -17,7 +17,7 @@ import {
 // layout for this page
 import User from '@/layouts/User';
 // core components
-import Header from '@/components/Headers/Header';
+import UserHeader from '@/components/Headers/UserHeader';
 import { userSelector } from '@/redux/features/user/user.slice';
 import {
   updateUserInfoAsyncThunk,
@@ -79,9 +79,9 @@ const Profile = () => {
 
   return (
     <>
-      <Header />
+      <UserHeader />
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container className="mt--5" fluid>
         <Row>
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">

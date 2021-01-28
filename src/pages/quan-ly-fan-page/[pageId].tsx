@@ -23,7 +23,7 @@ import {
 import User from '@/layouts/User';
 
 import API from '@/helpers/axios';
-import Header from '@/components/Headers/Header';
+import UserHeader from '@/components/Headers/UserHeader';
 import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
 import {
   getFanpageMembersAsyncThunk,
@@ -74,10 +74,10 @@ const SingleFanpage: FC = (props) => {
 
   return (
     <>
-      <Header />
+      <UserHeader />
       <Container className="mt--7" fluid>
         {/* Table */}
-        <Row>
+        <Row className="mt-5">
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
