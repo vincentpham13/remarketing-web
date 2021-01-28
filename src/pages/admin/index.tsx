@@ -30,7 +30,7 @@ import {
   chartExample2,
 } from "@/variables/charts";
 
-import Header from "@/components/Headers/Header";
+import AdminHeader from "@/components/Headers/AdminHeader";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -55,9 +55,9 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
-        <Header />
+        <AdminHeader />
         {/* Page content */}
-        <Container className="mt--7" fluid>
+        <Container className="mt--5" fluid>
           <Row>
             <Col className="mb-5 mb-xl-0" xl="8">
               <Card className="shadow">

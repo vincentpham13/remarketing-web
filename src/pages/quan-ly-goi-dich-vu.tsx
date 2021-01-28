@@ -30,7 +30,7 @@ import {
   chartExample2,
 } from "@/variables/charts";
 
-import Header from "@/components/Headers/Header";
+import UserHeader from "@/components/Headers/UserHeader";
 
 class PackagePlan extends React.Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class PackagePlan extends React.Component {
   render() {
     return (
       <>
-        <Header />
+        <UserHeader />
       </>
     );
   }

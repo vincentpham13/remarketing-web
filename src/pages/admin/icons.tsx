@@ -15,14 +15,14 @@ import {
 // layout for this page
 import Admin from "@/layouts/Admin";
 // core components
-import Header from "@/components/Headers/Header";
+import UserHeader from "@/components/Headers/UserHeader";
 
 class Icons extends React.Component {
   state = {};
   render() {
     return (
       <>
-        <Header />
+        <UserHeader />
         {/* Page content */}
         <Container className=" mt--7" fluid>
           {/* Table */}

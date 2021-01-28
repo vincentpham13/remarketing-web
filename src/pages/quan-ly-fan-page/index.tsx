@@ -22,7 +22,7 @@ import {
 } from 'reactstrap';
 import User from '@/layouts/User';
 
-import Header from '@/components/Headers/Header';
+import UserHeader from '@/components/Headers/UserHeader';
 import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
 import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
@@ -50,8 +50,8 @@ const RootFanpage: FC = () => {
 
   return (
     <>
-      <Header />
-      <Container className="mt--7" fluid>
+      <UserHeader />
+      <Container className="mt--5" fluid>
         {/* Table */}
         <Row>
           <div className="col">
