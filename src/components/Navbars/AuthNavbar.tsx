@@ -75,15 +75,7 @@ class AdminNavbar extends React.Component {
                   </Link>
                 </NavItem>
                 <NavItem>
-                  <Link href="/auth/login">
-                    <NavLink href="#pablo" className="nav-link-icon">
-                      <i className="ni ni-key-25" />
-                      <span className="nav-link-inner--text">Đăng nhập</span>
-                    </NavLink>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/admin/profile">
+                  <Link href="/quan-ly-tai-khoan">
                     <NavLink href="#pablo" className="nav-link-icon">
                       <i className="ni ni-single-02" />
                       <span className="nav-link-inner--text">Profile</span>
