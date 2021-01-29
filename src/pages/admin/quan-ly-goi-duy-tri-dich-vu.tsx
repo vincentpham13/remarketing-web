@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PackageType, PackageTypeLabel } from '@/enums/Package';
 
 // reactstrap components
 import {
@@ -24,6 +25,7 @@ import {
   Col,
   FormGroup,
   Input,
+  Label
 } from 'reactstrap';
 // layout for this page
 import Admin from '@/layouts/Admin';
@@ -54,6 +56,8 @@ const ManagePackage = () => {
   const [packageMonthDuration, setPackageMonthDuration] = useState(1);
   const [packageMessageAmount, setPackageMessageAmount] = useState(1);
   const [packagePrice, setPackagePrice] = useState(100000);
+  const [packageTypeId, setPackageTypeId] = useState(PackageType.TimeAndMessage);
+
 
   const onPackageLabelChange = (e) => {
     const { value } = e.target;
@@ -78,6 +82,14 @@ const ManagePackage = () => {
     setPackagePrice(value);
   };
 
+  const onpackageTypeIdChange = (e) => {
+    const { value } = e.target;
+    if (value == 2) {
+      setPackageMonthDuration(1);
+    }
+    setPackageTypeId(parseInt(value, 10));
+  };
+
   const onModalSubmit = () => {
     if (!packageLabel || packagePrice < 100000 || packagePrice > 3000000) {
       return;
@@ -88,6 +100,7 @@ const ManagePackage = () => {
       monthDuration: packageMonthDuration,
       messageAmount: packageMessageAmount,
       price: packagePrice,
+      packageTypeId
     };
     if (editingPackage) {
       packageData.id = editingPackage.id;
@@ -107,6 +120,8 @@ const ManagePackage = () => {
     setPackageMonthDuration(1);
     setPackageMessageAmount(1);
     setPackagePrice(100000);
+    setPackageTypeId(PackageType.TimeAndMessage);
+
   };
 
   const toggleEditPackageModal = (packageId: number) => {
@@ -118,6 +133,7 @@ const ManagePackage = () => {
       setPackageMonthDuration(editPackage.monthDuration);
       setPackageMessageAmount(editPackage.messageAmount);
       setPackagePrice(editPackage.price);
+      setPackageTypeId(editPackage.packageTypeId);
 
       setIsOpenModal((isOpen) => !isOpen);
     } else {
@@ -190,6 +206,7 @@ const ManagePackage = () => {
                     <th scope="col">Số lượng tin nhắn</th>
                     <th scope="col">Thời hạn sử dụng</th>
                     <th scope="col">Giá</th>
+                    <th scope="col">Loại gói</th>
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -224,6 +241,15 @@ const ManagePackage = () => {
                         </Badge>
                       </td>
                       <td>{formatMoney(packagePlan.price)}đ</td>
+                      <td  style={{width: "160px"}}>
+                        <h3>
+                        {packagePlan.packageTypeId == PackageType.TimeAndMessage ?
+                          <span class="text-light badge badge-pill badge-primary" style={{width: "160px"}}>{PackageTypeLabel.TimeAndMessage}</span>
+                          :
+                          <span class="text-light badge badge-pill badge-info" style={{width: "160px"}}>{PackageTypeLabel.MessageOnly}</span>
+                        }
+                        </h3>
+                      </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
                           <DropdownToggle
@@ -265,13 +291,31 @@ const ManagePackage = () => {
         </Row>
       </Container>
       <CustomModal
-        titleHeader={`${
-          editingPackage ? 'Chỉnh sửa gói dịch vụ' : 'Tạo gói dịch vụ mới'
-        }`}
+        titleHeader={`${editingPackage ? 'Chỉnh sửa gói dịch vụ' : 'Tạo gói dịch vụ mới'
+          }`}
         isOpen={isOpenModal}
         fnToggle={toggleAddNewPackageModal}
         onSubmit={onModalSubmit}>
         <Row>
+          <Col lg="12">
+            <FormGroup className="row">
+              <label className="form-control-label col-3" htmlFor="input-price">
+                Loại gói
+                </label>
+              <FormGroup check className="col-4 px-0">
+                <Label check>
+                  <Input type="radio" name="radio-package-type" onChange={onpackageTypeIdChange} value={PackageType.TimeAndMessage} checked={packageTypeId == PackageType.TimeAndMessage} />{' '}
+                  {PackageTypeLabel.TimeAndMessage}
+                </Label>
+              </FormGroup>
+              <FormGroup check className="col-4 px-0">
+                <Label check>
+                  <Input type="radio" name="radio-package-type" onChange={onpackageTypeIdChange} value={PackageType.MessageOnly} checked={packageTypeId == PackageType.MessageOnly} />{' '}
+                  {PackageTypeLabel.MessageOnly}
+                </Label>
+              </FormGroup>
+            </FormGroup>
+          </Col>
           <Col lg="6">
             <FormGroup>
               <label className="form-control-label" htmlFor="input-package">
@@ -321,59 +365,6 @@ const ManagePackage = () => {
           </Col>
           <Col lg="6">
             <FormGroup>
-              <label className="form-control-label" htmlFor="input-month">
-                Thời hạn sử dụng
-              </label>
-              <Input
-                min={1}
-                max={12}
-                className="form-control-alternative"
-                value={packageMonthDuration}
-                id="input-month"
-                onChange={onPackageMonthDurationChange}
-                placeholder=""
-                type="select">
-                <option id={1} value={1}>
-                  1 tháng
-                </option>
-                <option id={2} value={2}>
-                  2 tháng
-                </option>
-                <option id={3} value={3}>
-                  3 tháng
-                </option>
-                <option id={4} value={4}>
-                  4 tháng
-                </option>
-                <option id={5} value={5}>
-                  5 tháng
-                </option>
-                <option id={6} value={6}>
-                  6 tháng
-                </option>
-                <option id={7} value={7}>
-                  7 tháng
-                </option>
-                <option id={8} value={8}>
-                  8 tháng
-                </option>
-                <option id={9} value={9}>
-                  9 tháng
-                </option>
-                <option id={10} value={10}>
-                  10 tháng
-                </option>
-                <option id={11} value={11}>
-                  11 tháng
-                </option>
-                <option id={12} value={12}>
-                  1 năm
-                </option>
-              </Input>
-            </FormGroup>
-          </Col>
-          <Col lg="6">
-            <FormGroup>
               <label className="form-control-label" htmlFor="input-price">
                 Giá
               </label>
@@ -387,6 +378,66 @@ const ManagePackage = () => {
               />
             </FormGroup>
           </Col>
+          {packageTypeId == 2 ?
+            <Col lg="6">
+              <FormGroup>
+              </FormGroup>
+            </Col>
+            :
+            <Col lg="6">
+              <FormGroup>
+                <label className="form-control-label" htmlFor="input-month">
+                  Thời hạn sử dụng
+              </label>
+                <Input
+                  min={1}
+                  max={12}
+                  className="form-control-alternative"
+                  value={packageMonthDuration}
+                  id="input-month"
+                  onChange={onPackageMonthDurationChange}
+                  placeholder=""
+                  type="select">
+                  <option id={1} value={1}>
+                    1 tháng
+                </option>
+                  <option id={2} value={2}>
+                    2 tháng
+                </option>
+                  <option id={3} value={3}>
+                    3 tháng
+                </option>
+                  <option id={4} value={4}>
+                    4 tháng
+                </option>
+                  <option id={5} value={5}>
+                    5 tháng
+                </option>
+                  <option id={6} value={6}>
+                    6 tháng
+                </option>
+                  <option id={7} value={7}>
+                    7 tháng
+                </option>
+                  <option id={8} value={8}>
+                    8 tháng
+                </option>
+                  <option id={9} value={9}>
+                    9 tháng
+                </option>
+                  <option id={10} value={10}>
+                    10 tháng
+                </option>
+                  <option id={11} value={11}>
+                    11 tháng
+                </option>
+                  <option id={12} value={12}>
+                    1 năm
+                </option>
+                </Input>
+              </FormGroup>
+            </Col>
+          }
         </Row>
       </CustomModal>
     </>

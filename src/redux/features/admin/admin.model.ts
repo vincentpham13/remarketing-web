@@ -10,6 +10,7 @@ export interface IPackage {
   messageAmount: number;
   price: number;
   status?: string;
+  packageTypeId: number;
 }
 
 export interface IOrder {
