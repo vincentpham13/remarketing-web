@@ -34,6 +34,7 @@ import {
   adminSelector,
   createPackagesAsyncThunk,
   getPackagesAsyncThunk,
+  removePackageAsyncthunk,
   updatePackagesAsyncThunk,
 } from '@/redux/features/admin';
 import {
@@ -123,6 +124,10 @@ const ManagePackage = () => {
       console.warn('package does not exist in state');
     }
   };
+
+  const removePackage = (packageId) => {
+    dispatch(removePackageAsyncthunk(packageId))
+  }
 
   useEffect(() => {
     if (!isOpenModal) {
@@ -242,6 +247,11 @@ const ManagePackage = () => {
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Tạm ngưng gói
+                            </DropdownItem>
+                            <DropdownItem
+                              href="#pablo"
+                              onClick={() => removePackage(packagePlan.id)}>
+                              Xoá gói
                             </DropdownItem>
                           </DropdownMenu>
                         </UncontrolledDropdown>

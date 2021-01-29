@@ -17,7 +17,7 @@ import {
 import Admin from '@/layouts/Admin';
 // core components
 import UserHeader from '@/components/Headers/UserHeader';
-import { adminSelector, getUserOrdersAsyncThunk } from '@/redux/features/admin';
+import { adminSelector, confirmUserOrderAsyncThunk, getUserOrdersAsyncThunk } from '@/redux/features/admin';
 import {
   denormalizeEntitiesArray,
   formatMoney,
@@ -60,6 +60,10 @@ const ManageOrder = () => {
       }, 0),
     );
   };
+
+  const confirmOrder = (orderId) => {
+    dispatch(confirmUserOrderAsyncThunk(orderId));
+  }
 
   useEffect(() => {
     dispatch(getUserOrdersAsyncThunk());
@@ -148,7 +152,7 @@ const ManageOrder = () => {
                           <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem
                               href="#pablo"
-                              onClick={(e) => e.preventDefault()}>
+                              onClick={() => confirmOrder(order.id)}>
                               Đã chuyển khoản
                             </DropdownItem>
                             <DropdownItem

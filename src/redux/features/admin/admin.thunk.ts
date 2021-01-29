@@ -101,11 +101,23 @@ export const confirmUserOrderAsyncThunk = createAsyncThunk(
   'admin/confirm-user-order',
   async (orderId: number, thunkApi): Promise<any | ReturnType<typeof thunkApi.rejectWithValue>> => {
     try {
-      const response = await API.axios.post('/admin/orders/${id}/comfirm');
+      const response = await API.axios.post(`/admin/orders/${orderId}/confirm`);
       const data = normalize<
         any, { [key: string]: IOrder }
       >(response.data, orderEntity).entities;
-      return {order: data?.orders[orderId]};
+      return { order: data?.orders[orderId] };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const removePackageAsyncthunk = createAsyncThunk(
+  'admin/remove-package',
+  async (packageId: number, thunkApi): Promise<any | ReturnType<typeof thunkApi.rejectWithValue>> => {
+    try {
+      const response = await API.axios.post(`/admin/packages/${packageId}`);
+      return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

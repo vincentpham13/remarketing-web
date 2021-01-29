@@ -4,6 +4,7 @@ import { IUserInfo } from '@/redux/features/user/user.model';
 import * as Facebook from 'fb-sdk-wrapper';
 
 import API from '@/helpers/axios';
+import { IOrder } from '../admin/admin.model';
 
 export const updateUserInfoAsyncThunk = createAsyncThunk(
   'user/update-info',
@@ -60,3 +61,26 @@ export const getMeAsyncThunk = createAsyncThunk(
     }
   }
 );
+
+export const createOrderThunk = createAsyncThunk(
+  'order/create-order',
+  async (data: {order: IOrder, packageIds: number[]}, thunkApi): Promise<any> => {
+    try {
+      const response = await API.axios.post('/orders', {
+        packageIds: data.packageIds,
+        fullName: data.order.fullName,
+        email: data.order.email,
+        phone: data.order.phone,
+        address: data.order.address,
+        businessName: data.order.businessName,
+        businessAddress: data.order.businessAddress,
+        emailReceipt: data.order.emailReceipt,
+        taxId: data.order.taxId,
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+)

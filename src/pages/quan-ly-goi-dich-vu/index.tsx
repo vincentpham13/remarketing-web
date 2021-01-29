@@ -54,7 +54,7 @@ const PackagePlan = () => {
   };
 
   const goToPayment = () => {
-    router.push('/quan-ly-goi-dich-vu/thanh-toan');
+    router.push(`/quan-ly-goi-dich-vu/thanh-toan?goi=[${[selectedType1Id, selectedType2Id].filter(f=>!!f).join(',')}]`);
   }
 
   useEffect(() => {
