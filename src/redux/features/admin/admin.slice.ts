@@ -1,12 +1,15 @@
 import { IGenericEntityState } from "@/redux/interfaces";
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { IPackage } from "./admin.model";
-import { createPackagesAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk } from "./admin.thunk";
+import { IOrder, IPackage } from "./admin.model";
+import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk } from "./admin.thunk";
 
 const userAdapter = createEntityAdapter();
 const packageAdapter = createEntityAdapter<IPackage>({
   selectId: pack => pack.id,
-})
+});
+const orderAdapter = createEntityAdapter<IOrder>({
+  selectId: pack => pack.id,
+});
 
 const initialState = {
   users: userAdapter.getInitialState<IGenericEntityState>({
@@ -14,6 +17,10 @@ const initialState = {
     error: null
   }),
   packages: packageAdapter.getInitialState<IGenericEntityState>({
+    status: 'idle',
+    error: null
+  }),
+  orders: orderAdapter.getInitialState<IGenericEntityState>({
     status: 'idle',
     error: null
   }),
@@ -56,6 +63,14 @@ export const adminSlice = createSlice({
     builder.addCase(updatePackagesAsyncThunk.fulfilled, (state, action) => {
       packageAdapter.upsertOne(state.packages, action.payload.package);
       state.packages.status = 'succeeded';
+    });
+    // Orders
+    builder.addCase(getUserOrdersAsyncThunk.pending, (state, action) => {
+      state.orders.status = 'loading';
+    });
+    builder.addCase(getUserOrdersAsyncThunk.fulfilled, (state, action) => {
+      orderAdapter.upsertMany(state.orders, action.payload.orders);
+      state.orders.status = 'succeeded';
     });
   }
 });

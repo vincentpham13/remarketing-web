@@ -16,26 +16,33 @@ const routes = [
   {
     path: '/',
     name: 'Tổng quan',
-    icon: 'ni ni-tv-2 text-blue',
+    icon: 'ni ni-tv-2 text-green',
     layout: '',
   },
   {
     path: '/quan-ly-fan-page',
-    name: 'Fanpage',
-    icon: 'ni ni-planet text-blue',
+    name: 'Quản lý Fanpage',
+    icon: 'ni ni-send text-green',
     layout: '',
   },
   {
     path: '/quan-ly-chien-dich',
-    name: 'Chiến dịch',
-    icon: 'ni ni-pin-3 text-orange',
+    name: 'Quản lý Chiến dịch',
+    icon: 'ni ni-notification-70 text-green',
     layout: '',
   },
   {
     path: '/quan-ly-goi-dich-vu',
-    name: 'Gói dịch vụ',
-    icon: 'ni ni-single-02 text-yellow',
+    name: 'Quản lý gói lý và thanh toán dịch vụ',
+    icon: 'ni ni-spaceship text-green',
     layout: '',
+  },
+  {
+    path: '/quan-ly-goi-dich-vu/thanh-toan',
+    name: 'Thanh toán dịch vụ',
+    icon: 'ni ni-single-02 text-green',
+    layout: '',
+    hidden: true,
   },
 ];
 
@@ -150,7 +157,7 @@ function User(props) {
         routes={routes}
         logo={{
           innerLink: '/',
-          imgSrc: require('assets/img/brand/nextjs_argon_black.png'),
+          imgSrc: require('assets/img/logo/logo-green.png'),
           imgAlt: '...',
         }}
       />

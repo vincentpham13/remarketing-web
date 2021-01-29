@@ -2,7 +2,7 @@ import { userSelector } from '@/redux/features/user';
 import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-
+import Link from 'next/link';
 // reactstrap components
 import { Card, CardBody, CardTitle, Col, Container, Row } from 'reactstrap';
 
@@ -49,7 +49,7 @@ const UserHeader = () => {
               </p>
               <p className="mt-2 mb-0 text-muted text-sm">
                 <span className="text-nowrap">
-                  <a href="/user/fanpage">Tới quản lý fanpage</a>
+                  <Link href="/quan-ly-fan-page">Tới quản lý Fanpages</Link>
                 </span>
               </p>
             </CardBody>
@@ -83,7 +83,7 @@ const UserHeader = () => {
 
               <p className="mt-2 mb-0 text-muted text-sm">
                 <span className="text-nowrap">
-                  <a href="/user/user-plan">Tới quản lý gói</a>
+                  <Link href="/quan-ly-goi-dich-vu">Tới quản lý gói</Link>
                 </span>
               </p>
             </CardBody>
@@ -116,7 +116,7 @@ const UserHeader = () => {
               </p>
               <p className="mt-2 mb-0 text-muted text-sm">
                 <span className="text-nowrap">
-                  <a href="/user/campaign">Tới quản lý chiến dịch</a>
+                  <Link href="/quan-ly-chien-dich">Tới quản lý chiến dịch</Link>
                 </span>
               </p>
             </CardBody>

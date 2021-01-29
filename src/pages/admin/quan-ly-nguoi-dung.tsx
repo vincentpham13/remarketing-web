@@ -42,9 +42,9 @@ const ManageUser = () => {
                 <h3 className="text-white mb-0">Danh sách tài khoản</h3>
               </CardHeader>
               <Table
-                className="align-items-center table-light table-flush"
+                className="align-items-center table-dark table-flush"
                 responsive>
-                <thead className="thead-light">
+                <thead className="thead-dark">
                   <tr>
                     <th scope="col">UID</th>
                     <th scope="col">Tên tài khoản</th>

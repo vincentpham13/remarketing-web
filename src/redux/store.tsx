@@ -19,9 +19,7 @@ export const persistConfig: PersistConfig<any> = {
   version: 1,
   storage: storage,
   debug: true,
-  whitelist: [
-    'counter',
-  ],
+  whitelist: ['counter'],
   // transforms: [TransformCredentials]
 };
 
@@ -29,12 +27,15 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
+  middleware: (getDefaultMiddleware) => {
+    const middlewares = getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(logger),
+    });
+    ;
+    return process.env.NODE_ENV === 'development' ? middlewares.concat(logger) : middlewares;
+  },
   devTools: process.env.NODE_ENV === 'development',
 });
 
