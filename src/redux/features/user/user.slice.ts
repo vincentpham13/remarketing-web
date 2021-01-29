@@ -43,9 +43,7 @@ const userSlice = createSlice({
         name,
         phone,
         email,
-        job,
-        successMessages,
-        messageAmount
+        job
       } = action.payload;
       state.id = id;
       state.name = name;
@@ -68,15 +66,15 @@ const userSlice = createSlice({
         email,
         job,
         successMessages,
-        messageAmount
+        totalMessages
       } = action.payload;
       state.id = id;
       state.name = name;
       state.email = email;
       state.phone = phone;
       state.job = job;
-      state.successMessages = successMessages ?? state.successMessages;
-      state.totalMessages = messageAmount ?? state.totalMessages;
+      state.successMessages = successMessages;
+      state.totalMessages = totalMessages;
     });
     builder.addCase(getMeAsyncThunk.rejected, (state) => {
       state.status = 'failed';

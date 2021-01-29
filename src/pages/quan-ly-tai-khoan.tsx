@@ -104,7 +104,7 @@ const Profile = () => {
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
               <CardBody className="pt-0 pt-md-4">
                 <Row>
-                  <div className="col">
+                  <div className="col px-0">
                     <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                       <div>
                         <span className="description">Số tin đăng ký</span>
