@@ -13,15 +13,15 @@ export interface IPackage {
 }
 
 export interface IOrder {
-  id: string;
-  userId: string;
-  status: string;
+  id?: string;
+  fullName: string;
+  email: string;
+  address: string;
+  phone: string;
+  userId?: string;
+  status?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  fullName?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
   businessName?: string;
   businessAddress?: string;
   emailReceipt?: string;

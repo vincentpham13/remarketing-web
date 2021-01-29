@@ -1,7 +1,7 @@
 import { IGenericEntityState } from "@/redux/interfaces";
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IOrder, IPackage } from "./admin.model";
-import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk } from "./admin.thunk";
+import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk, confirmUserOrderAsyncThunk } from "./admin.thunk";
 
 const userAdapter = createEntityAdapter();
 const packageAdapter = createEntityAdapter<IPackage>({
@@ -69,8 +69,22 @@ export const adminSlice = createSlice({
       state.orders.status = 'loading';
     });
     builder.addCase(getUserOrdersAsyncThunk.fulfilled, (state, action) => {
-      orderAdapter.upsertMany(state.orders, action.payload.orders);
+      if (action.payload.orders) {
+        orderAdapter.upsertMany(state.orders, action.payload.orders);
+      }
       state.orders.status = 'succeeded';
+    });
+    builder.addCase(confirmUserOrderAsyncThunk.pending, (state) => {
+      state.orders.status = 'loading';
+    });
+    builder.addCase(confirmUserOrderAsyncThunk.rejected, (state) => {
+      state.orders.status = 'succeeded';
+    });
+    builder.addCase(confirmUserOrderAsyncThunk.fulfilled, (state, action) => {
+      state.orders.status = 'succeeded';
+      if (action.payload.order) {
+        orderAdapter.upsertOne(state.orders, action.payload.order);
+      }
     });
   }
 });
