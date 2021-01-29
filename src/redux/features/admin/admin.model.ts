@@ -13,10 +13,18 @@ export interface IPackage {
 }
 
 export interface IOrder {
-  id: number;
+  id: string;
   userId: string;
-  packageId: number;
-  createdAt: Date;
-  updatedAt: Date;
   status: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  fullName?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  businessName?: string;
+  businessAddress?: string;
+  emailReceipt?: string;
+  taxId?: string;
+  packages?: IPackage[];
 }

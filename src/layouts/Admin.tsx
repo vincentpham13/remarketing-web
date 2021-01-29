@@ -109,7 +109,7 @@ const Admin: FC = (props) => {
         routes={routes}
         logo={{
           innerLink: '/admin',
-          imgSrc: require('assets/img/brand/nextjs_argon_black.png'),
+          imgSrc: require('assets/img/logo/logo-green.png'),
           imgAlt: '...',
         }}
       />
