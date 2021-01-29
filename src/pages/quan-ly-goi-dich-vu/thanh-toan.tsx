@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
@@ -18,10 +19,11 @@ import {
 import User from '@/layouts/User';
 
 import UserHeader from '@/components/Headers/UserHeader';
-import { userSelector } from '@/redux/features/user';
+import { createOrderThunk, userSelector } from '@/redux/features/user';
 import { packageSelector } from '@/redux/features/package/package.slice';
 import { getPackagesAsyncThunk } from '@/redux/features/package/package.thunk';
 import { denormalizeEntitiesArray, formatMoney } from '@/helpers/data';
+// import { setTextRange } from 'typescript';
 
 const cardStyle = {
   width: '12.5rem',
@@ -30,36 +32,104 @@ const cardStyle = {
 };
 
 const MakePayment = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const packageSl = useSelector(packageSelector);
   const userSl = useSelector(userSelector);
 
+  const { goi } = router.query;
   const [packagePlans, setPackagePlans] = useState([]);
-  const [selectedType1Id, setSelectedType1Id] = useState();
-  const [selectedType2Id, setSelectedType2Id] = useState();
+  const [packageIds, setPackageIds] = useState([]);
 
-  const [] = useState(false);
-  const [name, setName] = useState('');
+  const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [job, setJob] = useState('');
+  const [address, setAddress] = useState('');
 
-  const onPackageType1Select = (packageId) => {
-    setSelectedType1Id(undefined);
-    setSelectedType1Id(packageId);
+  // Not mandantory fields
+  const [businessName, setBusinessName] = useState('');
+  const [businessAddress, setBusinessAddress] = useState('');
+  const [taxId, setTaxId] = useState('');
+  const [emailReceipt, setEmailReceipt] = useState('');
+
+  const onFullNameChange = (e) => {
+    const { value } = e.target;
+    setFullName(value);
   };
 
-  const onPackageType2Select = (packageId) => {
-    setSelectedType1Id(undefined);
-    setSelectedType2Id(packageId);
+  const onEmailChange = (e) => {
+    const { value } = e.target;
+    setEmail(value);
   };
 
-  useEffect(() => {
-    setName(userSl.name);
-    setEmail(userSl.email);
-    setJob(userSl.job);
-    setPhone(userSl.phone);
-  }, [userSl]);
+  const onPhoneChange = (e) => {
+    const { value } = e.target;
+    setPhone(value);
+  };
+
+  const onAddressChange = (e) => {
+    const { value } = e.target;
+    setAddress(value);
+  };
+
+  const onBusinessNameChange = (e) => {
+    const { value } = e.target;
+    setBusinessName(value);
+  };
+
+  const onBusinessAddressChange = (e) => {
+    const { value } = e.target;
+    setBusinessAddress(value);
+  };
+
+  const onTaxIdChange = (e) => {
+    const { value } = e.target;
+    setTaxId(value);
+  };
+
+  const onEmailReceiptChange = (e) => {
+    const { value } = e.target;
+    setEmailReceipt(value);
+  };
+
+  const isOrderValid = () => {
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!emailRegex.test(email)) {
+      return false;
+    }
+
+    const phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+    if (!phoneRegex.test(phone)) {
+      return false;
+    }
+
+    const fullNameRegex = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
+    if (!fullNameRegex.test(fullName)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const submitOrder = () => {
+    const order = {
+      fullName,
+      email,
+      phone,
+      address,
+      businessName,
+      businessAddress,
+      emailReceipt,
+      taxId,
+    };
+
+    dispatch(
+      createOrderThunk({
+        order,
+        packageIds,
+      }),
+    );
+  };
 
   useEffect(() => {
     dispatch(getPackagesAsyncThunk());
@@ -69,6 +139,21 @@ const MakePayment = () => {
     if (packageSl.status === 'succeeded') {
       const data = denormalizeEntitiesArray(packageSl.ids, packageSl.entities);
       setPackagePlans(data);
+      const goiRegex = /^\[\d+(,\d+)?\]$/;
+      if (!goiRegex.test(goi as string)) {
+        router.push('/quan-ly-goi-dich-vu');
+      }
+
+      const packageIds = (goi as string)
+        .replace('[', '')
+        .replace(']', '')
+        .split(',')
+        .map((m) => parseInt(m, 10));
+
+      if (!packageIds.every((packageId) => packageSl.ids.includes(packageId))) {
+        router.push('/quan-ly-goi-dich-vu');
+      }
+      setPackageIds(packageIds);
     }
   }, [packageSl.status]);
 
@@ -106,6 +191,7 @@ const MakePayment = () => {
                     <Row>
                       <div className="custom-control custom-radio mb-3">
                         <input
+                          checked={true}
                           className="custom-control-input"
                           id="customRadio1"
                           name="customRadio"
@@ -128,7 +214,13 @@ const MakePayment = () => {
                           Thanh toán online qua VTC Pay
                         </label>
                       </div>
-                      <Button className="mt-3" color="primary">Hoàn tất đơn hàng</Button>
+                      <Button
+                        disabled={!isOrderValid()}
+                        onClick={submitOrder}
+                        className="mt-3"
+                        color="primary">
+                        Hoàn tất đơn hàng
+                      </Button>
                     </Row>
                   </div>
                 </Form>
@@ -149,10 +241,12 @@ const MakePayment = () => {
                           <label
                             className="form-control-label"
                             htmlFor="input-fullname">
-                            Họ tên *
+                            Họ tên <span className="text-red">*</span>
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onFullNameChange}
+                            value={fullName}
                             id="input-fullname"
                             placeholder="Họ tên"
                             type="text"
@@ -164,10 +258,12 @@ const MakePayment = () => {
                           <label
                             className="form-control-label"
                             htmlFor="input-email">
-                            Email *
+                            Email <span className="text-red">*</span>
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onEmailChange}
+                            value={email}
                             id="input-email"
                             placeholder="Email"
                             type="email"
@@ -181,10 +277,12 @@ const MakePayment = () => {
                           <label
                             className="form-control-label"
                             htmlFor="input-phone">
-                            Số điện thoại
+                            Số điện thoại <span className="text-red">*</span>
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onPhoneChange}
+                            value={phone}
                             id="input-phone"
                             placeholder="Số điện thoại"
                             type="text"
@@ -200,6 +298,8 @@ const MakePayment = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onAddressChange}
+                            value={address}
                             defaultValue="2A/4"
                             id="input-address"
                             placeholder=""
@@ -226,6 +326,8 @@ const MakePayment = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onBusinessNameChange}
+                            value={businessName}
                             id="input-business-name"
                             placeholder="Tên doanh nghiệp"
                             type="text"
@@ -241,6 +343,8 @@ const MakePayment = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onTaxIdChange}
+                            value={taxId}
                             id="input-tax-id"
                             placeholder="Mã số thuế"
                             type="text"
@@ -256,6 +360,8 @@ const MakePayment = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onEmailReceiptChange}
+                            value={emailReceipt}
                             id="input-email"
                             placeholder="Email"
                             type="email"
@@ -271,6 +377,8 @@ const MakePayment = () => {
                           </label>
                           <Input
                             className="form-control-alternative"
+                            onChange={onBusinessAddressChange}
+                            value={businessAddress}
                             id="input-business-address"
                             placeholder="Địa chỉ đăng ký kinh doanh"
                             type="text"
@@ -280,17 +388,6 @@ const MakePayment = () => {
                     </Row>
                   </div>
                 </Form>
-                <div className="pl-lg-4 my-3">
-                  <Row className="float-right">
-                    <Col lg="6" className="d-inline-flex">
-                      <Button
-                        // disabled={!selectedType1Id && !selectedType2Id}
-                        color="primary">
-                        Thanh toán
-                      </Button>
-                    </Col>
-                  </Row>
-                </div>
               </CardBody>
             </Card>
           </Col>
