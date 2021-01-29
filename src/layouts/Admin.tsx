@@ -18,31 +18,31 @@ const routes = [
   {
     path: '',
     name: 'Tổng quan',
-    icon: 'ni ni-tv-2 text-primary',
+    icon: 'ni ni-tv-2 text-green',
     layout: '/admin',
   },
   {
     path: '/quan-ly-nguoi-dung',
     name: 'Người dùng',
-    icon: 'ni ni-planet text-blue',
+    icon: 'ni ni-planet text-green',
     layout: '/admin',
   },
   {
     path: '/quan-ly-tin-nhan',
     name: 'Tin nhắn người dùng',
-    icon: 'ni ni-pin-3 text-orange',
+    icon: 'ni ni-pin-3 text-green',
     layout: '/admin',
   },
   {
     path: '/quan-ly-goi-duy-tri-dich-vu',
     name: 'Gói duy trì dịch vụ',
-    icon: 'ni ni-single-02 text-yellow',
+    icon: 'ni ni-single-02 text-green',
     layout: '/admin',
   },
   {
     path: '/quan-ly-don-hang',
     name: 'Đơn hàng',
-    icon: 'ni ni-bullet-list-67 text-red',
+    icon: 'ni ni-bullet-list-67 text-green',
     layout: '/admin',
   },
 ];
