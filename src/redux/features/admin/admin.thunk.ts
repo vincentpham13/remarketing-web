@@ -116,7 +116,7 @@ export const removePackageAsyncthunk = createAsyncThunk(
   'admin/remove-package',
   async (packageId: number, thunkApi): Promise<any | ReturnType<typeof thunkApi.rejectWithValue>> => {
     try {
-      const response = await API.axios.post(`/admin/packages/${packageId}`);
+      const response = await API.axios.delete(`/admin/packages/${packageId}`);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

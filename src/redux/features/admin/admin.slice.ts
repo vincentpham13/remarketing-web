@@ -1,7 +1,7 @@
 import { IGenericEntityState } from "@/redux/interfaces";
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IOrder, IPackage } from "./admin.model";
-import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk, confirmUserOrderAsyncThunk } from "./admin.thunk";
+import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk, confirmUserOrderAsyncThunk, removePackageAsyncthunk } from "./admin.thunk";
 
 const userAdapter = createEntityAdapter();
 const packageAdapter = createEntityAdapter<IPackage>({
@@ -64,6 +64,12 @@ export const adminSlice = createSlice({
       packageAdapter.upsertOne(state.packages, action.payload.package);
       state.packages.status = 'succeeded';
     });
+    // builder.addCase(removePackageAsyncthunk.fulfilled, (state, action) => {
+    //   state.packages.status = 'succeeded';
+    //   if (action.payload.order) {
+    //     packageAdapter.removeOne(state.packages, action.payload.order);
+    //   }
+    // });
     // Orders
     builder.addCase(getUserOrdersAsyncThunk.pending, (state, action) => {
       state.orders.status = 'loading';
