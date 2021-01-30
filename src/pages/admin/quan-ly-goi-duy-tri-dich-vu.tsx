@@ -221,7 +221,7 @@ const ManagePackage = () => {
                             onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
-                              src={require('assets/img/theme/bootstrap.jpg')}
+                              src={require('assets/img/icons/app-icon.png')}
                             />
                           </a>
                           <Media>
@@ -244,9 +244,9 @@ const ManagePackage = () => {
                       <td  style={{width: "160px"}}>
                         <h3>
                         {packagePlan.packageTypeId == PackageType.TimeAndMessage ?
-                          <span class="text-light badge badge-pill badge-primary" style={{width: "160px"}}>{PackageTypeLabel.TimeAndMessage}</span>
+                          <span className="text-light badge badge-pill badge-primary" style={{width: "160px"}}>{PackageTypeLabel.TimeAndMessage}</span>
                           :
-                          <span class="text-light badge badge-pill badge-info" style={{width: "160px"}}>{PackageTypeLabel.MessageOnly}</span>
+                          <span className="text-light badge badge-pill badge-info" style={{width: "160px"}}>{PackageTypeLabel.MessageOnly}</span>
                         }
                         </h3>
                       </td>
