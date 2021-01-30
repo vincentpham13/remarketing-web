@@ -38,8 +38,9 @@ const MakePayment = () => {
   const userSl = useSelector(userSelector);
 
   const { goi } = router.query;
-  const [packagePlans, setPackagePlans] = useState([]);
-  const [packageIds, setPackageIds] = useState([]);
+  const [packageIds, setPackageIds] = useState([0]);
+  const [buyingProductInfo, setBuyingProductInfo] = useState('');
+  const [totalPriceInfo, setTotalPriceInfo] = useState('');
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -111,6 +112,45 @@ const MakePayment = () => {
     return true;
   };
 
+  const formatPackages = (packages) => {
+    console.log(
+      '🚀 ~ file: thanh-toan.tsx ~ line 115 ~ formatPackages ~ packages',
+      packages,
+    );
+    const maintainPackageNames: string[] = [];
+    const messagePackageNames: string[] = [];
+
+    for (const packagePlan of packages) {
+      if (packagePlan?.packageTypeId === 1) {
+        maintainPackageNames.push(
+          `${packagePlan.label} - ${packagePlan.messageAmount * 1000} tin nhắn`,
+        );
+      }
+      if (packagePlan?.packageTypeId === 2) {
+        messagePackageNames.push(
+          `${packagePlan.label} - ${packagePlan.messageAmount * 1000} tin nhắn`,
+        );
+      }
+    }
+    return (
+      <div>
+        {maintainPackageNames.length ? (
+          <div className="text-small">{`Gói duy trì: ${maintainPackageNames.join(
+            ', ',
+          )}`}</div>
+        ) : (
+          ''
+        )}
+
+        {messagePackageNames.length ? (
+          <div>{`Gói tin nhắn: ${messagePackageNames.join(', ')}`}</div>
+        ) : (
+          ''
+        )}
+      </div>
+    );
+  };
+
   const submitOrder = () => {
     const order = {
       fullName,
@@ -137,8 +177,6 @@ const MakePayment = () => {
 
   useEffect(() => {
     if (packageSl.status === 'succeeded') {
-      const data = denormalizeEntitiesArray(packageSl.ids, packageSl.entities);
-      setPackagePlans(data);
       const goiRegex = /^\[\d+(,\d+)?\]$/;
       if (!goiRegex.test(goi as string)) {
         router.push('/quan-ly-goi-dich-vu');
@@ -154,6 +192,19 @@ const MakePayment = () => {
         router.push('/quan-ly-goi-dich-vu');
       }
       setPackageIds(packageIds);
+      setBuyingProductInfo(
+        formatPackages([
+          packageSl.entities[packageIds[0]],
+          packageSl.entities[packageIds[1]],
+        ]),
+      );
+      setTotalPriceInfo(
+        formatMoney(
+          packageIds
+            .map((id) => packageSl.entities[id])
+            .reduce((a, b) => a + b?.price, 0),
+        ),
+      );
     }
   }, [packageSl.status]);
 
@@ -174,10 +225,11 @@ const MakePayment = () => {
                     <Row>
                       <Col lg="12">
                         <label className="form-control-label">Sản phẩm</label>
+                        <div>{buyingProductInfo}</div>
                       </Col>
                       <Col lg="12">
                         <label className="form-control-label">
-                          Tổng tiền: 5,400,000 VND
+                          Tổng tiền: {totalPriceInfo} VND
                         </label>
                       </Col>
                     </Row>
