@@ -346,19 +346,40 @@ const ManagePackage = () => {
                 placeholder=""
                 type="select">
                 <option id={1} value={1}>
-                  1000
+                  1.000
                 </option>
                 <option id={2} value={2}>
-                  2000
+                  2.000
                 </option>
                 <option id={3} value={3}>
-                  3000
+                  3.000
                 </option>
                 <option id={4} value={4}>
-                  4000
+                  4.000
                 </option>
                 <option id={5} value={5}>
-                  5000
+                  5.000
+                </option>
+                <option id={6} value={6}>
+                  6.000
+                </option>
+                <option id={7} value={7}>
+                  7.000
+                </option>
+                <option id={8} value={8}>
+                  8.000
+                </option>
+                <option id={9} value={9}>
+                  9.000
+                </option>
+                <option id={10} value={10}>
+                  10.000
+                </option>
+                <option id={11} value={11}>
+                  11.000
+                </option>
+                <option id={12} value={12}>
+                  12.000
                 </option>
               </Input>
             </FormGroup>
