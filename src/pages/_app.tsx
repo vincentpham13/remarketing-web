@@ -38,7 +38,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   if (typeof window !== 'undefined') {
     Facebook.load().then(() => {
       Facebook.init({
-        appId: '265010030625004',
+        appId: '4087907114572119',
         autoLogAppEvents: true,
         cookie: true,
         xfbml: true,
