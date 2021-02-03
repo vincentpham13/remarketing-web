@@ -47,8 +47,10 @@ export const adminSlice = createSlice({
       state.packages.status = 'loading';
     });
     builder.addCase(getPackagesAsyncThunk.fulfilled, (state, action) => {
-      packageAdapter.upsertMany(state.packages, action.payload.packages);
       state.packages.status = 'succeeded';
+      if(action.payload.packages) {
+        packageAdapter.upsertMany(state.packages, action.payload.packages);
+      }
     });
     builder.addCase(createPackagesAsyncThunk.pending, (state, action) => {
       state.packages.status = 'loading';
