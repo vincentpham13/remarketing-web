@@ -104,7 +104,7 @@ const ManageOrder = () => {
                 </thead>
                 <tbody>
                   {orders.map((order) => (
-                    <tr key={new Date(order.createdAt).toLocaleString()}>
+                    <tr key={new Date(order.createdAt).toLocaleString('en-GB')}>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -121,19 +121,19 @@ const ManageOrder = () => {
                           </Media>
                         </Media>
                       </th>
-                      <td>{new Date(order.createdAt).toLocaleString()}</td>
+                      <td>{new Date(order.createdAt).toLocaleString('en-GB')}</td>
                       <td>{formatPackages(order.packages)}</td>
-                      <td>{formatPrice(order.packages)}đ</td>
+                      <td>{formatPrice(order.packages)} VND</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i
                             className={
-                              order.status === 'success'
+                              order.status === 'completed'
                                 ? 'bg-success'
                                 : 'bg-warning'
                             }
                           />
-                          {order.status === 'success'
+                          {order.status === 'completed'
                             ? 'Đã thanh toán'
                             : 'Chờ thanh toán'}
                         </Badge>

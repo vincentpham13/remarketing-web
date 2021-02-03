@@ -39,23 +39,32 @@ export const adminSlice = createSlice({
       state.users.status = 'loading';
     });
     builder.addCase(getUsersAsyncThunk.fulfilled, (state, action) => {
-      userAdapter.upsertMany(state.users, action.payload.users);
-      state.users.status = 'succeeded';
+      const { users } = action.payload;
+      if(users){
+        userAdapter.upsertMany(state.users, users);
+        state.users.status = 'succeeded';
+      }
     });
     // Packages
     builder.addCase(getPackagesAsyncThunk.pending, (state, action) => {
       state.packages.status = 'loading';
     });
     builder.addCase(getPackagesAsyncThunk.fulfilled, (state, action) => {
-      packageAdapter.upsertMany(state.packages, action.payload.packages);
-      state.packages.status = 'succeeded';
+      const { packages } = action.payload;
+      if(packages){
+        packageAdapter.upsertMany(state.packages, packages);
+        state.packages.status = 'succeeded';
+      }
     });
     builder.addCase(createPackagesAsyncThunk.pending, (state, action) => {
       state.packages.status = 'loading';
     });
     builder.addCase(createPackagesAsyncThunk.fulfilled, (state, action) => {
-      packageAdapter.upsertMany(state.packages, action.payload.packages);
-      state.packages.status = 'succeeded';
+      const { packages } = action.payload;
+      if(packages){
+        packageAdapter.upsertMany(state.packages, packages);
+        state.packages.status = 'succeeded';
+      }
     });
     builder.addCase(updatePackagesAsyncThunk.pending, (state, action) => {
       state.packages.status = 'loading';
@@ -75,8 +84,9 @@ export const adminSlice = createSlice({
       state.orders.status = 'loading';
     });
     builder.addCase(getUserOrdersAsyncThunk.fulfilled, (state, action) => {
-      if (action.payload.orders) {
-        orderAdapter.upsertMany(state.orders, action.payload.orders);
+      const { orders } = action.payload;
+      if (orders) {
+        orderAdapter.upsertMany(state.orders, orders);
       }
       state.orders.status = 'succeeded';
     });

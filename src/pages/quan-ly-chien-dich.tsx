@@ -93,7 +93,7 @@ const Compaign = () => {
                           </Media>
                         </Media>
                       </th>
-                      <td>{new Date(campaign.createdAt).toLocaleString()}</td>
+                      <td>{new Date(campaign.createdAt).toLocaleString('en-GB')}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i

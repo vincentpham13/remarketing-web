@@ -5,12 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 
 import { IGenericEntityState } from "@/redux/interfaces";
-import { IUserInfo, IUserState } from './user.model';
-import { getFbProfileAsyncThunk, getMeAsyncThunk, updateUserInfoAsyncThunk } from './user.thunk';
+import { IUserInfo, IUserInfoDashboard, IUserState } from './user.model';
+import { getFbProfileAsyncThunk, getMeAsyncThunk, getMeDashboardAsyncThunk, updateUserInfoAsyncThunk } from './user.thunk';
+import moment from 'moment';
 
 export const userAdapter = createEntityAdapter();
 
-const initialState: IUserState & IGenericEntityState = userAdapter.getInitialState({
+const initialState: IUserState & IGenericEntityState & { dashboardInfo : IUserInfoDashboard } = userAdapter.getInitialState({
   id: '',
   name: '',
   email: '',
@@ -20,7 +21,19 @@ const initialState: IUserState & IGenericEntityState = userAdapter.getInitialSta
   successMessages: 0,
   totalMessages: 0,
   status: 'idle',
-  error: null
+  error: null,
+  dashboardInfo: {
+    pageCount: 0,
+    userPlan: {
+      totalMessages: 0,
+      successMessages: 0,
+      label: '',
+    },
+    runningCampaign: 0,
+    completedCampaign: 0,
+    recentCampaign: [],
+    recentOrder: []
+  }
 });
 
 const userSlice = createSlice({
@@ -82,6 +95,18 @@ const userSlice = createSlice({
     builder.addCase(getFbProfileAsyncThunk.fulfilled, (state, action) => {
       state.picture = action.payload;
     });
+
+    builder.addCase(getMeDashboardAsyncThunk.rejected, (state) => {
+      state.status = 'failed';
+    });
+    builder.addCase(getMeDashboardAsyncThunk.fulfilled, (state, action) => {
+      if(action.payload && action.payload.userPlan){
+        state.successMessages = action.payload.userPlan.successMessages;
+        state.totalMessages = action.payload.userPlan.totalMessages;
+        state.dashboardInfo = action.payload;
+      }
+      
+    });
   }
 });
 
@@ -90,6 +115,9 @@ export const { setUserName } = userSlice.actions;
 
 /* Export selectors */
 export const userSelector = (state: any): typeof initialState => state.user;
+
+export const userDashboardSelector = (state: any): typeof initialState => state.user;
+
 
 /* Export default reducer */
 export default userSlice.reducer;

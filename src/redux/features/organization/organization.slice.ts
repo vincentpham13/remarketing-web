@@ -23,8 +23,11 @@ const organizationSlice = createSlice({
       state.staffs.status = 'loading';
     });
     builder.addCase(getStaffsAsyncThunk.fulfilled, (state, action) => {
-      state.staffs.status = 'succeeded';
-      staffsAdapter.upsertMany(state.staffs, action.payload.staffs);
+      const { staffs } = action.payload;
+      if(staffs){
+        state.staffs.status = 'succeeded';
+        staffsAdapter.upsertMany(state.staffs, staffs);
+      }
     });
     builder.addCase(getStaffsAsyncThunk.rejected, (state, action) => {
       state.staffs.status = 'failed';

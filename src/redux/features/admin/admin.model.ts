@@ -21,11 +21,16 @@ export interface IOrder {
   phone: string;
   userId?: string;
   status?: string;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
   businessName?: string;
   businessAddress?: string;
   emailReceipt?: string;
   taxId?: string;
   packages?: IPackage[];
+  totalPrice?: number;
+  labels?: string[];
+  monthDurations?: number[];
+  dayDurations?: number[];
+  messageAmounts?: number[];
 }

@@ -120,7 +120,7 @@ const SingleFanpage: FC = (props) => {
                         </Badge>
                       </td>
                       <td>
-                        {new Date(member.createdAt).toLocaleString()}
+                        {new Date(member.createdAt).toLocaleString('en-GB')}
                       </td>
                       <td className="text-right">
                         <UncontrolledDropdown>

@@ -62,6 +62,20 @@ export const getMeAsyncThunk = createAsyncThunk(
   }
 );
 
+export const getMeDashboardAsyncThunk = createAsyncThunk(
+  'user/dashboard-info',
+  async (
+    _, thunkApi,
+  ): Promise<any> => {
+    try {
+      const response = await API.axios.get('/account/dashboard-info');
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
 export const createOrderThunk = createAsyncThunk(
   'order/create-order',
   async (data: {order: IOrder, packageIds: number[]}, thunkApi): Promise<any> => {

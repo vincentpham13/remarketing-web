@@ -26,8 +26,11 @@ const packageSlice = createSlice({
       state.status = 'failed';
     });
     builder.addCase(getPackagesAsyncThunk.fulfilled, (state, action) => {
-      state.status = 'succeeded';
-      packageAdapter.upsertMany(state, action.payload.packages);
+      const {packages} = action.payload;
+      if(packages){
+        state.status = 'succeeded';
+        packageAdapter.upsertMany(state, packages);
+      }
     });
   },
 });

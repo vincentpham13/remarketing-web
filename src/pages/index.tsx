@@ -1,38 +1,41 @@
-import React, { useState } from 'react';
-import classnames from 'classnames';
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import {
   Card,
-  CardBody,
   Container,
   Row,
   Col,
-  CardTitle,
   Button,
   CardHeader,
-  Nav,
-  NavItem,
-  NavLink,
-  Progress,
   Table,
+  Badge
 } from 'reactstrap';
 // layout for this page
 import User from '@/layouts/User';
 
 import UserHeader from '@/components/Headers/UserHeader';
-import { chartExample1, chartExample2 } from '@/variables/charts';
-import { Line, Bar } from 'react-chartjs-2';
+import { useDispatch, useSelector } from 'react-redux';
+import { getMeDashboardAsyncThunk, userSelector } from '@/redux/features/user';
+import { OrderStatus } from '@/enums/orderStatus';
 
 const Index = () => {
-  const [activeNav] = useState(2);
-  const chartExample1Data = 'data2';
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const userSl = useSelector(userSelector);
+  useEffect(() => {
+
+    //get user info 
+    dispatch(getMeDashboardAsyncThunk());
+  }, [])
 
   return (
     <>
       {/* Page content */}
-      <UserHeader />
+      <UserHeader userSl={userSl}/>
       <Container className="mt--7" fluid>
         <Row className="mt-5">
-          <Col className="mb-5 mb-xl-0" xl="8">
+          <Col className="mb-5 mb-xl-0 px-1" xl="6">
             <Card className="shadow">
               <CardHeader className="border-0">
                 <Row className="align-items-center">
@@ -43,7 +46,7 @@ const Index = () => {
                     <Button
                       color="primary"
                       href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={() => router.push('/quan-ly-chien-dich')}
                       size="sm">
                       Xem tất cả
                     </Button>
@@ -53,46 +56,53 @@ const Index = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Tên</th>
-                    <th scope="col">Ngày bắt đầu</th>
+                  <th scope="col">Tên</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Số lượng tin</th>
+                    <th scope="col">Tổng tin nhắn</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">/argon/</th>
-                    <td>4,569</td>
-                    <td>340</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/index.html</th>
-                    <td>3,985</td>
-                    <td>319</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{' '}
-                      46,53%
-                    </td>
-                  </tr>
+                {userSl.dashboardInfo.recentCampaign?.map((campaign) => (
+                    <tr key={campaign.id}>
+                      <th scope="row">
+                            <span className="mb-0 text-sm">
+                              {campaign.name}
+                            </span>
+                      </th>
+                      <td>
+                        <Badge color="" className="badge-dot mr-4">
+                          <i
+                            className={`${
+                              campaign.status === 'completed'
+                                ? 'bg-info'
+                                : 'bg-success'
+                            }`}
+                          />
+                          {campaign.status === 'completed'
+                            ? 'Kết thúc'
+                            : 'Đang chạy'}
+                        </Badge>
+                      </td>
+                      <td>{campaign.totalMessages}</td>
+                  
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card>
           </Col>
-          <Col xl="4">
+          <Col xl="6" className="px-1">
             <Card className="shadow">
               <CardHeader className="border-0">
                 <Row className="align-items-center">
-                  <div className="col">
+                  <div className="col px-0">
                     <h3 className="mb-0">Lịch sử nâng cấp gói</h3>
                   </div>
                   <div className="col text-right">
                     <Button
                       color="primary"
                       href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={() => router.push('/quan-ly-tai-khoan')}
                       size="sm">
                       Xem tất cả
                     </Button>
@@ -102,88 +112,39 @@ const Index = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Referral</th>
-                    <th scope="col">Visitors</th>
-                    <th scope="col" />
+                    <th scope="col">Thời gian</th>
+                    <th scope="col">Tổng tiền</th>
+                    <th scope="col">Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>1,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">60%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="60"
-                            barClassName="bg-gradient-danger"
+                {userSl.dashboardInfo.recentOrder?.map((order) => (
+                    <tr key={order.id}>
+                      <th scope="row">
+                            <span className="mb-0 text-sm">
+                              {new Date(order.createdAt).toLocaleString('en-GB')}
+                            </span>
+                      </th>
+                      <td>
+                          {order.totalPrice ?? 0} VND
+                      </td>
+                      <td><Badge color="" className="badge-dot">
+                          <i
+                            className={`${
+                              order.status === OrderStatus.COMPLETED
+                                ? 'bg-info'
+                                : order.status === OrderStatus.PENDING ? 'bg-success' : ''
+                                
+                            }`}
                           />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Facebook</th>
-                    <td>5,480</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">70%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="70"
-                            barClassName="bg-gradient-success"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Google</th>
-                    <td>4,807</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">80%</span>
-                        <div>
-                          <Progress max="100" value="80" />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Instagram</th>
-                    <td>3,678</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">75%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="75"
-                            barClassName="bg-gradient-info"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">twitter</th>
-                    <td>2,645</td>
-                    <td>
-                      <div className="d-flex align-items-center">
-                        <span className="mr-2">30%</span>
-                        <div>
-                          <Progress
-                            max="100"
-                            value="30"
-                            barClassName="bg-gradient-warning"
-                          />
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
+                          {order.status === OrderStatus.COMPLETED
+                            ? 'Kết thúc'
+                            : order.status === OrderStatus.PENDING ? 'Chờ thanh toán' : ''}
+                        </Badge>
+                        </td>
+                  
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card>
