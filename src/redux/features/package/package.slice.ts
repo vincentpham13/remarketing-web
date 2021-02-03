@@ -27,7 +27,9 @@ const packageSlice = createSlice({
     });
     builder.addCase(getPackagesAsyncThunk.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      packageAdapter.upsertMany(state, action.payload.packages);
+      if (action.payload.packages) {
+        packageAdapter.upsertMany(state, action.payload.packages);
+      }
     });
   },
 });
