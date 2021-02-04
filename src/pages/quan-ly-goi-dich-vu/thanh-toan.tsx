@@ -131,15 +131,15 @@ const MakePayment = () => {
     return (
       <div>
         {maintainPackageNames.length ? (
-          <div className="text-small">{`Gói duy trì: ${maintainPackageNames.join(
+          <p className="font-weight-light text-small">{`Gói duy trì: ${maintainPackageNames.join(
             ', ',
-          )}`}</div>
+          )}`}</p>
         ) : (
           ''
         )}
 
         {messagePackageNames.length ? (
-          <div>{`Gói tin nhắn: ${messagePackageNames.join(', ')}`}</div>
+          <p className="font-weight-light">{`Gói tin nhắn: ${messagePackageNames.join(', ')}`}</p>
         ) : (
           ''
         )}
