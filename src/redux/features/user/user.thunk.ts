@@ -77,7 +77,6 @@ export const createOrderThunk = createAsyncThunk(
         emailReceipt: data.order.emailReceipt,
         taxId: data.order.taxId,
       });
-      console.log(response.data);
       return response.data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);

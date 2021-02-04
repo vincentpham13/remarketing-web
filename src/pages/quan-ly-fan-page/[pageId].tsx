@@ -75,13 +75,13 @@ const SingleFanpage: FC = (props) => {
   return (
     <>
       <UserHeader />
-      <Container className="mt--7" fluid>
+      <Container className="mt-3" fluid>
         {/* Table */}
-        <Row className="mt-5">
+        <Row>
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">Danh sách người dùng đã chat</h3>
+                <h3 className="mb-0">Danh sách khách hàng</h3>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">

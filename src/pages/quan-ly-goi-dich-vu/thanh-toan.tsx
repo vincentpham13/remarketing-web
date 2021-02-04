@@ -113,10 +113,6 @@ const MakePayment = () => {
   };
 
   const formatPackages = (packages) => {
-    console.log(
-      '🚀 ~ file: thanh-toan.tsx ~ line 115 ~ formatPackages ~ packages',
-      packages,
-    );
     const maintainPackageNames: string[] = [];
     const messagePackageNames: string[] = [];
 
@@ -212,7 +208,7 @@ const MakePayment = () => {
     <>
       <UserHeader />
       {/* Page content */}
-      <Container className="mt--5" fluid>
+      <Container className="mt-3" fluid>
         <Row>
           <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
             <Card className="card-profile shadow">

@@ -19,22 +19,49 @@ import {
   PaginationLink,
   UncontrolledDropdown,
   UncontrolledTooltip,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
 } from 'reactstrap';
 import User from '@/layouts/User';
 
 import UserHeader from '@/components/Headers/UserHeader';
 import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
-import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
+import {
+  getFanpageMembersAsyncThunk,
+  getFanpagesAsyncThunk,
+} from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 import { authSelector } from '@/redux/features/auth';
 
-const RootFanpage: FC = () => {
+const RootManageCustomer: FC = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const fanpage = useSelector(fanpagesSelector);
+  const fanpageSl = useSelector(fanpagesSelector);
   const authSl = useSelector(authSelector);
 
   const [pages, setPages] = useState([]);
+  const [members, setMembers] = useState([]);
+  const [searchMembers, setSearchMembers] = useState(null);
+  const [selectedPage, setSelectedPage] = useState();
+
+  const onSearchInputChange = (e) => {
+    const { value: keyword } = e.target;
+    if (keyword) {
+      setSearchMembers(
+        // @ts-ignore
+        members.filter(
+          (member) =>
+            member.name.toLowerCase().indexOf(keyword.toLowerCase()) >= 0,
+        ),
+      );
+    } else {
+      setSearchMembers(null);
+    }
+  };
 
   useEffect(() => {
     if (authSl.status === 'succeeded') {
@@ -42,11 +69,34 @@ const RootFanpage: FC = () => {
     }
   }, [authSl.status]);
 
+  // Fetch fanpages
   useEffect(() => {
-    if (fanpage.status == 'succeeded') {
-      setPages(denormalizeEntitiesArray(fanpage.ids, fanpage.entities));
+    if (fanpageSl.status == 'succeeded') {
+      if (fanpageSl.ids.length) {
+        setPages(denormalizeEntitiesArray(fanpageSl.ids, fanpageSl.entities));
+        setSelectedPage(fanpageSl.entities[fanpageSl.ids[0]]);
+      }
     }
-  }, [fanpage.status]);
+  }, [fanpageSl.status]);
+
+  useEffect(() => {
+    if (
+      selectedPage &&
+      fanpageSl.entities[selectedPage.id as string]?.members?.length
+    ) {
+      setMembers(fanpageSl.entities[selectedPage.id as string]?.members);
+    }
+  }, [fanpageSl.status, fanpageSl.entities]);
+
+  useEffect(() => {
+    if (selectedPage) {
+      console.log(
+        '🚀 ~ file: index.tsx ~ line 72 ~ useEffect ~ selectedpage',
+        selectedPage,
+      );
+      dispatch(getFanpageMembersAsyncThunk(selectedPage.id as string));
+    }
+  }, [selectedPage]);
 
   return (
     <>
@@ -55,23 +105,68 @@ const RootFanpage: FC = () => {
         {/* Table */}
         <Row>
           <div className="col">
+            <div className="d-flex align-items-center">
+              {/* <p class="text-capitalize font-weight-bold mr-3">Chọn fanpage</p> */}
+              <UncontrolledDropdown>
+                <DropdownToggle
+                  caret
+                  color="secondary"
+                  id="dropdownMenuButton"
+                  size="lg"
+                  type="button">
+                  {selectedPage?.name || 'Chọn Fanpage'}
+                </DropdownToggle>
+
+                <DropdownMenu aria-labelledby="dropdownMenuButton">
+                  {pages.map((page) => (
+                    <DropdownItem
+                      active={page.id === selectedPage?.id}
+                      key={page.id}
+                      onClick={() => setSelectedPage(page)}>
+                      {page.name}
+                    </DropdownItem>
+                  ))}
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            </div>
+            <hr className="my-4" />
+            <FormGroup className="w-25 mr-3 mr-lg-auto mb-3">
+              <InputGroup>
+                <InputGroupAddon addonType="prepend">
+                  <InputGroupText id="basic-addon1">
+                    <i className="fa fa-search"></i>
+                  </InputGroupText>
+                </InputGroupAddon>
+                <Input
+                  onChange={onSearchInputChange}
+                  aria-describedby="basic-addon1"
+                  aria-label="name"
+                  placeholder="Tìm kiếm theo tên"
+                  type="text"></Input>
+              </InputGroup>
+            </FormGroup>
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">Danh sách Fanpage</h3>
+                <h3 className="mb-0">
+                  Danh sách khách hàng{' '}
+                  {selectedPage?.name
+                    ? `thuộc trang ${selectedPage?.name}`
+                    : ''}
+                </h3>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Tên</th>
-                    <th scope="col">Page ID</th>
+                    <th scope="col">User ID</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Members</th>
+                    <th scope="col">Đồng bộ lần cuối</th>
                     <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
-                  {pages.map((page) => (
-                    <tr key={page.id}>
+                  {(searchMembers || members).map((member) => (
+                    <tr key={member.id}>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -80,91 +175,24 @@ const RootFanpage: FC = () => {
                             onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
-                              src={require('assets/img/theme/react.jpg')}
+                              src={require('assets/img/theme/programmer.png')}
                             />
                           </a>
                           <Media>
-                            <span className="mb-0 text-sm">{page.name}</span>
+                            <span className="mb-0 text-sm">{member.name}</span>
                           </Media>
                         </Media>
                       </th>
-                      <td>{page.id}</td>
+                      <td>{member.uid}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-success" />
                           active
                         </Badge>
                       </td>
-                      <td>
-                        <div className="avatar-group">
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip742438047"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/team-1-800x800.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip742438047">
-                            Ryan Tompson
-                          </UncontrolledTooltip>
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip941738690"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/team-2-800x800.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip941738690">
-                            Romina Hadid
-                          </UncontrolledTooltip>
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip804044742"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/team-3-800x800.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip804044742">
-                            Alexander Smith
-                          </UncontrolledTooltip>
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip996637554"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/vincent.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip996637554">
-                            Jessica Doe
-                          </UncontrolledTooltip>
-                        </div>
-                      </td>
+                      <td>{new Date(member.createdAt).toLocaleString()}</td>
                       <td className="text-right">
-                        <UncontrolledDropdown>
+                        {/* <UncontrolledDropdown>
                           <DropdownToggle
                             className="btn-icon-only text-light"
                             href="#pablo"
@@ -177,12 +205,10 @@ const RootFanpage: FC = () => {
                           <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem
                               href="#pablo"
-                              onClick={(e) =>
-                                router.push(`/quan-ly-fan-page/${page.id}`)
-                              }>
-                              Xem người dùng chat
+                              onClick={(e) => e.preventDefault()}>
+                              Action
                             </DropdownItem>
-                            {/* <DropdownItem
+                            <DropdownItem
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Another action
@@ -191,9 +217,9 @@ const RootFanpage: FC = () => {
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Something else here
-                            </DropdownItem> */}
+                            </DropdownItem>
                           </DropdownMenu>
-                        </UncontrolledDropdown>
+                        </UncontrolledDropdown> */}
                       </td>
                     </tr>
                   ))}
@@ -238,6 +264,6 @@ const RootFanpage: FC = () => {
   );
 };
 
-RootFanpage.getLayout = (page) => <User>{page}</User>;
+RootManageCustomer.getLayout = (page) => <User>{page}</User>;
 
-export default RootFanpage;
+export default RootManageCustomer;

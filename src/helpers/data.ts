@@ -6,10 +6,10 @@ import { denormalize, schema } from 'normalizr';
  * @param entities 
  * @returns  array of entity
  */
-export const denormalizeEntitiesArray = (ids: any[], entities: any) => {
+export const denormalizeEntitiesArray = (ids: any[], entities: any): any[] => {
   const key = 'whatever';
   const fanpageSchema = new schema.Entity(key);
-  return denormalize(ids, [fanpageSchema], { [key]: entities });
+  return [...denormalize(ids, [fanpageSchema], { [key]: entities })];
 }
 
 /**

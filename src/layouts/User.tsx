@@ -26,6 +26,12 @@ const routes = [
     layout: '',
   },
   {
+    path: '/quan-ly-khach-hang',
+    name: 'Quản lý khách hàng',
+    icon: 'fa fa-users text-green',
+    layout: '',
+  },
+  {
     path: '/quan-ly-chien-dich',
     name: 'Quản lý Chiến dịch',
     icon: 'ni ni-notification-70 text-green',
@@ -34,7 +40,7 @@ const routes = [
   {
     path: '/quan-ly-goi-dich-vu',
     name: 'Quản lý gói lý và thanh toán dịch vụ',
-    icon: 'ni ni-spaceship text-green',
+    icon: 'fa fa-cogs text-green',
     layout: '',
   },
   {
@@ -86,7 +92,6 @@ function User(props) {
 
   const onModalSubmit = () => {
     if (!phone || !job || !email) {
-      alert('Vui lòng nhập đầy đủ thông tin');
       return;
     }
 
