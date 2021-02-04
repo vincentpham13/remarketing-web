@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
-import classnames from 'classnames';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import {
   Card,
-  CardBody,
   Container,
   Row,
   Col,
-  CardTitle,
   Button,
   CardHeader,
-  Nav,
-  NavItem,
-  NavLink,
   Progress,
   Table,
 } from 'reactstrap';
@@ -19,12 +15,49 @@ import {
 import User from '@/layouts/User';
 
 import UserHeader from '@/components/Headers/UserHeader';
-import { chartExample1, chartExample2 } from '@/variables/charts';
-import { Line, Bar } from 'react-chartjs-2';
+import {
+  campaignsSelector,
+  getCampaignsAsyncThunk,
+} from '@/redux/features/campaign';
+import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
+import { denormalizeEntitiesArray } from '@/helpers/data';
 
 const Index = () => {
-  const [activeNav] = useState(2);
-  const chartExample1Data = 'data2';
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const campaignSl = useSelector(campaignsSelector);
+
+  const [recentCampaigns, setRecentCampaigns] = useState([]);
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case 'pending':
+        return 'Đang chờ';
+      case 'running':
+        return 'Đang chạy';
+      case 'completed':
+        return 'Hoàn thành';
+      default:
+        return 'Không xác định';
+    }
+  }
+
+  useEffect(() => {
+    dispatch(getCampaignsAsyncThunk());
+    dispatch(getFanpagesAsyncThunk());
+  }, []);
+
+  useEffect(() => {
+    if (campaignSl.status === 'succeeded') {
+      setRecentCampaigns(
+        denormalizeEntitiesArray(campaignSl.ids, campaignSl.entities).slice(
+          0,
+          6,
+        ),
+      );
+    }
+  }, [campaignSl.status]);
 
   return (
     <>
@@ -42,8 +75,7 @@ const Index = () => {
                   <div className="col text-right">
                     <Button
                       color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={(e) => router.push('/quan-ly-chien-dich')}
                       size="sm">
                       Xem tất cả
                     </Button>
@@ -54,29 +86,29 @@ const Index = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Tên</th>
+                    <th scope="col">Ngày khởi tạo</th>
                     <th scope="col">Ngày bắt đầu</th>
-                    <th scope="col">Trạng thái</th>
                     <th scope="col">Số lượng tin</th>
+                    <th scope="col">Trạng thái</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">/argon/</th>
-                    <td>4,569</td>
-                    <td>340</td>
-                    <td>
-                      <i className="fas fa-arrow-up text-success mr-3" /> 46,53%
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">/argon/index.html</th>
-                    <td>3,985</td>
-                    <td>319</td>
-                    <td>
-                      <i className="fas fa-arrow-down text-warning mr-3" />{' '}
-                      46,53%
-                    </td>
-                  </tr>
+                  {recentCampaigns.map((campaign) => (
+                    <tr key={campaign.id}>
+                      <th scope="row">{campaign.name}</th>
+                      <td>
+                        {new Date(campaign.createdAt).toLocaleString('en-GB')}
+                      </td>
+                      <td>
+                        {new Date(campaign.startedAt).toLocaleString('en-GB')}
+                      </td>
+                      <td>{campaign.totalMessages}</td>
+                      <td>
+                        <i className="fas fa-check-circle text-success mr-3" />{' '}
+                        {formatStatus(campaign.status)}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </Table>
             </Card>
@@ -91,8 +123,7 @@ const Index = () => {
                   <div className="col text-right">
                     <Button
                       color="primary"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={(e) => router.push('/quan-ly-don-hang')}
                       size="sm">
                       Xem tất cả
                     </Button>

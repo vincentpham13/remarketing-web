@@ -30,6 +30,9 @@ const fanpageSlice = createSlice({
     builder.addCase(getFanpagesAsyncThunk.rejected, (state, action) => {
       state.status = 'failed';
     });
+    builder.addCase(getFanpageMembersAsyncThunk.pending, (state, action) => {
+      // state.status = 'loading';
+    });
     builder.addCase(getFanpageMembersAsyncThunk.fulfilled, (state, action) => {
       state.status = 'succeeded';
       const members = action.payload.members;

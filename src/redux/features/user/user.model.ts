@@ -7,6 +7,9 @@ export interface IUserState {
   job: string;
   successMessages: number;
   totalMessages: number;
+  packageId: number;
+  packageName: string;
+  validTo: Date;
 }
 
 export interface IUserInfo {
