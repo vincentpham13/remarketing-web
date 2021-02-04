@@ -14,11 +14,11 @@ class Footer extends React.Component {
               © {new Date().getFullYear()}{" "}
               <a
                 className="font-weight-bold ml-1"
-                href="https://www.creative-tim.com?ref=njsad-admin-footer"
+                href="https://bombot.vn"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                User
+                @Bombot.vn
               </a>
             </div>
           </Col>
@@ -27,41 +27,31 @@ class Footer extends React.Component {
             <Nav className="nav-footer justify-content-center justify-content-xl-end">
               <NavItem>
                 <NavLink
-                  href="https://www.creative-tim.com?ref=njsad-admin-footer"
+                  href="https://bombot.vn"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Creative Tim
+                  Trang chủ
                 </NavLink>
               </NavItem>
 
               <NavItem>
                 <NavLink
-                  href="https://www.creative-tim.com/presentation?ref=njsad-admin-footer"
+                  href="https://bombot.vn/policies"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  About Us
+                  Chính sách
                 </NavLink>
               </NavItem>
 
               <NavItem>
                 <NavLink
-                  href="http://blog.creative-tim.com?ref=njsad-admin-footer"
+                  href="http://bombot.vn"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  Blog
-                </NavLink>
-              </NavItem>
-
-              <NavItem>
-                <NavLink
-                  href="https://github.com/creativetimofficial/argon-dashboard/blob/master/LICENSE.md?ref=njsad-admin-footer"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  MIT License
+                  Điều khoản & Bảo mật
                 </NavLink>
               </NavItem>
             </Nav>
