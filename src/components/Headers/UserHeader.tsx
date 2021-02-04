@@ -31,18 +31,60 @@ const UserHeader = () => {
           <Card className="card-stats mb-4 mb-xl-0">
             <CardBody>
               <Row>
-                <div className="col">
+                <div className="col d-inline-flex align-items-center">
+                  <CardTitle
+                    tag="h5"
+                    className="text-uppercase text-muted mb-0">
+                    Gói đang dùng
+                  </CardTitle>
+                  <span className="h2 font-weight-bold mb-0 ml-2">
+                    {userSl.packageName}
+                  </span>
+                </div>
+              </Row>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">Số tin nhắn còn lại: </span>
+                <span className="text-dark mr-2 text-bold">
+                  <strong>
+                    {formatNumber(
+                      userSl.totalMessages - userSl.successMessages,
+                    )}
+                  </strong>
+                </span>{' '}
+              </p>
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">Có giá trị đến ngày: </span>
+                <span className="text-dark mr-2 text-weight-bold">
+                  {new Date(userSl.validTo).toLocaleString('en-GB')}
+                </span>{' '}
+              </p>
+
+              <p className="mt-2 mb-0 text-muted text-sm">
+                <span className="text-nowrap">
+                  <Link href="/quan-ly-goi-dich-vu">Tới quản lý gói</Link>
+                </span>
+              </p>
+            </CardBody>
+          </Card>
+        </Col>
+        <Col lg="6" xl="4">
+          <Card className="card-stats mb-4 mb-xl-0">
+            <CardBody>
+              <Row>
+                <div className="col d-inline-flex align-items-center">
                   <CardTitle
                     tag="h5"
                     className="text-uppercase text-muted mb-0">
                     Số fanpage
                   </CardTitle>
-                  <span className="h2 font-weight-bold mb-0">{fanpageSl.ids.length}</span>
+                  <span className="h2 font-weight-bold mb-0 ml-2">
+                    {fanpageSl.ids.length}
+                  </span>
                 </div>
               </Row>
               <p className="mt-2 mb-0 text-muted text-sm">
                 <span className="text-nowrap"></span>
-                <span className="text-warning mr-2 text-bold">
+                <span className="text-dark mr-2 text-bold ml-2">
                   <strong></strong>
                 </span>{' '}
               </p>
@@ -64,55 +106,21 @@ const UserHeader = () => {
           <Card className="card-stats mb-4 mb-xl-0">
             <CardBody>
               <Row>
-                <div className="col">
-                  <CardTitle
-                    tag="h5"
-                    className="text-uppercase text-muted mb-0">
-                    Gói đang dùng
-                  </CardTitle>
-                  <span className="h2 font-weight-bold mb-0">{userSl.packageName}</span>
-                </div>
-              </Row>
-              <p className="mt-2 mb-0 text-muted text-sm">
-                <span className="text-nowrap">Số tin nhắn còn lại: </span>
-                <span className="text-success mr-2 text-bold">
-                  <strong>{formatNumber(userSl.totalMessages - userSl.successMessages)}</strong>
-                </span>{' '}
-              </p>
-              <p className="mt-2 mb-0 text-muted text-sm">
-                <span className="text-nowrap">Có giá trị đến ngày: </span>
-                <span className="text-info mr-2 text-bold">
-                  {new Date(userSl.validTo).toLocaleString('en-GB')}
-                </span>{' '}
-              </p>
-
-              <p className="mt-2 mb-0 text-muted text-sm">
-                <span className="text-nowrap">
-                  <Link href="/quan-ly-goi-dich-vu">Tới quản lý gói</Link>
-                </span>
-              </p>
-            </CardBody>
-          </Card>
-        </Col>
-        <Col lg="6" xl="4">
-          <Card className="card-stats mb-4 mb-xl-0">
-            <CardBody>
-              <Row>
-                <div className="col">
+                <div className="col d-inline-flex align-items-center">
                   <CardTitle
                     tag="h5"
                     className="text-uppercase text-muted mb-0">
                     Chiến dịch đã chạy
                   </CardTitle>
-                  <span className="h2 font-weight-bold mb-0">{campaignSl.ids.length}</span>
+                  <span className="h2 font-weight-bold mb-0 ml-2">
+                    {campaignSl.ids.length}
+                  </span>
                 </div>
               </Row>
               <p className="mt-2 mb-0 text-muted text-sm">
-                <span className="text-nowrap">
-                  Tổng số chiến dịch đã chạy:{' '}
-                </span>
-                <span className="text-warning mr-2 text-bold">
-                  <strong>{campaignSl.ids.length}</strong>
+                <span className="text-nowrap">Tổng số tin nhắn đã gửi: </span>
+                <span className="text-dark mr-2 text-bold">
+                  <strong>{userSl.successMessages}</strong>
                 </span>
               </p>
               <p className="mt-2 mb-0 text-muted text-sm">

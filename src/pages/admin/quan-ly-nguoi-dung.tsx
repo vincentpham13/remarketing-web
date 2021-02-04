@@ -2,7 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // reactstrap components
-import { Card, CardHeader, Table, Container, Row, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import {
+  Card,
+  CardHeader,
+  Table,
+  Container,
+  Row,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+  CardFooter,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+} from 'reactstrap';
 // layout for this page
 import Admin from '@/layouts/Admin';
 // core components
@@ -32,7 +46,7 @@ const ManageUser = () => {
     <>
       <UserHeader />
       {/* Page content */}
-      <Container className="mt--5" fluid>
+      <Container className="mt-3" fluid>
         {/* Table */}
         {/* Dark table */}
         <Row>
@@ -96,6 +110,44 @@ const ManageUser = () => {
                   ))}
                 </tbody>
               </Table>
+              <CardFooter className="bg-transparent py-4 w-100">
+                {users.length ? (
+                  <nav aria-label="...">
+                    <Pagination
+                      className="pagination justify-content-end mb-0"
+                      listClassName="justify-content-end mb-0">
+                      <PaginationItem className="disabled">
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}
+                          tabIndex="-1">
+                          <i className="fas fa-angle-left" />
+                          <span className="sr-only">Previous</span>
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem className="active">
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}>
+                          1
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}>
+                          <i className="fas fa-angle-right" />
+                          <span className="sr-only">Next</span>
+                        </PaginationLink>
+                      </PaginationItem>
+                    </Pagination>
+                  </nav>
+                ) : (
+                  <p className="font-weight-bold text-white text-center text-wrap">
+                    Chưa có dữ liệu.
+                  </p>
+                )}
+              </CardFooter>
             </Card>
           </div>
         </Row>

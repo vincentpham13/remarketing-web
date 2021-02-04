@@ -74,7 +74,7 @@ const RootFanpage: FC = () => {
                     <tr key={page.id}>
                       <th scope="row">
                         <Media className="align-items-center">
-                          <a
+                          {/* <a
                             className="avatar rounded-circle mr-3"
                             href="#pablo"
                             onClick={(e) => e.preventDefault()}>
@@ -82,7 +82,7 @@ const RootFanpage: FC = () => {
                               alt="..."
                               src={require('assets/img/theme/react.jpg')}
                             />
-                          </a>
+                          </a> */}
                           <Media>
                             <span className="mb-0 text-sm">{page.name}</span>
                           </Media>
@@ -200,35 +200,42 @@ const RootFanpage: FC = () => {
                 </tbody>
               </Table>
               <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0">
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1">
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}>
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}>
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </nav>
+              {pages.length ? (
+                  <nav aria-label="...">
+                    <Pagination
+                      className="pagination justify-content-end mb-0"
+                      listClassName="justify-content-end mb-0">
+                      <PaginationItem className="disabled">
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}
+                          tabIndex="-1">
+                          <i className="fas fa-angle-left" />
+                          <span className="sr-only">Previous</span>
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem className="active">
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}>
+                          1
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}>
+                          <i className="fas fa-angle-right" />
+                          <span className="sr-only">Next</span>
+                        </PaginationLink>
+                      </PaginationItem>
+                    </Pagination>
+                  </nav>
+                ) : (
+                  <p className="font-weight-bold text-black-50 text-center text-wrap">
+                    Chưa có dữ liệu.
+                  </p>
+                )}
               </CardFooter>
             </Card>
           </div>

@@ -37,7 +37,7 @@ class Footer extends React.Component {
 
               <NavItem>
                 <NavLink
-                  href="https://bombot.vn/policies"
+                  href="https://bombot.vn/termsofservice2/"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -47,7 +47,7 @@ class Footer extends React.Component {
 
               <NavItem>
                 <NavLink
-                  href="http://bombot.vn"
+                  href="https://bombot.vn/PRIVACYPOLICY/"
                   rel="noopener noreferrer"
                   target="_blank"
                 >

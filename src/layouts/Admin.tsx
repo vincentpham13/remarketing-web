@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container } from 'reactstrap';
 // core components
 import AdminNavbar from '@/components/Navbars/AdminNavbar';
-import AdminFooter from '@/components/Footers/AdminFooter';
+import Footer from '@/components/Footers/Footer';
 import SideBar from '@/components/Sidebar/Sidebar';
 
 const routes = [
@@ -117,7 +117,7 @@ const Admin: FC = (props) => {
         <AdminNavbar {...props} brandText={getBrandText()} />
         {children}
         <Container fluid>
-          <AdminFooter />
+          <Footer />
         </Container>
       </div>
     </>

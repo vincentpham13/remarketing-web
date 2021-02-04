@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Col, Container, FormGroup, Input, Row } from 'reactstrap';
 // core components
 import UserNavbar from '@/components/Navbars/UserNavbar';
-import UserFooter from '@/components/Footers/UserFooter';
+import Footer from '@/components/Footers/Footer';
 import SideBar from '@/components/Sidebar/Sidebar';
 import { authSelector, refreshTokenAsyncThunk } from '@/redux/features/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -170,7 +170,7 @@ function User(props) {
         <UserNavbar {...props} brandText={getBrandText()} />
         {props.children}
         <Container fluid>
-          <UserFooter />
+          <Footer />
         </Container>
       </div>
       <CustomModal
