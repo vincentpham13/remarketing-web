@@ -118,7 +118,7 @@ const UserHeader = () => {
                 </div>
               </Row>
               <p className="mt-2 mb-0 text-muted text-sm">
-                <span className="text-nowrap">Số tin nhắn đã gửi: </span>
+                <span className="text-nowrap">Tổng số tin nhắn đã gửi: </span>
                 <span className="text-dark mr-2 text-bold">
                   <strong>{userSl.successMessages}</strong>
                 </span>
