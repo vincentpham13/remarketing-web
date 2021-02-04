@@ -10,6 +10,7 @@ import {
   CardHeader,
   Progress,
   Table,
+  CardFooter,
 } from 'reactstrap';
 // layout for this page
 import User from '@/layouts/User';
@@ -41,7 +42,7 @@ const Index = () => {
       default:
         return 'Không xác định';
     }
-  }
+  };
 
   useEffect(() => {
     dispatch(getCampaignsAsyncThunk());
@@ -111,6 +112,13 @@ const Index = () => {
                   ))}
                 </tbody>
               </Table>
+              <CardFooter className="py-4">
+                {!recentCampaigns.length ? (
+                  <p className="font-weight-bold text-black-50 text-center text-wrap">
+                    Chưa có dữ liệu.
+                  </p>
+                ) : null}
+              </CardFooter>
             </Card>
           </Col>
           <Col xl="4">

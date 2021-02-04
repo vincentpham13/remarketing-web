@@ -85,16 +85,18 @@ const RootManageCustomer: FC = () => {
       fanpageSl.entities[selectedPage.id as string]?.members?.length
     ) {
       setMembers(fanpageSl.entities[selectedPage.id as string]?.members);
+    } else {
+      setMembers([]);
     }
   }, [fanpageSl.status, fanpageSl.entities]);
 
   useEffect(() => {
     if (selectedPage) {
-      console.log(
-        '🚀 ~ file: index.tsx ~ line 72 ~ useEffect ~ selectedpage',
-        selectedPage,
-      );
+      // if (fanpageSl.entities[selectedPage.id as string]?.members?.length) {
+      //   setMembers(fanpageSl.entities[selectedPage.id as string]?.members);
+      // } else {
       dispatch(getFanpageMembersAsyncThunk(selectedPage.id as string));
+      // }
     }
   }, [selectedPage]);
 
@@ -226,35 +228,37 @@ const RootManageCustomer: FC = () => {
                 </tbody>
               </Table>
               <CardFooter className="py-4">
-                <nav aria-label="...">
-                  <Pagination
-                    className="pagination justify-content-end mb-0"
-                    listClassName="justify-content-end mb-0">
-                    <PaginationItem className="disabled">
-                      <PaginationLink
-                        onClick={(e) => e.preventDefault()}
-                        tabIndex="-1">
-                        <i className="fas fa-angle-left" />
-                        <span className="sr-only">Previous</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem className="active">
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}>
-                        1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}>
-                        <i className="fas fa-angle-right" />
-                        <span className="sr-only">Next</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                  </Pagination>
-                </nav>
+                {members.length ? (
+                  <nav aria-label="...">
+                    <Pagination
+                      className="pagination justify-content-end mb-0"
+                      listClassName="justify-content-end mb-0">
+                      <PaginationItem className="disabled">
+                        <PaginationLink
+                          onClick={(e) => e.preventDefault()}
+                          tabIndex="-1">
+                          <i className="fas fa-angle-left" />
+                          <span className="sr-only">Previous</span>
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem className="active">
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}>
+                          1
+                        </PaginationLink>
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationLink
+                          href="#pablo"
+                          onClick={(e) => e.preventDefault()}>
+                          <i className="fas fa-angle-right" />
+                          <span className="sr-only">Next</span>
+                        </PaginationLink>
+                      </PaginationItem>
+                    </Pagination>
+                  </nav>
+                ) : (<p className="h4 font-weight-bold text-warning text-center text-wrap">Website tạm thời không hiển thị được danh sách khách hàng, do fanpage chưa thực hiện quét khách hàng trên extension Bombot.</p>)}
               </CardFooter>
             </Card>
           </div>
