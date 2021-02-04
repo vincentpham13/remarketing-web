@@ -53,7 +53,7 @@ const Compaign = () => {
   return (
     <>
       <UserHeader />
-      <Container className="mt--5" fluid>
+      <Container className="mt-3" fluid>
         {/* Table */}
         <Row>
           <div className="col">
@@ -181,20 +181,6 @@ const Compaign = () => {
                         href="#pablo"
                         onClick={(e) => e.preventDefault()}>
                         1
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}>
-                        2 <span className="sr-only">(current)</span>
-                      </PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink
-                        href="#pablo"
-                        onClick={(e) => e.preventDefault()}>
-                        3
                       </PaginationLink>
                     </PaginationItem>
                     <PaginationItem>
