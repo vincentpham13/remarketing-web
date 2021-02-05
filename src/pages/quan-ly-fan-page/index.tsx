@@ -65,7 +65,6 @@ const RootFanpage: FC = () => {
                     <th scope="col">Tên</th>
                     <th scope="col">Page ID</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Members</th>
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -76,7 +75,6 @@ const RootFanpage: FC = () => {
                         <Media className="align-items-center">
                           {/* <a
                             className="avatar rounded-circle mr-3"
-                            href="#pablo"
                             onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
@@ -92,82 +90,13 @@ const RootFanpage: FC = () => {
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-success" />
-                          active
+                          Đang hoạt động
                         </Badge>
-                      </td>
-                      <td>
-                        <div className="avatar-group">
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip742438047"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/team-1-800x800.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip742438047">
-                            Ryan Tompson
-                          </UncontrolledTooltip>
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip941738690"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/team-2-800x800.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip941738690">
-                            Romina Hadid
-                          </UncontrolledTooltip>
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip804044742"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/team-3-800x800.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip804044742">
-                            Alexander Smith
-                          </UncontrolledTooltip>
-                          <a
-                            className="avatar avatar-sm"
-                            href="#pablo"
-                            id="tooltip996637554"
-                            onClick={(e) => e.preventDefault()}>
-                            <img
-                              alt="..."
-                              className="rounded-circle"
-                              src={require('assets/img/theme/vincent.jpg')}
-                            />
-                          </a>
-                          <UncontrolledTooltip
-                            delay={0}
-                            target="tooltip996637554">
-                            Jessica Doe
-                          </UncontrolledTooltip>
-                        </div>
                       </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
                           <DropdownToggle
                             className="btn-icon-only text-light"
-                            href="#pablo"
                             role="button"
                             size="sm"
                             color=""
@@ -176,19 +105,16 @@ const RootFanpage: FC = () => {
                           </DropdownToggle>
                           <DropdownMenu className="dropdown-menu-arrow" right>
                             <DropdownItem
-                              href="#pablo"
                               onClick={(e) =>
-                                router.push(`/quan-ly-fan-page/${page.id}`)
+                                router.push(`/quan-ly-khach-hang?pageID=${page.id}`)
                               }>
                               Xem người dùng chat
                             </DropdownItem>
                             {/* <DropdownItem
-                              href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Another action
                             </DropdownItem>
                             <DropdownItem
-                              href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Something else here
                             </DropdownItem> */}
@@ -207,7 +133,6 @@ const RootFanpage: FC = () => {
                       listClassName="justify-content-end mb-0">
                       <PaginationItem className="disabled">
                         <PaginationLink
-                          href="#pablo"
                           onClick={(e) => e.preventDefault()}
                           tabIndex="-1">
                           <i className="fas fa-angle-left" />
@@ -216,14 +141,12 @@ const RootFanpage: FC = () => {
                       </PaginationItem>
                       <PaginationItem className="active">
                         <PaginationLink
-                          href="#pablo"
                           onClick={(e) => e.preventDefault()}>
                           1
                         </PaginationLink>
                       </PaginationItem>
                       <PaginationItem>
                         <PaginationLink
-                          href="#pablo"
                           onClick={(e) => e.preventDefault()}>
                           <i className="fas fa-angle-right" />
                           <span className="sr-only">Next</span>

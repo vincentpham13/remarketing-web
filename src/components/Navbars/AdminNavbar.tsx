@@ -70,7 +70,7 @@ const AdminNavbar: FC = (props) => {
                 <DropdownItem className="noti-title" header tag="div">
                   <h6 className="text-overflow m-0">Xin chào!</h6>
                 </DropdownItem>
-                <Link href="/admin/profile">
+                {/* <Link href="/admin/profile">
                   <DropdownItem>
                     <i className="ni ni-single-02" />
                     <span>Thông tin</span>
@@ -93,7 +93,7 @@ const AdminNavbar: FC = (props) => {
                     <i className="ni ni-support-16" />
                     <span>Hỗ trợ</span>
                   </DropdownItem>
-                </Link>
+                </Link> */}
                 <DropdownItem divider />
                 <DropdownItem href="#pablo" onClick={logout}>
                   <i className="ni ni-user-run" />

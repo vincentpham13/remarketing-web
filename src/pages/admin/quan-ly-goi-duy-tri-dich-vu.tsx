@@ -357,7 +357,7 @@ const ManagePackage = () => {
                     name="radio-package-type"
                     onChange={onpackageTypeIdChange}
                     value={PackageType.TimeAndMessage}
-                    checked={packageTypeId == PackageType.TimeAndMessage}
+                    checked={packageTypeId === PackageType.TimeAndMessage}
                   />{' '}
                   {PackageTypeLabel.TimeAndMessage}
                 </Label>
@@ -369,7 +369,7 @@ const ManagePackage = () => {
                     name="radio-package-type"
                     onChange={onpackageTypeIdChange}
                     value={PackageType.MessageOnly}
-                    checked={packageTypeId == PackageType.MessageOnly}
+                    checked={packageTypeId === PackageType.MessageOnly}
                   />{' '}
                   {PackageTypeLabel.MessageOnly}
                 </Label>

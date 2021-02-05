@@ -55,7 +55,7 @@ export const checkPromotionAsyncThunk = createAsyncThunk(
   'order/check-promotion',
   async (promotionChecking: IPromotionChecking, thunkApi): Promise<any> => {
     try {
-      const response = await API.axios.post('/promotions/code/' + promotionChecking.promotionCode, {
+      const response = await API.axios.post(`/promotions/code/${promotionChecking.promotionCode}`, {
         packageIds: promotionChecking.packageIds,
         orderPrice: promotionChecking.orderPrice
       });

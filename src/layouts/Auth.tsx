@@ -30,7 +30,7 @@ function Auth(props) {
     if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
       // admin
       if (auth.user?.roleId === 2) {
-        router.push('/admin');
+        router.push('/admin/quan-ly-nguoi-dung');
       } else if (auth.user?.roleId === 1) {
         router.push('/');
       }
@@ -39,7 +39,7 @@ function Auth(props) {
 
   return (
     <>
-      <div className="main-content">
+      <div className="main-content login-bg">
         <AuthNavbar {...props} brandText="TEST" />
         <div className="header py-3 py-lg-3">
           {/* <Container>

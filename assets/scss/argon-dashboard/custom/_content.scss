@@ -1,6 +1,12 @@
 .main-content {
     position: relative;
 
+    &.login-bg {
+        background: url("https://i.imgur.com/NXybPBk.png") no-repeat;
+        background-size: cover;
+        height: 100vh;
+    }
+
     // Navbar
     .navbar-top {
         position: absolute;
@@ -22,18 +28,12 @@
     }
 }
 
-
 // Offsets the main content depending on the sidebar positioning
 
 .navbar-vertical.navbar-expand {
-
-    @each $breakpoint,
-    $dimension in $grid-breakpoints {
-
+    @each $breakpoint, $dimension in $grid-breakpoints {
         &-#{$breakpoint} {
-
             @include media-breakpoint-up(#{$breakpoint}) {
-
                 // Left
                 &.fixed-left + .main-content {
                     margin-left: $navbar-vertical-width;

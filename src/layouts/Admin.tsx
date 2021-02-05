@@ -15,34 +15,41 @@ import Footer from '@/components/Footers/Footer';
 import SideBar from '@/components/Sidebar/Sidebar';
 
 const routes = [
-  {
-    path: '',
-    name: 'Tổng quan',
-    icon: 'ni ni-tv-2 text-green',
-    layout: '/admin',
-  },
+  // {
+  //   path: '',
+  //   name: 'Tổng quan',
+  //   icon: 'ni ni-tv-2 text-primary',
+  //   layout: '/admin',
+  //   hidden: true,
+  // },
   {
     path: '/quan-ly-nguoi-dung',
-    name: 'Người dùng',
-    icon: 'ni ni-planet text-green',
+    name: 'Quản lý người dùng',
+    icon: 'fa fa-users text-primary',
     layout: '/admin',
   },
-  {
-    path: '/quan-ly-tin-nhan',
-    name: 'Tin nhắn người dùng',
-    icon: 'ni ni-pin-3 text-green',
-    layout: '/admin',
-  },
+  // {
+  //   path: '/quan-ly-tin-nhan',
+  //   name: 'Tin nhắn người dùng',
+  //   icon: 'ni ni-pin-3 text-primary',
+  //   layout: '/admin',
+  // },
   {
     path: '/quan-ly-goi-duy-tri-dich-vu',
     name: 'Gói duy trì dịch vụ',
-    icon: 'ni ni-single-02 text-green',
+    icon: 'fa fa-cubes text-primary',
     layout: '/admin',
   },
   {
     path: '/quan-ly-don-hang',
-    name: 'Đơn hàng',
-    icon: 'ni ni-bullet-list-67 text-green',
+    name: 'Quản lý đơn hàng',
+    icon: 'fa fa-cart-plus text-primary',
+    layout: '/admin',
+  },
+  {
+    path: '/quan-ly-khuyen-mai',
+    name: 'Quản lý khuyến mãi',
+    icon: 'fa fa-tags text-primary',
     layout: '/admin',
   },
 ];
@@ -108,7 +115,7 @@ const Admin: FC = (props) => {
         {...props}
         routes={routes}
         logo={{
-          innerLink: '/admin',
+          innerLink: '/admin/quan-ly-nguoi-dung',
           imgSrc: require('assets/img/logo/logo-green.png'),
           imgAlt: '...',
         }}

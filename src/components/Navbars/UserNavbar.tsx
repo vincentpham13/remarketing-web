@@ -73,13 +73,13 @@ const UserNavbar: FC = (props) => {
                     <span>Thông tin</span>
                   </DropdownItem>
                 </Link>
-                <Link href="/admin/profile">
+                {/* <Link href="/admin/profile">
                   <DropdownItem>
                     <i className="ni ni-settings-gear-65" />
                     <span>Thiết lập</span>
                   </DropdownItem>
-                </Link>
-                <Link href="/admin/profile">
+                </Link> */}
+                {/* <Link href="/admin/profile">
                   <DropdownItem>
                     <i className="ni ni-calendar-grid-58" />
                     <span>Hoạt động</span>
@@ -90,7 +90,7 @@ const UserNavbar: FC = (props) => {
                     <i className="ni ni-support-16" />
                     <span>Hỗ trợ</span>
                   </DropdownItem>
-                </Link>
+                </Link> */}
                 <DropdownItem divider />
                 <DropdownItem href="#pablo" onClick={logout}>
                   <i className="ni ni-user-run" />
