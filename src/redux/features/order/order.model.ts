@@ -1,4 +1,5 @@
 import { IGenericEntityState } from "@/redux/interfaces";
+import { IPackage } from "../admin/admin.model";
 
 export interface IOrder {
   id?: number;
@@ -40,4 +41,5 @@ export interface IPromotionChecking {
   promotionCode: string;
   packageIds: number[];
   orderPrice: number;
+  promotionIds?: number[]
 }

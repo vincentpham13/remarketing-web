@@ -30,6 +30,7 @@ import {
   formatPrice,
   formatStatus,
 } from '@/helpers/data';
+import { IOrder } from '@/redux/features/order/order.model';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const Profile = () => {
   const [job, setJob] = useState('');
 
   // Order history
-  const [historyOrders, setHistoryOrders] = useState([]);
+  const [historyOrders, setHistoryOrders] = useState<IOrder[]>([]);
 
   const onNameChange = (e) => {
     setName(e.target.value);
