@@ -75,7 +75,6 @@ const RootFanpage: FC = () => {
                         <Media className="align-items-center">
                           {/* <a
                             className="avatar rounded-circle mr-3"
-                            href="#pablo"
                             onClick={(e) => e.preventDefault()}>
                             <img
                               alt="..."
@@ -91,14 +90,13 @@ const RootFanpage: FC = () => {
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-success" />
-                          active
+                          Đang hoạt động
                         </Badge>
                       </td>
                       <td className="text-right">
                         <UncontrolledDropdown>
                           <DropdownToggle
                             className="btn-icon-only text-light"
-                            href="#pablo"
                             role="button"
                             size="sm"
                             color=""
@@ -113,12 +111,10 @@ const RootFanpage: FC = () => {
                               Xem người dùng chat
                             </DropdownItem>
                             {/* <DropdownItem
-                              href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Another action
                             </DropdownItem>
                             <DropdownItem
-                              href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Something else here
                             </DropdownItem> */}
@@ -137,7 +133,6 @@ const RootFanpage: FC = () => {
                       listClassName="justify-content-end mb-0">
                       <PaginationItem className="disabled">
                         <PaginationLink
-                          href="#pablo"
                           onClick={(e) => e.preventDefault()}
                           tabIndex="-1">
                           <i className="fas fa-angle-left" />
@@ -146,14 +141,12 @@ const RootFanpage: FC = () => {
                       </PaginationItem>
                       <PaginationItem className="active">
                         <PaginationLink
-                          href="#pablo"
                           onClick={(e) => e.preventDefault()}>
                           1
                         </PaginationLink>
                       </PaginationItem>
                       <PaginationItem>
                         <PaginationLink
-                          href="#pablo"
                           onClick={(e) => e.preventDefault()}>
                           <i className="fas fa-angle-right" />
                           <span className="sr-only">Next</span>

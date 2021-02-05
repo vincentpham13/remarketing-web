@@ -122,7 +122,7 @@ const MakePayment = () => {
                   <div className="col d-inline-flex align-items-center">
                     <CardTitle
                       tag="h3"
-                      className="text-uppercase text-success mb-0">
+                      className="text-uppercase text-primary mb-0">
                       Thông tin chuyển khoản
                     </CardTitle>
                   </div>
@@ -172,7 +172,7 @@ const MakePayment = () => {
                   <div className="col d-inline-flex align-items-center">
                     <CardTitle
                       tag="p"
-                      className="text-success font-weight-bold mb-0">
+                      className="text-primary font-weight-bold mb-0">
                       {currentOrder?.status === 'success' ? 'Đơn hàng này đã thanh toán thành công' : `Đơn hàng của bạn đã được tiếp nhận, Chúng tôi sẽ tiến hành
                       xử lý đơn hàng của bạn.`}
                     </CardTitle>
@@ -226,13 +226,12 @@ const MakePayment = () => {
                   <div className="col d-inline-flex align-items-center">
                     <CardTitle
                       tag="h3"
-                      className="text-success text-uppercase mb-0">
+                      className="text-primary text-uppercase mb-0">
                       Thông tin đơn hàng
                     </CardTitle>
                   </div>
                 </Row>
                 <Table
-                  inverse={true}
                   className="my-2 align-items-center table-flush"
                   responsive>
                   <thead className="thead-light">

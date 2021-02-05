@@ -1,103 +1,284 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-// reactstrap components
-import { Card, CardHeader, Table, Container, Row, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown } from 'reactstrap';
+import {
+  Badge,
+  Card,
+  CardHeader,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Media,
+  Table,
+  Container,
+  Row,
+  CardFooter,
+  Pagination,
+  PaginationItem,
+  PaginationLink,
+  Col,
+  CardBody,
+  CardTitle,
+  FormGroup,
+  Button,
+  Form,
+  Input,
+} from 'reactstrap';
 // layout for this page
 import Admin from '@/layouts/Admin';
 // core components
 import UserHeader from '@/components/Headers/UserHeader';
-import { adminSelector, getUsersAsyncThunk } from '@/redux/features/admin';
-import { denormalizeEntitiesArray } from '@/helpers/data';
+import {
+  adminSelector,
+  confirmUserOrderAsyncThunk,
+  getUserOrdersAsyncThunk,
+} from '@/redux/features/admin';
+import {
+  denormalizeEntitiesArray,
+  formatMoney,
+  formatPackages,
+  formatPrice,
+} from '@/helpers/data';
 
 const ManagePromotion = () => {
   const dispatch = useDispatch();
   const adminSl = useSelector(adminSelector);
 
-  const [users, setUsers] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  const confirmOrder = (orderId) => {
+    dispatch(confirmUserOrderAsyncThunk(orderId));
+  };
 
   useEffect(() => {
-    dispatch(getUsersAsyncThunk());
+    dispatch(getUserOrdersAsyncThunk());
   }, []);
 
   useEffect(() => {
-    if (adminSl.users.status === 'succeeded') {
-      setUsers(
-        denormalizeEntitiesArray(adminSl.users.ids, adminSl.users.entities),
+    if (adminSl.orders.status === 'succeeded') {
+      setOrders(
+        denormalizeEntitiesArray(adminSl.orders.ids, adminSl.orders.entities),
       );
     }
-  }, [adminSl.users.status]);
+  }, [adminSl.orders.status]);
 
   return (
     <>
       <UserHeader />
       {/* Page content */}
-      <Container className="mt--5" fluid>
-        {/* Table */}
+      <Container className="mt-3" fluid>
         {/* Dark table */}
         <Row>
-          <div className="col">
-            <Card className="bg-default shadow">
-              <CardHeader className="bg-transparent border-0">
-                <h3 className="text-white mb-0">Danh sách tài khoản</h3>
-              </CardHeader>
-              <Table
-                className="align-items-center table-dark table-flush"
-                responsive>
-                <thead className="thead-dark">
-                  <tr>
-                    <th scope="col">UID</th>
-                    <th scope="col">Tên tài khoản</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Điện thoại</th>
-                    <th scope="col">nghề nghiệp</th>
-                    <th scope="col" />
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.map((user) => (
-                    <tr key={user.id}>
-                      <th scope="row">{user.id}</th>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.phone}</td>
-                      <td>{user.job}</td>
-                      <td className="text-right">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            className="btn-icon-only text-light"
-                            href="#pablo"
-                            role="button"
-                            size="sm"
-                            color=""
-                            onClick={(e) => e.preventDefault()}>
-                            <i className="fas fa-ellipsis-v" />
-                          </DropdownToggle>
-                          <DropdownMenu className="dropdown-menu-arrow" right>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}>
-                              Action
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}>
-                              Another action
-                            </DropdownItem>
-                            <DropdownItem
-                              href="#pablo"
-                              onClick={(e) => e.preventDefault()}>
-                              Something else here
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </Table>
+          <Col xl={6}>
+            <Card className="card-stats mb-4 mb-xl-0">
+              <CardBody>
+                <Row>
+                  <div className="col d-inline-flex align-items-center">
+                    <CardTitle
+                      tag="h3"
+                      className="text-uppercase text-primary mb-0">
+                      Thông tin khuyến mãi
+                    </CardTitle>
+                  </div>
+                </Row>
+                <Form>
+                  <div className="mt-3">
+                    <Row>
+                      <Col lg="12">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username">
+                            Mã khuyến mãi <span className="text-red">*</span>
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder=""
+                            type="text"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                  <div>
+                    <Row>
+                      <Col md="12">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-phone">
+                            Mô tả thông tin của khuyến mãi
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-phone"
+                            placeholder="Mô tả"
+                            aria-rowcount={5}
+                            type="textarea"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                  <div>
+                    <Row>
+                      <Col md="6">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            checked={true}
+                            className="custom-control-input"
+                            id="customRadio1"
+                            name="customRadio"
+                            type="checkbox"></input>
+                          <label
+                            className="custom-control-label"
+                            htmlFor="customRadio1">
+                            Tăng thời hạn sử dụng
+                          </label>
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="custom-control custom-checkbox mb-3">
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder="số tháng"
+                            type="number"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col md="6">
+                        <div className="custom-control custom-checkbox">
+                          <input
+                            checked={true}
+                            className="custom-control-input"
+                            id="customRadio1"
+                            name="customRadio"
+                            type="checkbox"></input>
+                          <label
+                            className="custom-control-label"
+                            htmlFor="customRadio1">
+                            Tăng số lượng tin nhắn
+                          </label>
+                        </div>
+                      </Col>
+                      <Col md="6">
+                        <div className="custom-control custom-checkbox mb-3">
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder="số tin nhắn"
+                            type="number"
+                          />
+                        </div>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form>
+              </CardBody>
             </Card>
-          </div>
+          </Col>
+          <Col xl={6}>
+            <Card className="card-stats mb-4 mb-xl-0">
+              <CardBody>
+                <Row>
+                  <div className="col d-inline-flex align-items-center">
+                    <CardTitle
+                      tag="h3"
+                      className="text-uppercase text-primary mb-0">
+                      Nội dung khuyến mãi
+                    </CardTitle>
+                  </div>
+                </Row>
+                <Form>
+                  <div className="mt-3">
+                    <Row>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username">
+                            Số lượng ưu đãi <span className="text-red">*</span>
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder=""
+                            type="number"
+                          />
+                        </FormGroup>
+                      </Col>
+                      <Col lg="6">
+                        <FormGroup>
+                          <label
+                            className="form-control-label"
+                            htmlFor="input-username">
+                            Ngày hết hạn <span className="text-red">*</span>
+                          </label>
+                          <Input
+                            className="form-control-alternative"
+                            id="input-username"
+                            placeholder=""
+                            type="date"
+                          />
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                  <div className="mt-3">
+                    <Row>
+                      <Col lg="12">
+                        <FormGroup>
+                          <label
+                            className="form-control-label mr-3"
+                            htmlFor="input-username">
+                            Áp dụng khi mua gói{'   '}
+                          </label>
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              caret
+                              color="secondary"
+                              id="dropdownMenuButton"
+                              size="lg"
+                              type="button">
+                              
+                            </DropdownToggle>
+                            <DropdownMenu aria-labelledby="dropdownMenuButton">
+                              <DropdownItem
+                                onClick={(e) => e.preventDefault()}>
+                                Goi MT100234324324
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={(e) => e.preventDefault()}>
+                                Goi MT100234324324
+                              </DropdownItem>
+                              <DropdownItem
+                                onClick={(e) => e.preventDefault()}>
+                                Goi MT100234324324
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </FormGroup>
+                      </Col>
+                    </Row>
+                  </div>
+                  <div>
+                    <Row>
+                      <Col md="12">
+                        <Button 
+                        type="button" 
+                        color="primary"
+                        >Lưu mã khuyến mãi</Button>
+                      </Col>
+                    </Row>
+                  </div>
+                </Form>
+              </CardBody>
+            </Card>
+          </Col>
         </Row>
       </Container>
     </>
