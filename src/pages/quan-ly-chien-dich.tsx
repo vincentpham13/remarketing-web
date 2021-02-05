@@ -65,7 +65,8 @@ const Compaign = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Tên</th>
-                    <th scope="col">Thời gian bắt đầu</th>
+                    <th scope="col">Ngày khởi tạo</th>
+                    <th scope="col">Ngày bắt đầu</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col">Tổng tin nhắn</th>
                     <th scope="col">Tỉ lệ hoàn thành</th>
@@ -93,7 +94,8 @@ const Compaign = () => {
                           </Media>
                         </Media>
                       </th>
-                      <td>{new Date(campaign.createdAt).toLocaleString()}</td>
+                      <td>{new Date(campaign.createdAt).toLocaleString('vi-VN')}</td>
+                      <td>{new Date(campaign.startedAt).toLocaleString('vi-VN')}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i
@@ -129,7 +131,7 @@ const Compaign = () => {
                         </div>
                       </td>
                       <td className="text-right">
-                        <UncontrolledDropdown>
+                        {/* <UncontrolledDropdown>
                           <DropdownToggle
                             className="btn-icon-only text-light"
                             href="#pablo"
@@ -156,7 +158,7 @@ const Compaign = () => {
                               Something else here
                             </DropdownItem>
                           </DropdownMenu>
-                        </UncontrolledDropdown>
+                        </UncontrolledDropdown> */}
                       </td>
                     </tr>
                   ))}

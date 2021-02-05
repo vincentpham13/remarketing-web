@@ -161,11 +161,11 @@ const PackagePlan = () => {
                     .filter((p) => p.packageTypeId == 1)
                     .map((packagePlan) => (
                       <Card key={packagePlan.id} style={cardStyle}>
-                        <CardImg
+                        {/* <CardImg
                           className="px-5"
                           alt="..."
                           src={require('assets/img/icons/app-icon.png')}
-                          top></CardImg>
+                          top></CardImg> */}
                         <CardBody>
                           <CardTitle className="mb--1">
                             {packagePlan.label}
@@ -211,11 +211,11 @@ const PackagePlan = () => {
                     .filter((p) => p.packageTypeId == 2)
                     .map((packagePlan) => (
                       <Card key={packagePlan.id} style={cardStyle}>
-                        <CardImg
+                        {/* <CardImg
                           className="px-5"
                           alt="..."
                           src={require('assets/img/icons/app-icon.png')}
-                          top></CardImg>
+                          top></CardImg> */}
                         <CardBody>
                           <CardTitle className="mb--1">
                             {packagePlan.label}

@@ -250,7 +250,7 @@ const MakePayment = () => {
                           Chuyển khoản qua ngân hàng
                         </label>
                       </div>
-                      <div className="custom-control custom-radio">
+                      {/* <div className="custom-control custom-radio">
                         <input
                           className="custom-control-input"
                           id="customRadio2"
@@ -261,7 +261,7 @@ const MakePayment = () => {
                           htmlFor="customRadio2">
                           Thanh toán online qua VTC Pay
                         </label>
-                      </div>
+                      </div> */}
                       <Button
                         disabled={!isOrderValid()}
                         onClick={submitOrder}

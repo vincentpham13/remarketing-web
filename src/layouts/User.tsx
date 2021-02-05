@@ -174,7 +174,7 @@ function User(props) {
         </Container>
       </div>
       <CustomModal
-        titleHeader="Vui hoàn tất các thông tin sau"
+        titleHeader="Vui lòng hoàn tất các thông tin sau"
         isOpen={isOpenModal}
         onSubmit={onModalSubmit}>
         <Row>

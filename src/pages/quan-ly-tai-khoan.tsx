@@ -13,25 +13,37 @@ import {
   Container,
   Row,
   Col,
+  Table,
+  CardFooter,
 } from 'reactstrap';
 // layout for this page
 import User from '@/layouts/User';
 // core components
 import UserHeader from '@/components/Headers/UserHeader';
 import { userSelector } from '@/redux/features/user/user.slice';
+import { updateUserInfoAsyncThunk } from '@/redux/features/user/user.thunk';
+import { getOrdersAsyncThunk } from '@/redux/features/order/order.thunk';
+import { orderSelector } from '@/redux/features/order/order.slice';
 import {
-  updateUserInfoAsyncThunk,
-} from '@/redux/features/user/user.thunk';
+  denormalizeEntitiesArray,
+  formatPackages,
+  formatPrice,
+  formatStatus,
+} from '@/helpers/data';
 
 const Profile = () => {
   const dispatch = useDispatch();
   const userSl = useSelector(userSelector);
+  const orderSl = useSelector(orderSelector);
 
   const [isModified, setIsModified] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [job, setJob] = useState('');
+
+  // Order history
+  const [historyOrders, setHistoryOrders] = useState([]);
 
   const onNameChange = (e) => {
     setName(e.target.value);
@@ -69,6 +81,16 @@ const Profile = () => {
   const onCancel = () => {
     setIsModified(false);
   };
+
+  useEffect(() => {
+    dispatch(getOrdersAsyncThunk());
+  }, []);
+
+  useEffect(() => {
+    if (orderSl.status === 'succeeded') {
+      setHistoryOrders(denormalizeEntitiesArray(orderSl.ids, orderSl.entities));
+    }
+  }, [orderSl]);
 
   useEffect(() => {
     setName(userSl.name);
@@ -113,13 +135,13 @@ const Profile = () => {
                       <div>
                         <span className="description">Số tin còn lại</span>
                         <span className="heading">
-                        {userSl.totalMessages - userSl.successMessages}
+                          {userSl.totalMessages - userSl.successMessages}
                         </span>
                       </div>
                       <div>
                         <span className="description">Số tin đã gửi </span>
                         <span className="heading">
-                        {userSl.successMessages}
+                          {userSl.successMessages}
                         </span>
                       </div>
                     </div>
@@ -144,121 +166,177 @@ const Profile = () => {
             </Card>
           </Col>
           <Col className="order-xl-1" xl="8">
-            <Card className="bg-secondary shadow">
-              <CardHeader className="bg-white border-0">
-                <Row className="align-items-center">
-                  <Col xs="8">
-                    <h3 className="mb-0">Tài khoản của tôi</h3>
-                  </Col>
-                  <Col className="text-right" xs="4"></Col>
-                </Row>
-              </CardHeader>
-              <CardBody>
-                <Form>
-                  <h6 className="heading-small text-muted mb-4">
-                    Thông tin tài khoản
-                  </h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-username">
-                            Tên
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            disabled={!isModified}
-                            id="input-username"
-                            value={name}
-                            onChange={onNameChange}
-                            placeholder="Tên người dùng"
-                            type="text"
-                          />
-                        </FormGroup>
+            <Row>
+              <Col xl={12}>
+                <Card className="bg-secondary shadow">
+                  <CardHeader className="bg-white border-0">
+                    <Row className="align-items-center">
+                      <Col xs="8">
+                        <h3 className="mb-0">Tài khoản của tôi</h3>
                       </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-email">
-                            Email
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            disabled={!isModified}
-                            id="input-email"
-                            value={userSl.email ? email : ''}
-                            onChange={onEmailChange}
-                            placeholder="Địa chỉ email"
-                            type="email"
-                          />
-                        </FormGroup>
-                      </Col>
+                      <Col className="text-right" xs="4"></Col>
                     </Row>
-                  </div>
-                  <hr className="my-4" />
-                  {/* Address */}
-                  <h6 className="heading-small text-muted mb-4">Về tôi</h6>
-                  <div className="pl-lg-4">
-                    <Row>
-                      <Col md="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-phone">
-                            Số điện thoại
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            disabled={!isModified}
-                            id="input-phone"
-                            value={userSl.phone ? phone : ''}
-                            onChange={onPhoneChange}
-                            placeholder="Số điện thoại"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col lg="6">
-                        <FormGroup>
-                          <label
-                            className="form-control-label"
-                            htmlFor="input-job">
-                            Công việc
-                          </label>
-                          <Input
-                            className="form-control-alternative"
-                            disabled={!isModified}
-                            id="input-job"
-                            value={userSl.job ? job : ''}
-                            onChange={onJobChange}
-                            placeholder="Công việc"
-                            type="text"
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                  </div>
+                  </CardHeader>
+                  <CardBody>
+                    <Form>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-username">
+                                Tên
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                disabled={!isModified}
+                                id="input-username"
+                                value={name}
+                                onChange={onNameChange}
+                                placeholder="Tên người dùng"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-email">
+                                Email
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                disabled={!isModified}
+                                id="input-email"
+                                value={userSl.email ? email : ''}
+                                onChange={onEmailChange}
+                                placeholder="Địa chỉ email"
+                                type="email"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
+                      <div className="pl-lg-4">
+                        <Row>
+                          <Col md="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-phone">
+                                Số điện thoại
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                disabled={!isModified}
+                                id="input-phone"
+                                value={userSl.phone ? phone : ''}
+                                onChange={onPhoneChange}
+                                placeholder="Số điện thoại"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label
+                                className="form-control-label"
+                                htmlFor="input-job">
+                                Công việc
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                disabled={!isModified}
+                                id="input-job"
+                                value={userSl.job ? job : ''}
+                                onChange={onJobChange}
+                                placeholder="Công việc"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                        </Row>
+                      </div>
 
-                  <div className="pl-lg-4">
-                    <Row className="float-right">
-                      <Col lg="6" className="d-inline-flex">
-                        {isModified ? (
-                          <Button color="secondary" onClick={onCancel}>
-                            Huỷ
-                          </Button>
-                        ) : null}
-                        <Button color="primary" onClick={onFormSubmit}>
-                          {isModified ? 'Lưu' : 'Sửa'}
-                        </Button>
+                      <div className="pl-lg-12">
+                        <Row>
+                          <Col
+                            lg="12"
+                            className="d-inline-flex justify-content-end">
+                            {isModified ? (
+                              <Button color="secondary" onClick={onCancel}>
+                                Huỷ
+                              </Button>
+                            ) : null}
+                            <Button color="primary" onClick={onFormSubmit}>
+                              {isModified ? 'Lưu' : 'Sửa'}
+                            </Button>
+                          </Col>
+                        </Row>
+                      </div>
+                    </Form>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+            <Row className="mt-3">
+              <Col xl={12}>
+                <Card className="bg-secondary shadow">
+                  <CardHeader className="bg-white border-0">
+                    <Row className="align-items-center">
+                      <Col xs="8">
+                        <h3 className="mb-0">Lịch sử giao dịch</h3>
                       </Col>
+                      <Col className="text-right" xs="4"></Col>
                     </Row>
-                  </div>
-                </Form>
-              </CardBody>
-            </Card>
+                  </CardHeader>
+                  <CardBody className="p-0">
+                    <Table
+                      className="align-items-center table-flush"
+                      responsive>
+                      <thead className="thead-light">
+                        <tr>
+                          <th scope="col">Thời gian</th>
+                          <th scope="col">Mã đơn hàng</th>
+                          <th scope="col">Sản phẩm</th>
+                          <th scope="col">Tổng tiền</th>
+                          <th scope="col">Phương thức thanh toán</th>
+                          <th scope="col">Trạng thái</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {historyOrders.map((order) => (
+                          <tr key={order.id}>
+                            <td>
+                              {new Date(order.createdAt).toLocaleString(
+                                'vi-VN',
+                              )}
+                            </td>
+                            <th scope="row">{order.id}</th>
+                            <td>{formatPackages(order.packages)}</td>
+                            <td>{formatPrice(order.packages)}đ</td>
+                            <td>Chuyển khoản</td>
+                            <td>
+                              {/* <i className="fas fa-check-circle text-success mr-3" />{' '} */}
+                              {formatStatus(order.status)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </CardBody>
+                  <CardFooter className="py-4">
+                    {!historyOrders.length ? (
+                      <p className="font-weight-bold text-black-50 text-center text-wrap">
+                        Chưa có dữ liệu.
+                      </p>
+                    ) : null}
+                  </CardFooter>
+                </Card>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>

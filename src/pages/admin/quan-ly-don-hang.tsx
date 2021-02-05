@@ -29,7 +29,8 @@ import {
 import {
   denormalizeEntitiesArray,
   formatMoney,
-  formatNumber,
+  formatPackages,
+  formatPrice,
 } from '@/helpers/data';
 
 const ManageOrder = () => {
@@ -37,37 +38,6 @@ const ManageOrder = () => {
   const adminSl = useSelector(adminSelector);
 
   const [orders, setOrders] = useState([]);
-
-  const formatPackages = (packages) => {
-    const maintainPackageNames: string[] = [];
-    const messagePackageNames: string[] = [];
-
-    for (const packagePlan of packages) {
-      if (packagePlan.packageTypeId === 1) {
-        maintainPackageNames.push(packagePlan.label);
-      }
-      if (packagePlan.packageTypeId === 2) {
-        messagePackageNames.push(packagePlan.label);
-      }
-    }
-    return `${
-      maintainPackageNames.length
-        ? ` Gói duy trì: ${maintainPackageNames.join(', ')}`
-        : ''
-    } ${
-      messagePackageNames.length
-        ? ` Gói tin nhắn: ${messagePackageNames.join(', ')}`
-        : ''
-    } `;
-  };
-
-  const formatPrice = (packages) => {
-    return formatMoney(
-      packages.reduce((a, b) => {
-        return a + b.price;
-      }, 0),
-    );
-  };
 
   const confirmOrder = (orderId) => {
     dispatch(confirmUserOrderAsyncThunk(orderId));
@@ -103,16 +73,17 @@ const ManageOrder = () => {
                 <thead className="thead-dark">
                   <tr>
                     <th scope="col">Mã đơn hàng</th>
-                    <th scope="col">Ngày tạo</th>
-                    <th scope="col">Gói</th>
-                    <th scope="col">Số tiền</th>
+                    <th scope="col">Tên khách hàng</th>
+                    <th scope="col">Thời gian tạo</th>
+                    <th scope="col">Gói mua</th>
+                    <th scope="col">Giá trị đơn hàng</th>
                     <th scope="col">Trạng thái</th>
                     <th scope="col" />
                   </tr>
                 </thead>
                 <tbody>
                   {orders.map((order) => (
-                    <tr key={new Date(order.createdAt).toLocaleString()}>
+                    <tr key={new Date(order.createdAt).getTime()}>
                       <th scope="row">
                         <Media className="align-items-center">
                           <a
@@ -125,11 +96,12 @@ const ManageOrder = () => {
                             /> */}
                           </a>
                           <Media>
-                            <span className="mb-0 text-sm">{order.id}</span>
+                            <span className="mb-0 text-sm">#{order.id}</span>
                           </Media>
                         </Media>
                       </th>
-                      <td>{new Date(order.createdAt).toLocaleString()}</td>
+                      <td>{order.fullName}</td>
+                      <td>{new Date(order.createdAt).toLocaleString('vi-VN')}</td>
                       <td>{formatPackages(order.packages)}</td>
                       <td>{formatPrice(order.packages)}đ</td>
                       <td>
@@ -142,7 +114,7 @@ const ManageOrder = () => {
                             }
                           />
                           {order.status === 'success'
-                            ? 'Đã thanh toán'
+                            ? 'Hoàn thành'
                             : 'Chờ thanh toán'}
                         </Badge>
                       </td>

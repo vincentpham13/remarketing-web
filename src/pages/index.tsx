@@ -21,7 +21,7 @@ import {
   getCampaignsAsyncThunk,
 } from '@/redux/features/campaign';
 import { getFanpagesAsyncThunk } from '@/redux/features/fanpage/fanpage.thunk';
-import { denormalizeEntitiesArray } from '@/helpers/data';
+import { denormalizeEntitiesArray, formatStatus } from '@/helpers/data';
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -30,19 +30,6 @@ const Index = () => {
   const campaignSl = useSelector(campaignsSelector);
 
   const [recentCampaigns, setRecentCampaigns] = useState([]);
-
-  const formatStatus = (status) => {
-    switch (status) {
-      case 'pending':
-        return 'Đang chờ';
-      case 'running':
-        return 'Đang chạy';
-      case 'completed':
-        return 'Hoàn thành';
-      default:
-        return 'Không xác định';
-    }
-  };
 
   useEffect(() => {
     dispatch(getCampaignsAsyncThunk());
@@ -98,10 +85,10 @@ const Index = () => {
                     <tr key={campaign.id}>
                       <th scope="row">{campaign.name}</th>
                       <td>
-                        {new Date(campaign.createdAt).toLocaleString('en-GB')}
+                        {new Date(campaign.createdAt).toLocaleString('vi-VN')}
                       </td>
                       <td>
-                        {new Date(campaign.startedAt).toLocaleString('en-GB')}
+                        {new Date(campaign.startedAt).toLocaleString('vi-VN')}
                       </td>
                       <td>{campaign.totalMessages}</td>
                       <td>
