@@ -55,7 +55,7 @@ const UserHeader = () => {
               <p className="mt-2 mb-0 text-muted text-sm">
                 <span className="text-nowrap">Có giá trị đến ngày: </span>
                 <span className="text-dark mr-2 text-weight-bold">
-                  {new Date(userSl.validTo).toLocaleString('en-GB')}
+                  {new Date(userSl.validTo).toLocaleString('vi-VN')}
                 </span>{' '}
               </p>
 

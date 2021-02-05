@@ -44,7 +44,14 @@ const routes = [
     layout: '',
   },
   {
-    path: '/quan-ly-goi-dich-vu/thanh-toan',
+    path: '/quan-ly-goi-dich-vu/don-hang',
+    name: 'Thanh toán dịch vụ',
+    icon: 'ni ni-single-02 text-green',
+    layout: '',
+    hidden: true,
+  },
+  {
+    path: '/quan-ly-goi-dich-vu/don-hang/thanh-toan',
     name: 'Thanh toán dịch vụ',
     icon: 'ni ni-single-02 text-green',
     layout: '',
@@ -174,7 +181,7 @@ function User(props) {
         </Container>
       </div>
       <CustomModal
-        titleHeader="Vui hoàn tất các thông tin sau"
+        titleHeader="Vui lòng hoàn tất các thông tin sau"
         isOpen={isOpenModal}
         onSubmit={onModalSubmit}>
         <Row>

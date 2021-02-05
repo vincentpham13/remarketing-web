@@ -19,10 +19,12 @@ import {
 import User from '@/layouts/User';
 
 import UserHeader from '@/components/Headers/UserHeader';
-import { createOrderThunk, userSelector } from '@/redux/features/user';
+import { userSelector } from '@/redux/features/user';
 import { packageSelector } from '@/redux/features/package/package.slice';
 import { getPackagesAsyncThunk } from '@/redux/features/package/package.thunk';
 import { denormalizeEntitiesArray, formatMoney } from '@/helpers/data';
+import { createOrderThunk } from '@/redux/features/order/order.thunk';
+import { orderSelector } from '@/redux/features/order/order.slice';
 // import { setTextRange } from 'typescript';
 
 const cardStyle = {
@@ -31,11 +33,12 @@ const cardStyle = {
   marginRight: '1rem',
 };
 
-const MakePayment = () => {
+const CreateOrder = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const packageSl = useSelector(packageSelector);
   const userSl = useSelector(userSelector);
+  const orderSl = useSelector(orderSelector);
 
   const { goi } = router.query;
   const [packageIds, setPackageIds] = useState([0]);
@@ -139,7 +142,9 @@ const MakePayment = () => {
         )}
 
         {messagePackageNames.length ? (
-          <p className="font-weight-light">{`Gói tin nhắn: ${messagePackageNames.join(', ')}`}</p>
+          <p className="font-weight-light">{`Gói tin nhắn: ${messagePackageNames.join(
+            ', ',
+          )}`}</p>
         ) : (
           ''
         )}
@@ -166,6 +171,18 @@ const MakePayment = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    if (orderSl.status === 'succeeded' && orderSl.ids.length) {
+      const latestOrderIdIndex = orderSl.ids[orderSl.ids.length - 1];
+      if (latestOrderIdIndex && latestOrderIdIndex >= 0) {
+        const latestOrder = orderSl.entities[latestOrderIdIndex];
+        if(latestOrder && latestOrder.status === 'pending') {
+          router.push(`/quan-ly-goi-dich-vu/don-hang/thanh-toan?ID=${latestOrder.id}`)
+        }
+      }
+    }
+  }, [orderSl.status]);
 
   useEffect(() => {
     dispatch(getPackagesAsyncThunk());
@@ -250,7 +267,7 @@ const MakePayment = () => {
                           Chuyển khoản qua ngân hàng
                         </label>
                       </div>
-                      <div className="custom-control custom-radio">
+                      {/* <div className="custom-control custom-radio">
                         <input
                           className="custom-control-input"
                           id="customRadio2"
@@ -261,7 +278,7 @@ const MakePayment = () => {
                           htmlFor="customRadio2">
                           Thanh toán online qua VTC Pay
                         </label>
-                      </div>
+                      </div> */}
                       <Button
                         disabled={!isOrderValid()}
                         onClick={submitOrder}
@@ -445,6 +462,6 @@ const MakePayment = () => {
   );
 };
 
-MakePayment.getLayout = (page) => <User>{page}</User>;
+CreateOrder.getLayout = (page) => <User>{page}</User>;
 
-export default MakePayment;
+export default CreateOrder;

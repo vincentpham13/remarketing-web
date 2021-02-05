@@ -8,6 +8,7 @@ import fanpageSlice from '@/redux/features/fanpage/fanpage.slice';
 import campaignSlice from '@/redux/features/campaign/campaign.slice';
 import adminSlice from '@/redux/features/admin/admin.slice';
 import packageSlice from '@/redux/features/package/package.slice';
+import orderSlice from '@/redux/features/order/order.slice';
 
 export default combineReducers({
   counter: counterReducer,
@@ -17,5 +18,6 @@ export default combineReducers({
   fanpage: fanpageSlice,
   campaign: campaignSlice,
   package: packageSlice,
+  order: orderSlice,
   admin: adminSlice,
 });
