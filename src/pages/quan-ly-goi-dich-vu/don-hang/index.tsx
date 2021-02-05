@@ -308,10 +308,10 @@ const CreateOrder = () => {
                             type="text"
                           />
                           <InputGroupAddon addonType="append">
-                           <Button
+                           <Button 
                               className="form-control-alternative"
                               onClick={applyPromotion}
-                              color="primary">
+                              color="info">
                               Áp dụng
                             </Button>
                           </InputGroupAddon>
