@@ -39,7 +39,7 @@ function Auth(props) {
 
   return (
     <>
-      <div className="main-content">
+      <div className="main-content login-bg">
         <AuthNavbar {...props} brandText="TEST" />
         <div className="header py-3 py-lg-3">
           {/* <Container>

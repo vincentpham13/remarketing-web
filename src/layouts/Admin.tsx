@@ -27,12 +27,12 @@ const routes = [
     icon: 'ni ni-planet text-green',
     layout: '/admin',
   },
-  {
-    path: '/quan-ly-tin-nhan',
-    name: 'Tin nhắn người dùng',
-    icon: 'ni ni-pin-3 text-green',
-    layout: '/admin',
-  },
+  // {
+  //   path: '/quan-ly-tin-nhan',
+  //   name: 'Tin nhắn người dùng',
+  //   icon: 'ni ni-pin-3 text-green',
+  //   layout: '/admin',
+  // },
   {
     path: '/quan-ly-goi-duy-tri-dich-vu',
     name: 'Gói duy trì dịch vụ',

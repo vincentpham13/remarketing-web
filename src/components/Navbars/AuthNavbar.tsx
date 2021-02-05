@@ -18,7 +18,7 @@ class AdminNavbar extends React.Component {
     return (
       <>
         <Navbar
-          className="navbar-top navbar-horizontal navbar-dark"
+          className="navbar-top navbar-horizontal navbar-light"
           expand="md"
         >
           <Container className="px-4">
