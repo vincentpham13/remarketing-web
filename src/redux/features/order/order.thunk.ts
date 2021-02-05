@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { normalize, schema } from "normalizr";
-import { IOrder } from "./order.model";
+import { IOrder, IPromotionChecking } from "./order.model";
 import API from '@/helpers/axios';
 
 const orderEntity = new schema.Entity('orders');
@@ -38,6 +38,7 @@ export const createOrderThunk = createAsyncThunk(
         businessAddress: data.order.businessAddress,
         emailReceipt: data.order.emailReceipt,
         taxId: data.order.taxId,
+        promotionIds: data.order.promotionIds
       });
 
       const res = normalize<
@@ -49,3 +50,17 @@ export const createOrderThunk = createAsyncThunk(
     }
   }
 )
+
+export const checkPromotionAsyncThunk = createAsyncThunk(
+  'order/check-promotion',
+  async (promotionChecking: IPromotionChecking, thunkApi): Promise<any> => {
+    try {
+      const response = await API.axios.post('/promotions/code/' + promotionChecking.promotionCode, {
+        packageIds: promotionChecking.packageIds,
+        orderPrice: promotionChecking.orderPrice
+      });
+      return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+});
