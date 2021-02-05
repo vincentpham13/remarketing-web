@@ -14,7 +14,7 @@ export interface IPackage {
 }
 
 export interface IOrder {
-  id?: string;
+  id?: number;
   fullName: string;
   email: string;
   address: string;
@@ -28,4 +28,17 @@ export interface IOrder {
   emailReceipt?: string;
   taxId?: string;
   packages?: IPackage[];
+}
+
+export interface IPromotion {
+  id?: number;
+  code: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  description?: string;
+  quantity: number;
+  messageAmount?: number;
+  monthDuration?: number;
+  validPackageIds?: number[];
+  validTo: Date;
 }

@@ -3,7 +3,7 @@ import { normalize, schema } from 'normalizr';
 
 import API from '@/helpers/axios';
 import { IUserInfo } from "../user/user.model";
-import { IOrder, IPackage } from "./admin.model";
+import { IOrder, IPackage, IPromotion } from "./admin.model";
 
 const userEntity = new schema.Entity('users');
 const userListSchema = new schema.Array(userEntity);
@@ -11,6 +11,8 @@ const packageEntity = new schema.Entity('packages');
 const packageListSchema = new schema.Array(packageEntity);
 const orderEntity = new schema.Entity('orders');
 const orderListSchema = new schema.Array(orderEntity);
+const promotionEntity = new schema.Entity('promotions');
+const promotionListSchema = new schema.Array(promotionEntity);
 
 export const getUsersAsyncThunk = createAsyncThunk(
   'admin/get-users',
@@ -118,6 +120,38 @@ export const removePackageAsyncthunk = createAsyncThunk(
     try {
       const response = await API.axios.delete(`/admin/packages/${packageId}`);
       return response.data;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const createPromotionAsyncthunk = createAsyncThunk(
+  'admin/create-promotion-code',
+  async (promotion: IPromotion, thunkApi): Promise<any | ReturnType<typeof thunkApi.rejectWithValue>> => {
+    try {
+      const response = await API.axios.post('/admin/promotions', promotion);
+      const data = normalize<
+        any, { [key: string]: IPromotion }
+      >(response.data, promotionEntity).entities;
+      return { promotion: data?.promotions[response.data.id] };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const getPromotionsAsyncThunk = createAsyncThunk(
+  'admin/get-promotions',
+  async (_, thunkApi): Promise<any | ReturnType<typeof thunkApi.rejectWithValue>> => {
+    try {
+      const response = await API.axios.get('/admin/promotions');
+      const data = normalize<
+        any, {
+          promotions: { [key: string]: IPromotion }
+        }
+      >(response.data, promotionListSchema).entities;
+      return data;
     } catch (error) {
       return thunkApi.rejectWithValue(error.message);
     }

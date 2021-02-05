@@ -1,21 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import {
-  Badge,
   Card,
-  CardHeader,
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Media,
-  Table,
   Container,
   Row,
-  CardFooter,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
   Col,
   CardBody,
   CardTitle,
@@ -31,22 +24,19 @@ import UserHeader from '@/components/Headers/UserHeader';
 import {
   adminSelector,
   confirmUserOrderAsyncThunk,
+  createPromotionAsyncthunk,
   getPackagesAsyncThunk,
   getUserOrdersAsyncThunk,
 } from '@/redux/features/admin';
-import {
-  denormalizeEntitiesArray,
-  formatMoney,
-  formatPackages,
-  formatPrice,
-} from '@/helpers/data';
+import { denormalizeEntitiesArray } from '@/helpers/data';
 import { IOrder, IPackage } from '@/redux/features/admin/admin.model';
 
-const ManagePromotion = () => {
+const AddOrUpdatePromotion = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const adminSl = useSelector(adminSelector);
 
-  const [orders, setOrders] = useState<IOrder[]>([]);
+  const [, setOrders] = useState<IOrder[]>([]);
   const [packages, setPackages] = useState<IPackage[]>([]);
   const [enableMonthDuration, setEnableMonthDuration] = useState(false);
   const [monthDuration, setMonthDuration] = useState<number>();
@@ -56,18 +46,14 @@ const ManagePromotion = () => {
   const [code, setCode] = useState<string>();
   const [description, setDescription] = useState<string>();
   const [applyingPackageId, setApplyingPackageId] = useState<number>();
-  const [quantity, setQuantity] = useState<number>();
-  const [validTo, setValidTo] = useState<Date>();
+  const [quantity, setQuantity] = useState<number>(1);
+  const [validTo, setValidTo] = useState<Date>(new Date());
 
-  const confirmOrder = (orderId) => {
-    dispatch(confirmUserOrderAsyncThunk(orderId));
-  };
-
-  const triggerCheckboxMonthDuration = (e) => {
+  const triggerCheckboxMonthDuration = () => {
     setEnableMonthDuration((enabled) => !enabled);
   };
 
-  const triggerCheckboxMessageAmount = (e) => {
+  const triggerCheckboxMessageAmount = () => {
     setEnableMessageAmount((enabled) => !enabled);
   };
 
@@ -88,29 +74,52 @@ const ManagePromotion = () => {
       return false;
     }
 
-    if ((new Date(validTo || '')) <= new Date()) {
-      console.log(validTo)
+    if (new Date(validTo || '') <= new Date()) {
+      console.log(validTo);
       return false;
     }
 
     return true;
   };
   const onPromotionSubmit = () => {
-    const data = {
-      code,
-      description,
-      quantity,
-      messageAmount,
-      validPackages: [applyingPackageId],
-      monthDuration,
-      validTo,
-    };
+    if (!code) {
+      return false;
+    }
 
-    console.log(
-      '🚀 ~ file: quan-ly-khuyen-mai.tsx ~ line 76 ~ onPromotionSubmit ~ data',
-      data,
+    if ((quantity || 0) < 1) {
+      return false;
+    }
+
+    if (enableMonthDuration && (monthDuration || 0) < 1) {
+      return false;
+    }
+
+    if (enableMessageAmount && (messageAmount || 0) < 1) {
+      return false;
+    }
+
+    if (new Date(validTo || '') <= new Date()) {
+      return false;
+    }
+
+    dispatch(
+      createPromotionAsyncthunk({
+        code,
+        description,
+        quantity,
+        messageAmount,
+        monthDuration,
+        validPackageIds: applyingPackageId ? [applyingPackageId] : [],
+        validTo: new Date(validTo),
+      }),
     );
   };
+
+  useEffect(() => {
+    if (adminSl.promotions.status === 'creating-child-succeeded') {
+      router.push('/admin/quan-ly-khuyen-mai')
+    }
+  }, [adminSl.promotions.status]);
 
   useEffect(() => {
     dispatch(getUserOrdersAsyncThunk());
@@ -195,7 +204,7 @@ const ManagePromotion = () => {
                             className="form-control-alternative"
                             id="input-promotion-description"
                             placeholder="Mô tả"
-                            aria-rowcount={5}
+                            rows={7}
                             type="textarea"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
@@ -351,7 +360,7 @@ const ManagePromotion = () => {
                                 <DropdownItem
                                   active={p.id === applyingPackageId}
                                   key={p.id}
-                                  onClick={(e) => setApplyingPackageId(p.id)}>
+                                  onClick={() => setApplyingPackageId(p.id)}>
                                   {p.label}
                                 </DropdownItem>
                               ))}
@@ -384,6 +393,6 @@ const ManagePromotion = () => {
   );
 };
 
-ManagePromotion.getLayout = (page) => <Admin>{page}</Admin>;
+AddOrUpdatePromotion.getLayout = (page) => <Admin>{page}</Admin>;
 
-export default ManagePromotion;
+export default AddOrUpdatePromotion;

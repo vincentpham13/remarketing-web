@@ -1,14 +1,17 @@
 import { IGenericEntityState } from "@/redux/interfaces";
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
-import { IOrder, IPackage } from "./admin.model";
-import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk, confirmUserOrderAsyncThunk, removePackageAsyncthunk } from "./admin.thunk";
+import { IOrder, IPackage, IPromotion } from "./admin.model";
+import { createPackagesAsyncThunk, getUserOrdersAsyncThunk, getPackagesAsyncThunk, getUsersAsyncThunk, updatePackagesAsyncThunk, confirmUserOrderAsyncThunk, removePackageAsyncthunk, createPromotionAsyncthunk, getPromotionsAsyncThunk } from "./admin.thunk";
 
 const userAdapter = createEntityAdapter();
 const packageAdapter = createEntityAdapter<IPackage>({
-  selectId: pack => pack.id,
+  selectId: packagePl => packagePl.id,
 });
 const orderAdapter = createEntityAdapter<IOrder>({
-  selectId: pack => pack.id,
+  selectId: order => order.id,
+});
+const promotionAdapter = createEntityAdapter<IPromotion>({
+  selectId: promotion => promotion.id,
 });
 
 const initialState = {
@@ -21,6 +24,10 @@ const initialState = {
     error: null
   }),
   orders: orderAdapter.getInitialState<IGenericEntityState>({
+    status: 'idle',
+    error: null
+  }),
+  promotions: promotionAdapter.getInitialState<IGenericEntityState>({
     status: 'idle',
     error: null
   }),
@@ -92,6 +99,31 @@ export const adminSlice = createSlice({
       state.orders.status = 'succeeded';
       if (action.payload.order) {
         orderAdapter.upsertOne(state.orders, action.payload.order);
+      }
+    });
+    // Promotions  
+    builder.addCase(createPromotionAsyncthunk.pending, (state) => {
+      state.promotions.status = 'creating-child';
+    });
+    builder.addCase(createPromotionAsyncthunk.rejected, (state) => {
+      state.promotions.status = 'creating-child-failed';
+    });
+    builder.addCase(createPromotionAsyncthunk.fulfilled, (state, action) => {
+      state.promotions.status = 'creating-child-succeeded';
+      if (action.payload.promotion) {
+        promotionAdapter.upsertOne(state.promotions, action.payload.promotion);
+      }
+    });
+    builder.addCase(getPromotionsAsyncThunk.pending, (state) => {
+      state.promotions.status ='loading';
+    });
+    builder.addCase(getPromotionsAsyncThunk.rejected, (state) => {
+      state.promotions.status = 'failed';
+    });
+    builder.addCase(getPromotionsAsyncThunk.fulfilled, (state, action) => {
+      state.promotions.status = 'succeeded';
+      if (action.payload.promotions) {
+        promotionAdapter.upsertMany(state.promotions, action.payload.promotions);
       }
     });
   }
