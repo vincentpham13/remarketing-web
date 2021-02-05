@@ -15,6 +15,8 @@ import {
   Form,
   FormGroup,
   Input,
+  InputGroup,
+  InputGroupAddon
 } from 'reactstrap';
 import User from '@/layouts/User';
 
@@ -23,8 +25,9 @@ import { userSelector } from '@/redux/features/user';
 import { packageSelector } from '@/redux/features/package/package.slice';
 import { getPackagesAsyncThunk } from '@/redux/features/package/package.thunk';
 import { denormalizeEntitiesArray, formatMoney } from '@/helpers/data';
-import { createOrderThunk } from '@/redux/features/order/order.thunk';
+import { checkPromotionAsyncThunk, createOrderThunk } from '@/redux/features/order/order.thunk';
 import { orderSelector } from '@/redux/features/order/order.slice';
+import { instanceOfIInvalidPromotion } from '@/redux/features/order/order.model';
 // import { setTextRange } from 'typescript';
 
 const cardStyle = {
@@ -49,6 +52,9 @@ const CreateOrder = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
+  const [promotionCode, setPromotionCode] = useState('');
+
+
 
   // Not mandantory fields
   const [businessName, setBusinessName] = useState('');
@@ -96,6 +102,11 @@ const CreateOrder = () => {
     setEmailReceipt(value);
   };
 
+  const onPromotionCodeChange = (e) => {
+    const { value } = e.target;
+    setPromotionCode(value);
+  };
+
   const isOrderValid = () => {
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!emailRegex.test(email)) {
@@ -138,21 +149,31 @@ const CreateOrder = () => {
             ', ',
           )}`}</p>
         ) : (
-          ''
-        )}
+            ''
+          )}
 
         {messagePackageNames.length ? (
           <p className="font-weight-light">{`Gói tin nhắn: ${messagePackageNames.join(
             ', ',
           )}`}</p>
         ) : (
-          ''
-        )}
+            ''
+          )}
       </div>
     );
   };
 
   const submitOrder = () => {
+
+    if(promotionCode && !orderSl.promotion.isValid){
+      alert("Vui lòng nhập mã khuyến mại hợp lệ");
+      return;
+    }
+
+    const promotionIds = orderSl.promotion.promotions.map((promotion) => {
+      return promotion.id;
+    })
+
     const order = {
       fullName,
       email,
@@ -162,6 +183,7 @@ const CreateOrder = () => {
       businessAddress,
       emailReceipt,
       taxId,
+      promotionIds 
     };
 
     dispatch(
@@ -172,12 +194,38 @@ const CreateOrder = () => {
     );
   };
 
+  const applyPromotion = () => {
+    if(!promotionCode){
+      alert("Vui lòng nhập mã khuyến mãi");
+    }
+    dispatch(
+      checkPromotionAsyncThunk({
+        promotionCode,
+        packageIds: packageIds,
+        orderPrice: 0
+      }),
+    );
+  }
+
+  useEffect(() => {
+    if(orderSl.promotion.status === 'failed'){
+      alert('Mã khuyến mại không tồn tại');
+    }else if(orderSl.promotion.status == 'succeeded' ){
+      if(!orderSl.promotion.isValid){
+        alert(orderSl.promotion.promotions[0].error.message);
+      }else{
+        //TODO 
+        alert("Đã áp dụng mã "+ orderSl.promotion.promotions[0].code);
+      }
+    }
+  },[orderSl.promotion.status])
+
   useEffect(() => {
     if (orderSl.status === 'succeeded' && orderSl.ids.length) {
       const latestOrderIdIndex = orderSl.ids[orderSl.ids.length - 1];
       if (latestOrderIdIndex && latestOrderIdIndex >= 0) {
         const latestOrder = orderSl.entities[latestOrderIdIndex];
-        if(latestOrder && latestOrder.status === 'pending') {
+        if (latestOrder && latestOrder.status === 'pending') {
           router.push(`/quan-ly-goi-dich-vu/don-hang/thanh-toan?ID=${latestOrder.id}`)
         }
       }
@@ -236,14 +284,39 @@ const CreateOrder = () => {
                   </h6>
                   <div className="pl-lg-4">
                     <Row>
-                      <Col lg="12">
-                        <label className="form-control-label">Sản phẩm</label>
-                        <div>{buyingProductInfo}</div>
+                      <Col lg="12 p-0">
+                        <label><strong>Sản phẩm</strong></label>
+                        <div className="pl-1">{buyingProductInfo}</div>
                       </Col>
-                      <Col lg="12">
-                        <label className="form-control-label">
-                          Tổng tiền: {totalPriceInfo} VND
+                      <Col lg="12 p-0 my-1">
+                        <label>
+                          <strong>Tổng tiền: {totalPriceInfo} VND</strong>
                         </label>
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col lg="12 p-0">
+                        <FormGroup>
+                        <label for="input-promotion"><strong>Mã khuyến mãi</strong> (nếu có):</label>
+                        <InputGroup>
+                          <Input
+                            className="form-control"
+                            id="input-promotion"
+                            value={promotionCode}
+                            onChange={onPromotionCodeChange}
+                            placeholder="BOMBOT20"
+                            type="text"
+                          />
+                          <InputGroupAddon addonType="append">
+                           <Button
+                              className="form-control-alternative"
+                              onClick={applyPromotion}
+                              color="primary">
+                              Áp dụng
+                            </Button>
+                          </InputGroupAddon>
+                          </InputGroup>
+                        </FormGroup>
                       </Col>
                     </Row>
                   </div>
