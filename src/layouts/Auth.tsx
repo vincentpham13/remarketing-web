@@ -30,7 +30,7 @@ function Auth(props) {
     if (auth.status === 'succeeded' && auth.isAuthenticated && auth.token) {
       // admin
       if (auth.user?.roleId === 2) {
-        router.push('/admin');
+        router.push('/admin/quan-ly-nguoi-dung');
       } else if (auth.user?.roleId === 1) {
         router.push('/');
       }

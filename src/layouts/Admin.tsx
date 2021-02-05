@@ -15,12 +15,13 @@ import Footer from '@/components/Footers/Footer';
 import SideBar from '@/components/Sidebar/Sidebar';
 
 const routes = [
-  {
-    path: '',
-    name: 'Tổng quan',
-    icon: 'ni ni-tv-2 text-green',
-    layout: '/admin',
-  },
+  // {
+  //   path: '',
+  //   name: 'Tổng quan',
+  //   icon: 'ni ni-tv-2 text-green',
+  //   layout: '/admin',
+  //   hidden: true,
+  // },
   {
     path: '/quan-ly-nguoi-dung',
     name: 'Người dùng',
@@ -108,7 +109,7 @@ const Admin: FC = (props) => {
         {...props}
         routes={routes}
         logo={{
-          innerLink: '/admin',
+          innerLink: '/admin/quan-ly-nguoi-dung',
           imgSrc: require('assets/img/logo/logo-green.png'),
           imgAlt: '...',
         }}

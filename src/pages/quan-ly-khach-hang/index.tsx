@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   CardHeader,
-  Progress,
   Table,
   Container,
   Row,
@@ -18,8 +17,6 @@ import {
   PaginationItem,
   PaginationLink,
   UncontrolledDropdown,
-  UncontrolledTooltip,
-  Form,
   FormGroup,
   Input,
   InputGroup,
@@ -36,17 +33,20 @@ import {
 } from '@/redux/features/fanpage/fanpage.thunk';
 import { denormalizeEntitiesArray } from '@/helpers/data';
 import { authSelector } from '@/redux/features/auth';
+import { IFanPage } from '@/redux/features/fanpage/fanpage.model';
 
 const RootManageCustomer: FC = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
+  const router = useRouter();
+
   const fanpageSl = useSelector(fanpagesSelector);
   const authSl = useSelector(authSelector);
 
   const [pages, setPages] = useState([]);
   const [members, setMembers] = useState([]);
   const [searchMembers, setSearchMembers] = useState(null);
-  const [selectedPage, setSelectedPage] = useState();
+  const [selectedPage, setSelectedPage] = useState<IFanPage>();
+  const [pageID] = useState(router.query.pageID)
 
   const onSearchInputChange = (e) => {
     const { value: keyword } = e.target;
@@ -64,20 +64,27 @@ const RootManageCustomer: FC = () => {
   };
 
   useEffect(() => {
-    if (authSl.status === 'succeeded') {
+    if (authSl.status === 'succeeded' && fanpageSl.status === 'idle') {
       dispatch(getFanpagesAsyncThunk());
     }
-  }, [authSl.status]);
+  }, [authSl.status, fanpageSl]);
 
   // Fetch fanpages
   useEffect(() => {
-    if (fanpageSl.status == 'succeeded') {
-      if (fanpageSl.ids.length) {
-        setPages(denormalizeEntitiesArray(fanpageSl.ids, fanpageSl.entities));
-        setSelectedPage(fanpageSl.entities[fanpageSl.ids[0]]);
+    if (fanpageSl.ids.length) {
+      setPages(denormalizeEntitiesArray(fanpageSl.ids, fanpageSl.entities));
+      setSelectedPage(fanpageSl.entities[fanpageSl.ids[0]]);
+
+      if (pageID) {
+        const queryPage = fanpageSl.entities[pageID as string];
+        if (queryPage) {
+          setSelectedPage(queryPage);
+        } else {
+          router.push(router.pathname);
+        }
       }
     }
-  }, [fanpageSl.status]);
+  }, [fanpageSl.status, pageID]);
 
   useEffect(() => {
     if (
@@ -92,11 +99,7 @@ const RootManageCustomer: FC = () => {
 
   useEffect(() => {
     if (selectedPage) {
-      // if (fanpageSl.entities[selectedPage.id as string]?.members?.length) {
-      //   setMembers(fanpageSl.entities[selectedPage.id as string]?.members);
-      // } else {
       dispatch(getFanpageMembersAsyncThunk(selectedPage.id as string));
-      // }
     }
   }, [selectedPage]);
 
@@ -258,7 +261,13 @@ const RootManageCustomer: FC = () => {
                       </PaginationItem>
                     </Pagination>
                   </nav>
-                ) : (<p className="h4 font-weight-bold text-warning text-center text-wrap">Website tạm thời không hiển thị được danh sách khách hàng, do fanpage chưa thực hiện quét khách hàng trên extension Bombot.</p>)}
+                ) : (
+                  <p className="h4 font-weight-bold text-warning text-center text-wrap">
+                    Website tạm thời không hiển thị được danh sách khách hàng,
+                    do fanpage chưa thực hiện quét khách hàng trên extension
+                    Bombot.
+                  </p>
+                )}
               </CardFooter>
             </Card>
           </div>
