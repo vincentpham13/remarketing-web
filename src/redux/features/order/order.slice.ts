@@ -1,7 +1,7 @@
 import { createEntityAdapter, createSlice } from "@reduxjs/toolkit";
 import { IGenericEntityState } from "@/redux/interfaces";
 import { IOrder } from "./order.model";
-import { getOrdersAsyncThunk } from "./order.thunk";
+import { createOrderThunk, getOrdersAsyncThunk } from "./order.thunk";
 
 
 const orderAdapter = createEntityAdapter<IOrder>({
@@ -28,6 +28,18 @@ const orderSlice = createSlice({
       state.status = 'succeeded';
       if (action.payload.orders) {
         orderAdapter.upsertMany(state, action.payload.orders);
+      }
+    });
+    builder.addCase(createOrderThunk.pending, (state) => {
+      state.status = 'loading';
+    });
+    builder.addCase(createOrderThunk.rejected, (state) => {
+      state.status = 'failed';
+    });
+    builder.addCase(createOrderThunk.fulfilled, (state, action) => {
+      state.status = 'succeeded';
+      if (action.payload.order) {
+        orderAdapter.upsertOne(state, action.payload.order);
       }
     });
   },

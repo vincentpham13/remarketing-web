@@ -22,3 +22,30 @@ export const getOrdersAsyncThunk = createAsyncThunk(
     }
   }
 );
+
+
+export const createOrderThunk = createAsyncThunk(
+  'order/create-order',
+  async (data: {order: IOrder, packageIds: number[]}, thunkApi): Promise<any> => {
+    try {
+      const response = await API.axios.post('/orders', {
+        packageIds: data.packageIds,
+        fullName: data.order.fullName,
+        email: data.order.email,
+        phone: data.order.phone,
+        address: data.order.address,
+        businessName: data.order.businessName,
+        businessAddress: data.order.businessAddress,
+        emailReceipt: data.order.emailReceipt,
+        taxId: data.order.taxId,
+      });
+
+      const res = normalize<
+        any, { [key: string]: IOrder }
+      >(response.data, orderEntity).entities;
+      return { order: res?.orders[response.data.id] };
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+)

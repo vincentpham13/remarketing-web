@@ -18,7 +18,7 @@ export const denormalizeEntitiesArray = (ids: any[], entities: any): any[] => {
 * @returns  
 */
 export const formatMoney = (num: number) => {
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
 }
 
 /**
@@ -62,11 +62,11 @@ export const formatPackages = (packages) => {
  * @returns  
  */
 export const formatPrice = (packages) => {
-  return formatMoney(
+  return packages ? formatMoney(
     packages.reduce((a, b) => {
       return a + b.price;
     }, 0),
-  );
+  ) : '';
 };
 
 /**
@@ -81,6 +81,7 @@ export const formatStatus = (status) => {
     case 'running':
       return 'Đang chạy';
     case 'completed':
+    case 'success':
       return 'Hoàn thành';
     default:
       return 'Không xác định';

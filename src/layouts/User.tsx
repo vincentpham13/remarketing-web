@@ -44,7 +44,14 @@ const routes = [
     layout: '',
   },
   {
-    path: '/quan-ly-goi-dich-vu/thanh-toan',
+    path: '/quan-ly-goi-dich-vu/don-hang',
+    name: 'Thanh toán dịch vụ',
+    icon: 'ni ni-single-02 text-green',
+    layout: '',
+    hidden: true,
+  },
+  {
+    path: '/quan-ly-goi-dich-vu/don-hang/thanh-toan',
     name: 'Thanh toán dịch vụ',
     icon: 'ni ni-single-02 text-green',
     layout: '',

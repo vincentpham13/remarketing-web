@@ -1,5 +1,5 @@
 export interface IOrder {
-  id: number;
+  id?: number;
   fullName: string;
   email: string;
   address: string;
