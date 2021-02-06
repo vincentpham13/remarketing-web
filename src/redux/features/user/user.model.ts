@@ -5,6 +5,8 @@ export interface IUserState {
   email: string;
   phone: string;
   job: string;
+  city?: string;
+  companyName?: string;
   successMessages: number;
   totalMessages: number;
   packageId: number;
@@ -18,4 +20,6 @@ export interface IUserInfo {
   email: string;
   phone: string;
   job: string;
+  companyName?: string;
+  city?: string
 }

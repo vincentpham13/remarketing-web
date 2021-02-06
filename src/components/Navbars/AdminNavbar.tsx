@@ -56,12 +56,12 @@ const AdminNavbar: FC = (props) => {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require('assets/img/theme/vincent.jpg')}
+                      src=""
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Vincent Pham
+                      
                     </span>
                   </Media>
                 </Media>

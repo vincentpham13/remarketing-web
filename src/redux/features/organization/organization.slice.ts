@@ -6,7 +6,7 @@ import { getStaffsAsyncThunk } from './organization.thunk';
 const staffsAdapter = createEntityAdapter();
 const initialState = {
   id: 1,
-  name: 'Vincent Group',
+  name: '',
   staffs: staffsAdapter.getInitialState<IGenericEntityState>({
     status: 'idle',
     error: null,

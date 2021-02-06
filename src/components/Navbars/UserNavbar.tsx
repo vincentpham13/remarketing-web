@@ -52,7 +52,7 @@ const UserNavbar: FC = (props) => {
                       alt="..."
                       src={
                         userSl.picture ||
-                        require('assets/img/theme/vincent.jpg')
+                        ''
                       }
                     />
                   </span>

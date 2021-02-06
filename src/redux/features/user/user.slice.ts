@@ -16,6 +16,8 @@ const initialState: IUserState & IGenericEntityState = userAdapter.getInitialSta
   email: '',
   phone: '',
   job: '',
+  companyName: '',
+  city: '',
   picture: '',
   successMessages: 0,
   totalMessages: 0,
@@ -43,13 +45,17 @@ const userSlice = createSlice({
         name,
         phone,
         email,
-        job
+        job,
+        city,
+        companyName
       } = action.payload;
       state.id = id;
       state.name = name;
       state.email = email;
       state.phone = phone;
       state.job = job;
+      state.city = city;
+      state.companyName = companyName;
     });
     builder.addCase(updateUserInfoAsyncThunk.rejected, (state) => {
       state.status = 'failed';
@@ -65,6 +71,8 @@ const userSlice = createSlice({
         phone,
         email,
         job,
+        companyName,
+        city,
         packageId,
         packageName,
         successMessages,
@@ -76,6 +84,8 @@ const userSlice = createSlice({
       state.email = email;
       state.phone = phone;
       state.job = job;
+      state.city = city;
+      state.companyName = companyName;
       state.packageId = packageId;
       state.packageName = packageName;
       state.successMessages = successMessages;
