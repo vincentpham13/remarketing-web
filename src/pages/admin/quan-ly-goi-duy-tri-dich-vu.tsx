@@ -231,7 +231,12 @@ const ManagePackage = () => {
                           </Media>
                         </Media>
                       </th>
-                      <td>{formatNumber(packagePlan.messageAmount * 1000)}</td>
+                      <td>
+                        { packagePlan.messageAmount == PackageType.UnlimitedMessageAmount 
+                          ? 'Không giới hạn' 
+                          : formatNumber(packagePlan.messageAmount * 1000)
+                        }
+                      </td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i className="bg-success" />
@@ -400,7 +405,6 @@ const ManagePackage = () => {
                 className="form-control-alternative"
                 value={packageMessageAmount}
                 id="input-message"
-                min={1000}
                 max={30000}
                 onChange={onPackageMessageAmountChange}
                 placeholder=""
@@ -441,6 +445,15 @@ const ManagePackage = () => {
                 <option id={12} value={12}>
                   12.000
                 </option>
+                {
+                 packageTypeId != PackageType.MessageOnly
+                  ? 
+                    <option id={13} value={-1}>
+                    Không giới hạn
+                    </option>
+                  : ''
+                }
+                
               </Input>
             </FormGroup>
           </Col>

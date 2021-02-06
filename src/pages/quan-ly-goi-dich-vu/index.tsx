@@ -20,6 +20,7 @@ import { userSelector } from '@/redux/features/user';
 import { packageSelector } from '@/redux/features/package/package.slice';
 import { getPackagesAsyncThunk } from '@/redux/features/package/package.thunk';
 import { denormalizeEntitiesArray, formatMoney } from '@/helpers/data';
+import { PackageType } from '@/enums/Package';
 
 const cardStyle = {
   width: '12.5rem',
@@ -81,7 +82,7 @@ const PackagePlan = () => {
       {/* Page content */}
       <Container className="mt-3" fluid>
         <Row>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+          <Col className="order-xl-2 mb-5 mb-xl-0 p-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
@@ -100,23 +101,27 @@ const PackagePlan = () => {
                 </Col>
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
-              <CardBody className="pt-0 pt-md-4">
+              <CardBody className="pt-0 pt-md-4 p-1">
                 <Row>
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                       <div>
-                        <span className="description">Số tin đăng ký</span>
-                        <span className="heading">{userSl.totalMessages}</span>
+                        <span className="description">Số tin đăng ký: </span><br></br>
+                        <span className="description h5">{userSl.totalMessages == PackageType.UnlimitedMessageAmount ? 'Không giới hạn' : userSl.totalMessages}</span>
                       </div>
                       <div>
-                        <span className="description">Số tin còn lại</span>
-                        <span className="heading">
-                          {userSl.totalMessages - userSl.successMessages}
+                        <span className="description">Số tin còn lại:</span><br></br>
+                        <span className="description h5">
+                          {
+                            userSl.totalMessages == PackageType.UnlimitedMessageAmount 
+                            ? `Không giới hạn` 
+                            :userSl.totalMessages - userSl.successMessages
+                          }
                         </span>
                       </div>
                       <div>
-                        <span className="description">Số tin đã gửi </span>
-                        <span className="heading">
+                        <span className="description">Số tin đã gửi:</span><br></br>
+                        <span className="description h5">
                           {userSl.successMessages}
                         </span>
                       </div>
@@ -125,18 +130,18 @@ const PackagePlan = () => {
                 </Row>
                 <div className="text-center">
                   <h3>{userSl.name}</h3>
-                  <div className="h5 font-weight-300">
+                  {/* <div className="h5 font-weight-300">
                     <i className="ni location_pin mr-2" />
                     {userSl.email}
-                  </div>
-                  <div className="h5 mt-4">
+                  </div> */}
+                  {/* <div className="h5 mt-4">
                     <i className="ni business_briefcase-24 mr-2" />
                     {userSl.phone}
                   </div>
                   <div>
                     <i className="ni education_hat mr-2" />
                     {userSl.job}
-                  </div>
+                  </div> */}
                 </div>
               </CardBody>
             </Card>
@@ -168,12 +173,17 @@ const PackagePlan = () => {
                           top></CardImg> */}
                         <CardBody>
                           <CardTitle className="mb--1">
-                            {packagePlan.label}
+                            <strong>{packagePlan.label}</strong>
                           </CardTitle>
                           <CardText>
-                            {packagePlan.monthDuration} tháng sử dụng, cộng thêm{' '}
-                            {packagePlan.messageAmount * 1000} tin nhắn, giá
-                            {` ${formatMoney(packagePlan.price)}`}đ.
+                            {packagePlan.monthDuration} tháng sử dụng,
+                            <br></br>
+                            {
+                              packagePlan.messageAmount == PackageType.UnlimitedMessageAmount 
+                              ? ` Không giới hạn số tin nhắn`
+                              : `Cộng thêm ${packagePlan.messageAmount * 1000} tin nhắn`
+                            }<br></br>
+                            Giá {` ${formatMoney(packagePlan.price)}`}đ.
                           </CardText>
                           <Button
                             color={`${
