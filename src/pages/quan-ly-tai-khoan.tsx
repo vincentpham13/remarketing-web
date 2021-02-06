@@ -31,6 +31,7 @@ import {
   formatStatus,
 } from '@/helpers/data';
 import { IOrder } from '@/redux/features/order/order.model';
+import { PackageType } from '@/enums/Package';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -106,7 +107,7 @@ const Profile = () => {
       {/* Page content */}
       <Container className="mt-3" fluid>
         <Row>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+          <Col className="order-xl-2 mb-5 mb-xl-0 p-0" xl="4">
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
@@ -125,23 +126,27 @@ const Profile = () => {
                 </Col>
               </Row>
               <CardHeader className="text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4"></CardHeader>
-              <CardBody className="pt-0 pt-md-4">
+              <CardBody className="pt-0 pt-md-4 p-1">
                 <Row>
                   <div className="col px-0">
-                    <div className="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div className="card-profile-stats d-flex justify-content-center mt-md-5">
                       <div>
-                        <span className="description">Số tin đăng ký</span>
-                        <span className="heading">{userSl.totalMessages}</span>
+                        <span className="description">Số tin đăng ký: </span><br></br>
+                        <span className="description h5">{userSl.totalMessages == PackageType.UnlimitedMessageAmount ? 'Không giới hạn' : userSl.totalMessages}</span>
                       </div>
                       <div>
-                        <span className="description">Số tin còn lại</span>
-                        <span className="heading">
-                          {userSl.totalMessages - userSl.successMessages}
+                        <span className="description">Số tin còn lại:</span><br></br>
+                        <span className="description h5">
+                          {
+                            userSl.totalMessages == PackageType.UnlimitedMessageAmount 
+                            ? `Không giới hạn` 
+                            :userSl.totalMessages - userSl.successMessages
+                          }
                         </span>
                       </div>
                       <div>
-                        <span className="description">Số tin đã gửi </span>
-                        <span className="heading">
+                        <span className="description">Số tin đã gửi:</span><br></br>
+                        <span className="description h5">
                           {userSl.successMessages}
                         </span>
                       </div>

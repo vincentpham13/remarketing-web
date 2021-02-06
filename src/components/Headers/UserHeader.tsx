@@ -8,6 +8,7 @@ import { Card, CardBody, CardTitle, Col, Container, Row } from 'reactstrap';
 import { formatNumber } from '@/helpers/data';
 import { campaignsSelector } from '@/redux/features/campaign';
 import { fanpagesSelector } from '@/redux/features/fanpage/fanpage.slice';
+import { PackageType } from '@/enums/Package';
 
 const UserHeader = () => {
   const router = useRouter();
@@ -46,9 +47,12 @@ const UserHeader = () => {
                 <span className="text-nowrap">Số tin nhắn còn lại: </span>
                 <span className="text-dark mr-2 text-bold">
                   <strong>
-                    {formatNumber(
-                      userSl.totalMessages - userSl.successMessages,
-                    )}
+                    { userSl.totalMessages !== PackageType.UnlimitedMessageAmount 
+                      ? formatNumber(
+                        userSl.totalMessages - userSl.successMessages,
+                      )
+                      : `Không giới hạn`
+                    }
                   </strong>
                 </span>{' '}
               </p>
