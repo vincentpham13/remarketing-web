@@ -204,7 +204,7 @@ const PackagePlan = () => {
                 </Col>
               </CardBody>
             </Card>
-            <Card className="bg-default shadow">
+            <Card className="bg-default shadow d-none">
               <CardHeader className="bg-transparent border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
