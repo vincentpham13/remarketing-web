@@ -42,7 +42,12 @@ class MyDocument extends Document {
             defer
             crossOrigin="anonymous"
             src="https://connect.facebook.net/en_US/sdk.js"></script>
-          {/* <!-- Load Facebook SDK for JavaScript --> */}
+          {/* <!-- End Load Facebook SDK for JavaScript --> */}
+          <meta property="og:image" content="/images/og_image.png"></meta>
+          <title>Bombot.vn - Gửi tin hàng loạt an toàn chỉ bằng một thao tác đơn giản</title>
+          <meta name="title" content="Bombot.vn - Gửi tin hàng loạt an toàn chỉ bằng một thao tác đơn giản"></meta>
+          <meta property="og:title" content="Bombot.vn - Gửi tin hàng loạt an toàn chỉ bằng một thao tác đơn giản"></meta>
+          <meta name="description" content="Phần mềm được phát triển để Re-Marketing cực kỳ an toàn lại tệp khách hàng cũ của bạn."></meta>
         </Head>
         <body>
           <div id="page-transition"></div>
