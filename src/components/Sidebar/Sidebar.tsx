@@ -64,9 +64,10 @@ function Sidebar(props) {
     return routes.filter(route => !route.hidden).map((prop, key) => {
       return (
         <NavItem key={key}>
-          <Link href={prop.layout + prop.path}>
+          <Link href={prop.url ?? prop.layout + prop.path}>
             <NavLink
-              href="#pablo"
+              href={prop.url ?? ''}
+              target="_blank"
               active={activeRoute(prop.layout + prop.path)}
               onClick={closeCollapse}
             >

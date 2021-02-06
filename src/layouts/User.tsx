@@ -57,6 +57,13 @@ const routes = [
     layout: '',
     hidden: true,
   },
+  {
+    url: 'https://hotro.bombot.vn/',
+    path: null,
+    name: 'Hướng dẫn sử dụng',
+    icon: 'ni ni-single-02 text-primary',
+    layout: '',
+  },
 ];
 
 function User(props) {
