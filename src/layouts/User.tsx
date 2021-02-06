@@ -51,11 +51,11 @@ const routes = [
     hidden: true,
   },
   {
-    path: '/quan-ly-goi-dich-vu/don-hang/thanh-toan',
-    name: 'Thanh toán dịch vụ',
-    icon: 'ni ni-single-02 text-primary',
+    path: 'https://hotro.bombot.vn ',
+    name: 'Hướng dẫn sử dụng',
+    icon: 'fa fa-info-circle text-primary',
     layout: '',
-    hidden: true,
+    blankLink: true,
   },
 ];
 
@@ -120,7 +120,7 @@ function User(props) {
       } else {
         setIsOpenModal(false);
       }
-      
+
       setName(userSl.name);
       setEmail(userSl.email);
       setJob(userSl.job);
@@ -218,14 +218,14 @@ function User(props) {
           <Col lg="6">
             <FormGroup>
               <label className="form-control-label" htmlFor="input-job">
-                Công việc
+                Ngành nghề/lĩnh vực kinh doanh
               </label>
               <Input
                 className="form-control-alternative"
                 value={job}
                 id="input-job"
                 onChange={onJobChange}
-                placeholder="Công việc"
+                placeholder="Ngành nghề/lĩnh vực kinh doanh"
                 type="text"
               />
             </FormGroup>

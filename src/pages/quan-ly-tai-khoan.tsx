@@ -250,7 +250,7 @@ const Profile = () => {
                               <label
                                 className="form-control-label"
                                 htmlFor="input-job">
-                                Công việc
+                                Ngành nghề/lĩnh vực kinh doanh
                               </label>
                               <Input
                                 className="form-control-alternative"
@@ -258,7 +258,7 @@ const Profile = () => {
                                 id="input-job"
                                 value={userSl.job ? job : ''}
                                 onChange={onJobChange}
-                                placeholder="Công việc"
+                                placeholder="Ngành nghề/lĩnh vực kinh doanh"
                                 type="text"
                               />
                             </FormGroup>

@@ -32,7 +32,7 @@ const Login = () => {
   const router = useRouter();
   const auth = useSelector(authSelector);
 
-  const [email, setEmail] = useState('admin@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onUsernameChange = (e) => {

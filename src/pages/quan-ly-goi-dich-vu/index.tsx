@@ -204,7 +204,7 @@ const PackagePlan = () => {
                 </Col>
               </CardBody>
             </Card>
-            <Card className="bg-default shadow">
+            {/* <Card className="bg-default shadow">
               <CardHeader className="bg-transparent border-0">
                 <Row className="align-items-center">
                   <Col xs="8">
@@ -221,11 +221,6 @@ const PackagePlan = () => {
                     .filter((p) => p.packageTypeId == 2)
                     .map((packagePlan) => (
                       <Card key={packagePlan.id} style={cardStyle}>
-                        {/* <CardImg
-                          className="px-5"
-                          alt="..."
-                          src={require('assets/img/icons/app-icon.png')}
-                          top></CardImg> */}
                         <CardBody>
                           <CardTitle className="mb--1">
                             {packagePlan.label}
@@ -253,7 +248,7 @@ const PackagePlan = () => {
                     ))}
                 </Col>
               </CardBody>
-            </Card>
+            </Card> */}
             <div className="pl-lg-4 my-3">
               <Row className="float-right">
                 <Col lg="6" className="d-inline-flex">

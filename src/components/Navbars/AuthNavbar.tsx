@@ -58,7 +58,7 @@ class AdminNavbar extends React.Component {
                 </Row>
               </div>
               <Nav className="ml-auto" navbar>
-                <NavItem>
+                {/* <NavItem>
                   <Link href="/admin">
                     <NavLink href="#pablo" className="nav-link-icon">
                       <i className="ni ni-planet" />
@@ -81,7 +81,7 @@ class AdminNavbar extends React.Component {
                       <span className="nav-link-inner--text">Profile</span>
                     </NavLink>
                   </Link>
-                </NavItem>
+                </NavItem> */}
               </Nav>
             </UncontrolledCollapse>
           </Container>
