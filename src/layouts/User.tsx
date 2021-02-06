@@ -59,7 +59,7 @@ const routes = [
   },
   {
     url: 'https://hotro.bombot.vn/',
-    path: null,
+    path: '/ho-tro',
     name: 'Hướng dẫn sử dụng',
     icon: 'ni ni-single-02 text-primary',
     layout: '',

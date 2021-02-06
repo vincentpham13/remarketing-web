@@ -64,16 +64,25 @@ function Sidebar(props) {
     return routes.filter(route => !route.hidden).map((prop, key) => {
       return (
         <NavItem key={key}>
-          <Link href={prop.url ?? prop.layout + prop.path}>
-            <NavLink
-              href={prop.url ?? ''}
-              target="_blank"
-              active={activeRoute(prop.layout + prop.path)}
-              onClick={closeCollapse}
-            >
-              <i className={prop.icon} />
-              {prop.name}
-            </NavLink>
+          <Link href={prop.layout + prop.path}>
+            {prop.url
+              ? <NavLink
+                href={prop.url}
+                target={prop.url ? '_blank' : ''}
+                active={activeRoute(prop.layout + prop.path)}
+                onClick={closeCollapse}
+              >
+                <i className={prop.icon} />
+                {prop.name}
+              </NavLink>
+              : <NavLink
+                active={activeRoute(prop.layout + prop.path)}
+                onClick={closeCollapse}
+              >
+                <i className={prop.icon} />
+                {prop.name}
+              </NavLink>}
+
           </Link>
         </NavItem>
       );
@@ -192,10 +201,10 @@ function Sidebar(props) {
                       <img alt={logo.imgAlt} src={logo.imgSrc} />
                     </Link>
                   ) : (
-                    <a href={logo.outterLink}>
-                      <img alt={logo.imgAlt} src={logo.imgSrc} />
-                    </a>
-                  )}
+                      <a href={logo.outterLink}>
+                        <img alt={logo.imgAlt} src={logo.imgSrc} />
+                      </a>
+                    )}
                 </Col>
               ) : null}
               <Col className="collapse-close" xs="6">
