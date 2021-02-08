@@ -57,32 +57,6 @@ class AdminNavbar extends React.Component {
                   </Col>
                 </Row>
               </div>
-              <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <Link href="/admin">
-                    <NavLink href="#pablo" className="nav-link-icon">
-                      <i className="ni ni-planet" />
-                      <span className="nav-link-inner--text">Admin</span>
-                    </NavLink>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/auth/register">
-                    <NavLink href="#pablo" className="nav-link-icon">
-                      <i className="ni ni-circle-08" />
-                      <span className="nav-link-inner--text">Đăng ký</span>
-                    </NavLink>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <Link href="/quan-ly-tai-khoan">
-                    <NavLink href="#pablo" className="nav-link-icon">
-                      <i className="ni ni-single-02" />
-                      <span className="nav-link-inner--text">Profile</span>
-                    </NavLink>
-                  </Link>
-                </NavItem>
-              </Nav>
             </UncontrolledCollapse>
           </Container>
         </Navbar>

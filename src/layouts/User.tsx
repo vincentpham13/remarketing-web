@@ -57,6 +57,13 @@ const routes = [
     layout: '',
     hidden: true,
   },
+  {
+    url: 'https://hotro.bombot.vn/',
+    path: '/ho-tro',
+    name: 'Hướng dẫn sử dụng',
+    icon: 'ni ni-single-02 text-primary',
+    layout: '',
+  },
 ];
 
 function User(props) {
@@ -71,6 +78,9 @@ function User(props) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [job, setJob] = useState('');
+  const [city, setCity] = useState('');
+  const [companyName, setCompanyName] = useState('');
+
 
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
@@ -97,6 +107,14 @@ function User(props) {
     setJob(e.target.value);
   };
 
+  const onCompanyNameChange = (e) => {
+    setCompanyName(e.target.value);
+  };
+
+  const onCityChange = (e) => {
+    setCity(e.target.value);
+  };
+
   const onModalSubmit = () => {
     if (!phone || !job || !email) {
       return;
@@ -109,6 +127,8 @@ function User(props) {
         email,
         phone,
         job,
+        companyName,
+        city
       }),
     );
   };
@@ -125,6 +145,8 @@ function User(props) {
       setEmail(userSl.email);
       setJob(userSl.job);
       setPhone(userSl.phone);
+      setCity(userSl.city ?? '');
+      setCompanyName(userSl.companyName ?? '')
     }
   }, [userSl]);
 
@@ -188,7 +210,7 @@ function User(props) {
           <Col lg="6">
             <FormGroup>
               <label className="form-control-label" htmlFor="input-email">
-                Email
+                Email <span className="text-red">*</span>
               </label>
               <Input
                 className="form-control-alternative"
@@ -203,7 +225,7 @@ function User(props) {
           <Col lg="6">
             <FormGroup>
               <label className="form-control-label" htmlFor="input-phone">
-                Số điện thoại
+                Số điện thoại <span className="text-red">*</span>
               </label>
               <Input
                 className="form-control-alternative"
@@ -215,17 +237,47 @@ function User(props) {
               />
             </FormGroup>
           </Col>
-          <Col lg="6">
+          <Col lg="12">
             <FormGroup>
               <label className="form-control-label" htmlFor="input-job">
-                Công việc
+                Ngành nghề / Lĩnh vực kinh doanh <span className="text-red">*</span>
               </label>
               <Input
                 className="form-control-alternative"
                 value={job}
                 id="input-job"
                 onChange={onJobChange}
-                placeholder="Công việc"
+                placeholder="Ngành nghề / Lĩnh vực kinh doanh"
+                type="text"
+              />
+            </FormGroup>
+          </Col>
+          <Col lg="6">
+            <FormGroup>
+              <label className="form-control-label" htmlFor="input-company-name">
+                Tên công ty / Hộ kinh doanh
+              </label>
+              <Input
+                className="form-control-alternative"
+                value={companyName}
+                id="input-company-name"
+                onChange={onCompanyNameChange}
+                placeholder="Tên công ty / Hộ kinh doanh"
+                type="text"
+              />
+            </FormGroup>
+          </Col>
+          <Col lg="6">
+            <FormGroup>
+              <label className="form-control-label" htmlFor="input-city">
+                Tỉnh / Thành phố
+              </label>
+              <Input
+                className="form-control-alternative"
+                value={city}
+                id="input-city"
+                onChange={onCityChange}
+                placeholder="Tỉnh / Thành phố"
                 type="text"
               />
             </FormGroup>

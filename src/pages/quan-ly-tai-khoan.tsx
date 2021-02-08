@@ -43,6 +43,8 @@ const Profile = () => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [job, setJob] = useState('');
+  const [city, setCity] = useState('');
+  const [companyName, setCompanyName] = useState('');
 
   // Order history
   const [historyOrders, setHistoryOrders] = useState<IOrder[]>([]);
@@ -63,6 +65,14 @@ const Profile = () => {
     setJob(e.target.value);
   };
 
+  const onCompanyNameChange = (e) => {
+    setCompanyName(e.target.value);
+  };
+
+  const onCityChange = (e) => {
+    setCity(e.target.value);
+  };
+
   const onFormSubmit = () => {
     if (!isModified) {
       setIsModified(true);
@@ -74,6 +84,8 @@ const Profile = () => {
           email,
           phone,
           job,
+          companyName,
+          city
         }),
       );
       setIsModified(false);
@@ -99,6 +111,8 @@ const Profile = () => {
     setEmail(userSl.email);
     setJob(userSl.job);
     setPhone(userSl.phone);
+    setCity(userSl.city ?? '');
+    setCompanyName(userSl.companyName ?? '')
   }, [userSl]);
 
   return (
@@ -129,22 +143,22 @@ const Profile = () => {
               <CardBody className="pt-0 pt-md-4 p-1">
                 <Row>
                   <div className="col px-0">
-                  <div className="card-profile-stats d-flex justify-content-center mt-md-5">
-                      <div>
+                    <div className="card-profile-stats d-flex justify-content-center mt-md-5">
+                      <div className="p-0 mr-3">
                         <span className="description">Số tin đăng ký: </span><br></br>
                         <span className="description h5">{userSl.totalMessages == PackageType.UnlimitedMessageAmount ? 'Không giới hạn' : userSl.totalMessages}</span>
                       </div>
-                      <div>
+                      <div className="p-0 mr-3">
                         <span className="description">Số tin còn lại:</span><br></br>
                         <span className="description h5">
                           {
-                            userSl.totalMessages == PackageType.UnlimitedMessageAmount 
-                            ? `Không giới hạn` 
-                            :userSl.totalMessages - userSl.successMessages
+                            userSl.totalMessages == PackageType.UnlimitedMessageAmount
+                              ? `Không giới hạn`
+                              : userSl.totalMessages - userSl.successMessages
                           }
                         </span>
                       </div>
-                      <div>
+                      <div className="p-0">
                         <span className="description">Số tin đã gửi:</span><br></br>
                         <span className="description h5">
                           {userSl.successMessages}
@@ -153,6 +167,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </Row>
+                <div className="text-center h4">Hạn sử dụng gói: {new Date(userSl.validTo).toLocaleString("vi-VN")}</div>
                 <div className="text-center">
                   <h3>{userSl.name}</h3>
                   <div className="h5 font-weight-300">
@@ -250,7 +265,7 @@ const Profile = () => {
                               <label
                                 className="form-control-label"
                                 htmlFor="input-job">
-                                Công việc
+                                Ngành nghề / Lĩnh vực kinh doanh
                               </label>
                               <Input
                                 className="form-control-alternative"
@@ -258,7 +273,39 @@ const Profile = () => {
                                 id="input-job"
                                 value={userSl.job ? job : ''}
                                 onChange={onJobChange}
-                                placeholder="Công việc"
+                                placeholder="Ngành nghề / Lĩnh vực kinh doanh"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label className="form-control-label" htmlFor="input-company-name">
+                                Tên công ty / Hộ kinh doanh
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                disabled={!isModified}
+                                value={companyName}
+                                id="input-company-name"
+                                onChange={onCompanyNameChange}
+                                placeholder="Tên công ty / Hộ kinh doanh"
+                                type="text"
+                              />
+                            </FormGroup>
+                          </Col>
+                          <Col lg="6">
+                            <FormGroup>
+                              <label className="form-control-label" htmlFor="input-city">
+                                Tỉnh / Thành phố
+                              </label>
+                              <Input
+                                className="form-control-alternative"
+                                disabled={!isModified}
+                                value={city}
+                                id="input-city"
+                                onChange={onCityChange}
+                                placeholder="Tỉnh / Thành phố"
                                 type="text"
                               />
                             </FormGroup>

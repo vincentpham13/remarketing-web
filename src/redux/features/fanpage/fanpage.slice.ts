@@ -25,7 +25,9 @@ const fanpageSlice = createSlice({
     });
     builder.addCase(getFanpagesAsyncThunk.fulfilled, (state, action) => {
       state.status = 'succeeded';
-      fanpageAdapter.upsertMany(state, action.payload.fanpages)
+      if(action.payload.fanpages){
+        fanpageAdapter.upsertMany(state, action.payload.fanpages)
+      }
     });
     builder.addCase(getFanpagesAsyncThunk.rejected, (state, action) => {
       state.status = 'failed';

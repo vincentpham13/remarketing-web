@@ -283,11 +283,11 @@ const ManagePackage = () => {
                               }>
                               Chỉnh sửa
                             </DropdownItem>
-                            <DropdownItem
+                            {/* <DropdownItem
                               href="#pablo"
                               onClick={(e) => e.preventDefault()}>
                               Tạm ngưng gói
-                            </DropdownItem>
+                            </DropdownItem> */}
                             <DropdownItem
                               href="#pablo"
                               onClick={() => removePackage(packagePlan.id)}>

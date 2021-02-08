@@ -65,11 +65,13 @@ const Compaign = () => {
                 <thead className="thead-light">
                   <tr>
                     <th scope="col">Tên</th>
-                    <th scope="col">Ngày khởi tạo</th>
-                    <th scope="col">Ngày bắt đầu</th>
+                    <th scope="col">Tên Fanpage</th>
+                    <th scope="col">Tổng khách hàng đã gửi</th>
                     <th scope="col">Trạng thái</th>
-                    <th scope="col">Tổng tin nhắn</th>
-                    <th scope="col">Tỉ lệ hoàn thành</th>
+                    <th scope="col">Thời gian bắt đầu</th>
+                    <th scope="col">Thời gian hoàn thành</th>
+                    <th scope="col">Thành công</th>
+                    <th scope="col">Thất bại</th>
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -94,8 +96,8 @@ const Compaign = () => {
                           </Media>
                         </Media>
                       </th>
-                      <td>{new Date(campaign.createdAt).toLocaleString('vi-VN')}</td>
-                      <td>{new Date(campaign.startedAt).toLocaleString('vi-VN')}</td>
+                      <td>{campaign.pageName}</td>
+                      <td>{campaign.totalMessages}</td>
                       <td>
                         <Badge color="" className="badge-dot mr-4">
                           <i
@@ -110,26 +112,19 @@ const Compaign = () => {
                             : 'Đang chạy'}
                         </Badge>
                       </td>
-                      <td>{campaign.totalMessages}</td>
+                      <td>{new Date(campaign.startedAt).toLocaleString('vi-VN')}</td>
+                      <td>{campaign.status === 'completed' ? new Date(campaign.updatedAt).toLocaleString('vi-VN'): ''}</td>
                       <td>
-                        <div className="d-flex align-items-center">
-                          <span className="mr-2">
-                            {Math.floor(
-                              (campaign.successMessages /
-                                (campaign.totalMessages || 1)) *
-                                100,
-                            )}
-                            %
-                          </span>
-                          <div>
-                            <Progress
-                              max={campaign.totalMessages}
-                              value={campaign.successMessages}
-                              barClassName="bg-success"
-                            />
-                          </div>
+                        <div>
+                          {campaign.successMessages}/{campaign.totalMessages}
                         </div>
                       </td>
+                      <td>
+                        <div className="d-flex align-items-center">
+                        {campaign.totalMessages - campaign.successMessages}/{campaign.totalMessages}
+                        </div>
+                      </td>
+
                       <td className="text-right">
                         {/* <UncontrolledDropdown>
                           <DropdownToggle

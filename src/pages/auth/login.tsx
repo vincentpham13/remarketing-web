@@ -32,7 +32,7 @@ const Login = () => {
   const router = useRouter();
   const auth = useSelector(authSelector);
 
-  const [email, setEmail] = useState('admin@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const onUsernameChange = (e) => {
@@ -102,7 +102,7 @@ const Login = () => {
               </Button>
             </div>
           </CardHeader>
-          <CardBody className="px-lg-5 py-lg-5">
+          <CardBody className="px-lg-5 py-lg-2">
             <div className="text-center text-muted mb-4">
               <small>Hoặc đăng nhập bằng tài khoản</small>
             </div>
