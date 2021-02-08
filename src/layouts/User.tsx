@@ -58,11 +58,11 @@ const routes = [
     hidden: true,
   },
   {
-    url: 'https://hotro.bombot.vn/',
-    path: '/ho-tro',
+    path: 'https://hotro.bombot.vn/',
     name: 'Hướng dẫn sử dụng',
-    icon: 'ni ni-single-02 text-primary',
+    icon: 'fa fa-info-circle text-primary',
     layout: '',
+    blankLink: true,
   },
 ];
 

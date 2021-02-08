@@ -1,10 +1,10 @@
 /*eslint-disable*/
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 // nodejs library to set properties for components
-import { PropTypes } from "prop-types";
+import { PropTypes } from 'prop-types';
 
 // reactstrap components
 import {
@@ -33,9 +33,9 @@ import {
   Container,
   Row,
   Col,
-} from "reactstrap";
-import { logoutAsyncThunk } from "@/redux/features/auth";
-import { userSelector } from "@/redux/features/user";
+} from 'reactstrap';
+import { logoutAsyncThunk } from '@/redux/features/auth';
+import { userSelector } from '@/redux/features/user';
 
 var ps;
 
@@ -61,32 +61,36 @@ function Sidebar(props) {
   };
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
-    return routes.filter(route => !route.hidden).map((prop, key) => {
-      return (
-        <NavItem key={key}>
-          <Link href={prop.layout + prop.path}>
-            {prop.url
-              ? <NavLink
-                href={prop.url}
-                target={prop.url ? '_blank' : ''}
-                active={activeRoute(prop.layout + prop.path)}
-                onClick={closeCollapse}
-              >
+    return routes
+      .filter((route) => !route.hidden)
+      .map((prop, key) => {
+        if (prop.blankLink) {
+          return (
+            <NavItem key={key}>
+              <NavLink
+                href={prop.path}
+                target="_blank"
+                onClick={closeCollapse}>
                 <i className={prop.icon} />
                 {prop.name}
               </NavLink>
-              : <NavLink
+            </NavItem>
+          );
+        }
+        return (
+          <NavItem key={key}>
+            <Link href={prop.url ?? prop.layout + prop.path}>
+              <NavLink
+                href={prop.url ?? ''}
                 active={activeRoute(prop.layout + prop.path)}
-                onClick={closeCollapse}
-              >
+                onClick={closeCollapse}>
                 <i className={prop.icon} />
                 {prop.name}
-              </NavLink>}
-
-          </Link>
-        </NavItem>
-      );
-    });
+              </NavLink>
+            </Link>
+          </NavItem>
+        );
+      });
   };
 
   const logout = () => {
@@ -103,15 +107,13 @@ function Sidebar(props) {
     <Navbar
       className="navbar-vertical fixed-left navbar-light bg-white"
       expand="md"
-      id="sidenav-main"
-    >
+      id="sidenav-main">
       <Container fluid>
         {/* Toggler */}
         <button
           className="navbar-toggler"
           type="button"
-          onClick={toggleCollapse}
-        >
+          onClick={toggleCollapse}>
           <span className="navbar-toggler-icon" />
         </button>
         {/* Brand */}
@@ -134,8 +136,7 @@ function Sidebar(props) {
             <DropdownMenu
               aria-labelledby="navbar-default_dropdown_1"
               className="dropdown-menu-arrow"
-              right
-            >
+              right>
               <DropdownItem>Action</DropdownItem>
               <DropdownItem>Another action</DropdownItem>
               <DropdownItem divider />
@@ -148,7 +149,10 @@ function Sidebar(props) {
                 <span className="avatar avatar-sm rounded-circle">
                   <img
                     alt="..."
-                    src={userSl.picture || require("assets/img/theme/team-1-800x800.jpg")}
+                    src={
+                      userSl.picture ||
+                      require('assets/img/theme/team-1-800x800.jpg')
+                    }
                   />
                 </span>
               </Media>
@@ -201,18 +205,17 @@ function Sidebar(props) {
                       <img alt={logo.imgAlt} src={logo.imgSrc} />
                     </Link>
                   ) : (
-                      <a href={logo.outterLink}>
-                        <img alt={logo.imgAlt} src={logo.imgSrc} />
-                      </a>
-                    )}
+                    <a href={logo.outterLink}>
+                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                    </a>
+                  )}
                 </Col>
               ) : null}
               <Col className="collapse-close" xs="6">
                 <button
                   className="navbar-toggler"
                   type="button"
-                  onClick={toggleCollapse}
-                >
+                  onClick={toggleCollapse}>
                   <span />
                   <span />
                 </button>
