@@ -39,7 +39,7 @@ const routes = [
   },
   {
     path: '/quan-ly-goi-dich-vu',
-    name: 'Quản lý gói lý và thanh toán dịch vụ',
+    name: 'Quản lý gói và thanh toán dịch vụ',
     icon: 'fa fa-cogs text-primary',
     layout: '',
   },

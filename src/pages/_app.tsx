@@ -14,6 +14,7 @@ import PageChange from "@/components/PageChange/PageChange";
 import 'assets/plugins/nucleo/css/nucleo.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'assets/scss/nextjs-argon-dashboard.scss';
+import 'assets/scss/custom.scss';
 
 const persistor = persistStore(store);
 

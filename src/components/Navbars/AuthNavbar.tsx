@@ -27,7 +27,7 @@ class AdminNavbar extends React.Component {
                 <NavbarBrand href="#pablo">
                   <img
                     alt="..."
-                    src={require("assets/img/logo/logo-white.png")}
+                    src={require("assets/img/logo/logo-white.jpg")}
                   />
                 </NavbarBrand>
               </span>

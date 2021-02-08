@@ -113,7 +113,7 @@ const Compaign = () => {
                         </Badge>
                       </td>
                       <td>{new Date(campaign.startedAt).toLocaleString('vi-VN')}</td>
-                      <td>{campaign.status === 'completed' ? new Date(campaign.updatedAt).toLocaleString('vi-VN'): ''}</td>
+                      <td>{campaign.status === 'completed' && campaign.updatedAt ? new Date(campaign.updatedAt).toLocaleString('vi-VN'): ''}</td>
                       <td>
                         <div>
                           {campaign.successMessages}/{campaign.totalMessages}
